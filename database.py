@@ -17,6 +17,7 @@ class User(Model):
 
 class Category(Model):
     __table_name__ = 'category'
+
     id = IntegerField(primary_key=True)
     name = TextField()
 
@@ -32,16 +33,19 @@ class Todo(Model):
 UserTodos = Todo.users.get_through_model()
 
 def init_db():
+    print("Creating...")
     db.create_tables([
         User,
-        Category,
-        Todo])
+        # Category,
+        # Todo])
+        ])
+    print("Created")
 
     User.create(name='Cesar')
     User.create(name='Daniel')
     Category.create(name='Diseño')
 
-    Todo.create(description='Primer todo', id_category=Category.select().where(Category.name == 'Diseño'))
+    # Todo.create(description='Primer todo', id_category=Category.select().where(Category.name == 'Diseño'))
 
     # Get all usr todos
     # usr = User.get(User.name == 'Cesar')
