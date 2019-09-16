@@ -1,0 +1,90 @@
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: CREATE TABLE posts (
+id INTEGER NOT NULL PRIMARY KEY  ,
+name TEXT NOT NULL   ,
+id_user INTEGER    
+, FOREIGN KEY (id_user) REFERENCES users(id)
+)
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: CREATE TABLE users (
+id INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
+name TEXT NOT NULL   ,
+active BOOLEAN NOT NULL  DEFAULT 1 
+
+)
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO users(id, name, active)
+VALUES (1, 'User1', 1)
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO users(id, name, active)
+VALUES (2, 'User2', 1)
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO users(id, name, active)
+VALUES (3, 'User3', 1)
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO posts(id, name, id_user)
+VALUES (1, 'Post1', 1)
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO posts(id, name, id_user)
+VALUES (2, 'Post2', 2)
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO posts(id, name, id_user)
+VALUES (3, 'Post3', 3)
+2019-09-16 23:51:34: query.py: DEBUG: join(): 237: Getting join string: 
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: SELECT users.id, users.name, users.active, posts.name FROM users
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:51:34: query.py: DEBUG: filter(): 182: Getting filter condition: (users.name = 'User3') and logical operator: AND
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: UPDATE users SET
+name = 'User3_UPDATED'
+WHERE (users.name = 'User3')
+2019-09-16 23:51:34: query.py: DEBUG: join(): 237: Getting join string: 
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: SELECT users.id, users.name, users.active, posts.name FROM users
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:51:34: query.py: DEBUG: filter(): 182: Getting filter condition: (users.name = 'User3_UPDATED') and logical operator: AND
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: DELETE FROM users
+WHERE (users.name = 'User3_UPDATED')
+2019-09-16 23:51:34: query.py: DEBUG: join(): 237: Getting join string: 
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: SELECT users.id, users.name, users.active, posts.name FROM users
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: DROP TABLE posts
+2019-09-16 23:51:34: query.py: DEBUG: execute(): 250: Execute query: DROP TABLE users
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: CREATE TABLE users (
+id INTEGER NOT NULL PRIMARY KEY  AUTOINCREMENT,
+name TEXT NOT NULL   ,
+active BOOLEAN NOT NULL  DEFAULT 1 
+
+)
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: CREATE TABLE posts (
+id INTEGER NOT NULL PRIMARY KEY  ,
+name TEXT NOT NULL   ,
+id_user INTEGER    
+, FOREIGN KEY (id_user) REFERENCES users(id)
+)
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO users(id, name, active)
+VALUES (1, 'User1', 1)
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO users(id, name, active)
+VALUES (2, 'User2', 1)
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO users(id, name, active)
+VALUES (3, 'User3', 1)
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO posts(id, name, id_user)
+VALUES (1, 'Post1', 1)
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO posts(id, name, id_user)
+VALUES (2, 'Post2', 2)
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: INSERT INTO posts(id, name, id_user)
+VALUES (3, 'Post3', 3)
+2019-09-16 23:57:11: query.py: DEBUG: join(): 237: Getting join string: 
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: SELECT users.id, users.name, users.active, posts.name FROM users
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:57:11: query.py: DEBUG: filter(): 182: Getting filter condition: (users.name = 'User3') and logical operator: AND
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: UPDATE users SET
+name = 'User3_UPDATED'
+WHERE (users.name = 'User3')
+2019-09-16 23:57:11: query.py: DEBUG: join(): 237: Getting join string: 
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: SELECT users.id, users.name, users.active, posts.name FROM users
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:57:11: query.py: DEBUG: filter(): 182: Getting filter condition: (users.name = 'User3_UPDATED') and logical operator: AND
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: DELETE FROM users
+WHERE (users.name = 'User3_UPDATED')
+2019-09-16 23:57:11: query.py: DEBUG: join(): 237: Getting join string: 
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: SELECT users.id, users.name, users.active, posts.name FROM users
+JOIN posts ON posts.id_user = users.id
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: DROP TABLE users
+2019-09-16 23:57:11: query.py: DEBUG: execute(): 250: Execute query: DROP TABLE posts
