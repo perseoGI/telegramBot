@@ -1,51 +1,190 @@
 from peewee import *
 
-db = SqliteDatabase('test1.db')
+# Pragma to enable foreign keys on_delete and avoid bugs
+db = SqliteDatabase('test1.db', pragmas={'foreign_keys': 1})
 
 class BaseModel(Model):
     class Meta:
         database = db
 
 
-class User(Model):
+class User(BaseModel):
     __table_name__ = 'users'
 
-    id = IntegerField(primary_key=True )
+    id = IntegerField(primary_key=True)     # user_id
     name = TextField()
     active = BooleanField(default=True)
 
 
-class Category(Model):
+class Chat(BaseModel):
+    __table_name__ = 'chat'
+
+    id = IntegerField(primary_key=True)  # chat_id
+    # more data... eg. members count...
+    count = IntegerField(null=True)
+   # members = ManyToManyField(User, backref='members')
+
+
+class ChatUser(BaseModel):
+    __table_name__ = 'ChatUser'
+
+    user_id = ForeignKeyField(User)
+    chat_id = ForeignKeyField(Chat)
+
+
+class Category(BaseModel):
     __table_name__ = 'category'
 
     id = IntegerField(primary_key=True)
-    name = TextField()
+    name = CharField()
+    chat_id = ForeignKeyField(Chat)
 
 
-class Todo(Model):
+class Todo(BaseModel):
     __table_name__ = 'todo'
+
     id = IntegerField(primary_key=True)
+    category_id = ForeignKeyField(Category, backref='categories')
+    creator_id = ForeignKeyField(User)
+    chat_belonging_id = ForeignKeyField(Chat)
+    assignment_users = ManyToManyField(User, backref='todos')
     description = TextField()
-    id_category = ForeignKeyField(Category, backref='categories')
-    users = ManyToManyField(User, backref='todos')
+    # TODO: deadLine
+
+UserTodos = Todo.assignment_users.get_through_model()
+
+# class AssingmentTodos(BaseModel):
+#
+#     user_id = ForeignKeyField(User)
+#     todo_id = ForeignKeyField(Todo)
 
 
-UserTodos = Todo.users.get_through_model()
+pending_todos = {}
+
+class TodoModel:
+    def __init__(self, description):
+        self.desc = description
+        self.category_id = None
+        self.users_id = []
+
+    def setCategory(self, cat):
+        self.category_id = cat
+
+    def setUsers(self, user):
+        self.users_id.append(user)
+
+    def setDeadline(self, ):
+        pass
+
+
+def setPendingTodosDescription(chat_id, user_id, description):
+   # pending_todos[(chat_id, user_id)] = TodoModel(description)
+    pending_todos[(chat_id, user_id)] = Todo(description=description)
+    print(pending_todos)
+
+
+def setPendingTodosCategory(chat_id, user_id, category):
+    pass
+    #pending_todos[(chat_id, user_id)].category_id = category
+
+
+def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
+    pass
+    #pending_todos[(chat_id, user_id)].users.add(User.get(User.id == assigned_user_id))
+
+
+def storePendingTodo(chat_id, user_id):
+    pass
+ #   pending_todos[(chat_id, user_id)].save()
+ #   print([todo.description for todo in Todo.select()])
+
+
+def clearPendingTodo(chat_id, user_id):
+    pass
+  #  pending_todos[(chat_id, user_id)] = None   # TODO_ revisar
+
+
+
+
+########### Category ##############
+
+def getCategories(chat_id):
+    return Category.select().where(Category.chat_id == chat_id).dicts()
+
+
+
+def checkUserId(chat_id, user_id):
+
+    chat = Chat.get(id == chat_id)
+    if(chat):
+        pass
+
+
+
+
 
 def init_db():
     print("Creating...")
     db.create_tables([
         User,
-        # Category,
-        # Todo])
-        ])
+        Chat,
+      #  ChatUser,
+        Category,
+        Todo])
+
     print("Created")
 
-    User.create(name='Cesar')
-    User.create(name='Daniel')
-    Category.create(name='Diseño')
+    User.create(id=1, name='Cesar')
+    User.create(id=2, name='Daniel')
+    User.create(id=3, name='Perseo')
 
-    # Todo.create(description='Primer todo', id_category=Category.select().where(Category.name == 'Diseño'))
+    users = User.select()
+    print([user.name for user in users])
+
+
+    Chat.create(id=1)
+   # ChatUser.create(user_id=1, chat_id=1)
+
+  #  q = Chat.update(members).where(id=1)
+   # q.execute()
+
+    #chats = Chat.select()
+    #print([chat.members for chat in chats])
+
+
+    # t = Todo(description='Aasdf')
+    #
+    # u = User(chat_id=1, user_id=2)
+    # u.name = "Pedro"
+    # print(u.save(force_insert=True))
+    #
+    # User.create(chat_id=1, user_id= 1, name='Cesar')
+    # #print(User.get(User.user_id == 2 ).name)
+    #
+    #
+
+
+    # User.create(name='Cesar')
+    # User.create(name='Daniel')
+    # dis = Category.create(name='Diseño')
+    # Category.create(name='Implementacion')
+    #
+    # User.insert(name='Perseo').execute()
+
+   # print(User.get(User.user_id == 3).name)
+
+
+    # categories = Category.select()
+    # print([cat.name for cat in categories])
+    #
+    #
+    # print(dis)
+    # for cat in categories:
+    #     print('{} on {}'.format(cat.name, cat.id))
+
+
+    #Todo.create(description='Primer todo', id_category=Category.select().where(Category.name == 'Diseño'))
+
 
     # Get all usr todos
     # usr = User.get(User.name == 'Cesar')

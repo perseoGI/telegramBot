@@ -1,0 +1,6 @@
+
+
+Chat_id:
+    if the chat is a group, it is negative
+    If it is a single person, is positive
+
