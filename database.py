@@ -1,5 +1,6 @@
 from peewee import *
-
+from playhouse.shortcuts import model_to_dict, dict_to_model
+import json
 # Pragma to enable foreign keys on_delete and avoid bugs
 db = SqliteDatabase('test1.db', pragmas={'foreign_keys': 1})
 
@@ -12,7 +13,7 @@ class User(BaseModel):
     __table_name__ = 'users'
 
     id = IntegerField(primary_key=True)     # user_id
-    name = TextField()
+    name = TextField(null=True)
     active = BooleanField(default=True)
 
 
@@ -21,7 +22,7 @@ class Chat(BaseModel):
 
     id = IntegerField(primary_key=True)  # chat_id
     # more data... eg. members count...
-    count = IntegerField(null=True)
+   # count = IntegerField(null=True)
    # members = ManyToManyField(User, backref='members')
 
 
@@ -79,23 +80,41 @@ class TodoModel:
 
 def setPendingTodosDescription(chat_id, user_id, description):
    # pending_todos[(chat_id, user_id)] = TodoModel(description)
-    pending_todos[(chat_id, user_id)] = Todo(description=description)
+    print("Desc_______________________________________________")
+    print("cht", chat_id)
+    print("usr", user_id)
+    print("_______________________________________________")
+    pending_todos[(chat_id, user_id)] = Todo(chat_belonging_id=chat_id,
+                                             creator_id=user_id,
+                                             description=description)
     print(pending_todos)
 
 
 def setPendingTodosCategory(chat_id, user_id, category):
     pass
+    # TODO: crear tabla categorias y metodos para crear
     #pending_todos[(chat_id, user_id)].category_id = category
 
 
 def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
-    pass
-    #pending_todos[(chat_id, user_id)].users.add(User.get(User.id == assigned_user_id))
+    print("Assignment_______________________________________________")
+    print("cht", chat_id)
+    print("usr", user_id)
+    print("_______________________________________________")
+
+   # pending_todos[(chat_id, user_id)].assignment_users.add(assigned_user_id)
+
+    # print(pending_todos[(chat_id, user_id)])
+                    #User.get(User.id == assigned_user_id))
 
 
 def storePendingTodo(chat_id, user_id):
-    pass
- #   pending_todos[(chat_id, user_id)].save()
+    print("Store_______________________________________________")
+    print("cht", chat_id)
+    print("usr", user_id)
+    print("_______________________________________________")
+    pending_todos[(chat_id, user_id)].save()
+    printTodos()
  #   print([todo.description for todo in Todo.select()])
 
 
@@ -111,38 +130,96 @@ def clearPendingTodo(chat_id, user_id):
 def getCategories(chat_id):
     return Category.select().where(Category.chat_id == chat_id).dicts()
 
+def printDB():
+    users = User.select()
+    print("Users: ", [user.id for user in users])
+    userChat = ChatUser.select()
+    for uC in userChat:
+        print('User_id {} on chat_id {}'.format(uC.user_id, uC.chat_id))
+
+def printTodos():
+    todos = Todo.select()
+    for todo in todos:
+        print('User_id created {}, desc: {}\n Assinged to {}'.format(todo.creator_id, todo.description, todo.assignment_users))
+
+def checkDatabase(chat_id, user_id):
+    # Check if user is register in database
+    exist = User.select().where(User.id == user_id).count()
+
+    if not exist: # Create the user
+        user = User.create(id=user_id)
+
+    # Check if the chat exist
+    exist = Chat.select().where(Chat.id == chat_id).count()
+    if not exist: # Create a chat
+        Chat.create(id=chat_id)
+        ChatUser.create(user_id=user_id, chat_id=chat_id)
+
+    # Check if that user is register in that chat
+    else:
+        exist = ChatUser.select().where( (ChatUser.user_id == user_id) &
+                                         (ChatUser.chat_id == chat_id)).count()
+        if not exist:
+            ChatUser.create(user_id=user_id, chat_id=chat_id)
+
+    printDB()
 
 
-def checkUserId(chat_id, user_id):
+def getUsersIdFromChat(chat_id):
+    users = ChatUser.select(ChatUser.user_id).where(ChatUser.chat_id == chat_id).dicts()
+    return users
 
-    chat = Chat.get(id == chat_id)
-    if(chat):
-        pass
 
+def getCategoriesIdFromChat(chat_id):
+    categories = Category.select(Category.name, Category.id).where(Category.chat_id == chat_id).dicts()
+    return categories
+
+
+def createCategory(chat_id, name):
+    Category.create(name=name, chat_id=chat_id)
 
 
 
 
 def init_db():
-    print("Creating...")
+    print("Creating database...")
     db.create_tables([
         User,
         Chat,
-      #  ChatUser,
+        ChatUser,
         Category,
         Todo])
+    print("Database created!!!")
 
-    print("Created")
+    #test()
+def test():
+    # User.create(id=1, name='Cesar')
+    # User.create(id=2, name='Daniel')
+    # User.create(id=3, name='Perseo')
 
-    User.create(id=1, name='Cesar')
-    User.create(id=2, name='Daniel')
-    User.create(id=3, name='Perseo')
+    Category.create(name='Diseño', chat_id=-236384136)
+    Category.create(name='Desarrollo', chat_id=-236384136)
+    Category.create(name='Economico', chat_id=-236384136)
 
     users = User.select()
-    print([user.name for user in users])
+    print([user.id for user in users])
 
+    checkDatabase(1,10) # non-existent chat and user
+    checkDatabase(1,11) # existent chat and non-existent user
+    checkDatabase(2,11) # no existent chat and existent user
 
-    Chat.create(id=1)
+    print("____________")
+    users = getUsersIdFromChat(1)
+    print(vars(users))
+    for user in users:
+        print(user['user_id'])
+        print(type(int(user['user_id'])))
+        # print(user['user_id'])
+        # a = user['user_id']
+        # print(a)
+        # print(vars(a))
+
+    # Chat.create(id=1)
    # ChatUser.create(user_id=1, chat_id=1)
 
   #  q = Chat.update(members).where(id=1)

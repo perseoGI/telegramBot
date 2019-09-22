@@ -154,17 +154,17 @@ def binary_keyboard():
 
 
 
-# todo_conv_handler = ConversationHandler(
-    #     entry_points=[CommandHandler('todo', todo_start)],
-    #
-    #     states={
-    #         DESCRIPTION: [MessageHandler(Filters.text, todo_description)],
-    #         CATEGORY: [MessageHandler(Filters.text, todo_category)],
-    #         ANOTHER_ASSIGNMENT: [CallbackQueryHandler(todo_another_assignment)],
-    #         ASSIGNMENT: [CallbackQueryHandler(todo_assignment)],
-    #         TODO_END: [CallbackQueryHandler(todo_end)],
-    #
-    #     },
-    #     fallbacks=[CommandHandler('todo_cancel', todo_cancel)]
-    # )
-    # dp.add_handler(todo_conv_handler)
+todo_conv_handler = ConversationHandler(
+        entry_points=[CommandHandler('todo', todo_start)],
+
+        states={
+            DESCRIPTION: [MessageHandler(Filters.text, todo_description)],
+            CATEGORY: [MessageHandler(Filters.text, todo_category)],
+            ANOTHER_ASSIGNMENT: [CallbackQueryHandler(todo_another_assignment)],
+            ASSIGNMENT: [CallbackQueryHandler(todo_assignment)],
+            TODO_END: [CallbackQueryHandler(todo_end)],
+
+        },
+        fallbacks=[CommandHandler('todo_cancel', todo_cancel)]
+    )
+    dp.add_handler(todo_conv_handler)
