@@ -51,8 +51,9 @@ class Todo(BaseModel):
     assignment_users = ManyToManyField(User, backref='todos')
     description = TextField()
     # TODO: deadLine
+    deadline = DateField(null=True)
 
-UserTodos = Todo.assignment_users.get_through_model()
+UserTodo = Todo.assignment_users.get_through_model()  # Table to relates User with Todo.assignment_users
 
 # class AssingmentTodos(BaseModel):
 #
@@ -61,6 +62,7 @@ UserTodos = Todo.assignment_users.get_through_model()
 
 
 pending_todos = {}
+pending_assignment_users = {}
 
 class TodoModel:
     def __init__(self, description):
@@ -91,9 +93,12 @@ def setPendingTodosDescription(chat_id, user_id, description):
 
 
 def setPendingTodosCategory(chat_id, user_id, category):
-    pass
+    print("Category_______________________________________________")
+    print("cht", chat_id)
+    print("usr", user_id)
+    print("_______________________________________________")
     # TODO: crear tabla categorias y metodos para crear
-    #pending_todos[(chat_id, user_id)].category_id = category
+    pending_todos[(chat_id, user_id)].category_id = category
 
 
 def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
@@ -102,10 +107,17 @@ def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
     print("usr", user_id)
     print("_______________________________________________")
 
-   # pending_todos[(chat_id, user_id)].assignment_users.add(assigned_user_id)
+    user = User.get(User.id == assigned_user_id)
+    if not (chat_id, user_id) in pending_assignment_users:
+        pending_assignment_users[(chat_id, user_id)] = []
+    pending_assignment_users[(chat_id, user_id)].append(user)
 
-    # print(pending_todos[(chat_id, user_id)])
-                    #User.get(User.id == assigned_user_id))
+
+
+
+def setPendingTodoDeadline(chat_id, user_id, deadline):
+    print("Deadline: ", deadline)
+    pending_todos[(chat_id, user_id)].deadline = deadline
 
 
 def storePendingTodo(chat_id, user_id):
@@ -113,14 +125,20 @@ def storePendingTodo(chat_id, user_id):
     print("cht", chat_id)
     print("usr", user_id)
     print("_______________________________________________")
+
+
     pending_todos[(chat_id, user_id)].save()
+
+    assignment_users = pending_assignment_users[(chat_id, user_id)]
+    if assignment_users:
+        pending_todos[(chat_id, user_id)].assignment_users.add(assignment_users)
+
     printTodos()
  #   print([todo.description for todo in Todo.select()])
 
 
 def clearPendingTodo(chat_id, user_id):
-    pass
-  #  pending_todos[(chat_id, user_id)] = None   # TODO_ revisar
+    pending_todos.pop((chat_id, user_id))   # TODO_ revisar
 
 
 
@@ -162,7 +180,7 @@ def checkDatabase(chat_id, user_id):
         if not exist:
             ChatUser.create(user_id=user_id, chat_id=chat_id)
 
-    printDB()
+
 
 
 def getUsersIdFromChat(chat_id):
@@ -176,7 +194,53 @@ def getCategoriesIdFromChat(chat_id):
 
 
 def createCategory(chat_id, name):
-    Category.create(name=name, chat_id=chat_id)
+    category_id = Category.create(name=name, chat_id=chat_id)
+    return category_id._pk
+
+########################### TODOLIST ###########################################
+
+
+pending_todoslist = {}
+
+
+def set_todolist_filter_category(chat_id, user_id, category):
+    pending_todoslist[(chat_id, user_id)] = {"category": category}
+
+
+def set_todolist_filter_assigned(chat_id, user_id, user_assigned):
+    pending_todoslist[(chat_id, user_id)].update({"assignment_users": user_assigned})
+
+
+def get_todo_list(chat_id, user_id):
+    filters = pending_todoslist[(chat_id, user_id)]
+    print(filters['category'])
+
+    # todos = Todo.select().where(Todo.chat_belonging_id == chat_id).dicts()
+    #
+    # query = Select()
+    #
+
+
+    if filters['category'] != '-1':
+        todos = Todo.select().where((Todo.chat_belonging_id == chat_id) &
+                        (Todo.category_id == filters['category'])).dicts()
+    else:
+        todos = Todo.select().where((Todo.chat_belonging_id == chat_id)).dicts()
+
+
+    # for todo in todos:
+    #     print("Descripcion: ", todo['de'])
+    return todos
+
+def get_category_name(category_id):
+    return Category.get(Category.id == category_id).name
+
+def get_assigned_users(todo_id):
+    todos = Todo.get(Todo.id == todo_id)
+    users = []
+    for user in todos.assignment_users:
+        users.append(user)
+    return users
 
 
 
@@ -188,18 +252,24 @@ def init_db():
         Chat,
         ChatUser,
         Category,
-        Todo])
+        Todo,
+        UserTodo])  # UserTodo relation get_through_model has also to be created
     print("Database created!!!")
 
     #test()
 def test():
+    set_todolist_filter_category(1,10, 1)
+    print(pending_todoslist)
+    set_todolist_filter_assigned(1, 10, 11)
+    print(pending_todoslist)
+
     # User.create(id=1, name='Cesar')
     # User.create(id=2, name='Daniel')
     # User.create(id=3, name='Perseo')
 
-    Category.create(name='Diseño', chat_id=-236384136)
-    Category.create(name='Desarrollo', chat_id=-236384136)
-    Category.create(name='Economico', chat_id=-236384136)
+    # Category.create(name='Diseño', chat_id=-236384136)
+    # Category.create(name='Desarrollo', chat_id=-236384136)
+    # Category.create(name='Economico', chat_id=-236384136)
 
     users = User.select()
     print([user.id for user in users])
