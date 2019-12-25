@@ -16,6 +16,8 @@ Chat_id:
     if the chat is a group, it is negative
     If it is a single person, is positive
 
+callback_data in a InlineKeyboardButton CANT BE '0'
+
 TODO:
 
 - Entre otras mejorar el formateo de salida del /todolist
@@ -23,3 +25,4 @@ TODO:
 - Crear funcionalidad de /tododone para poder dar por finalizado un todo
 - Generar eventos en el chat cuando este a punto de cumplir la fecha
 - Generar eventos cuando se te haya acabado el tiempo y no lo hayas terminado
+- Borrar mensajes enviados por el bot

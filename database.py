@@ -50,8 +50,8 @@ class Todo(BaseModel):
     chat_belonging_id = ForeignKeyField(Chat)
     assignment_users = ManyToManyField(User, backref='todos')
     description = TextField()
-    # TODO: deadLine
     deadline = DateField(null=True)
+    completed = BooleanField(default=False)
 
 UserTodo = Todo.assignment_users.get_through_model()  # Table to relates User with Todo.assignment_users
 
@@ -81,32 +81,16 @@ class TodoModel:
 
 
 def setPendingTodosDescription(chat_id, user_id, description):
-   # pending_todos[(chat_id, user_id)] = TodoModel(description)
-    print("Desc_______________________________________________")
-    print("cht", chat_id)
-    print("usr", user_id)
-    print("_______________________________________________")
     pending_todos[(chat_id, user_id)] = Todo(chat_belonging_id=chat_id,
                                              creator_id=user_id,
                                              description=description)
-    print(pending_todos)
 
 
 def setPendingTodosCategory(chat_id, user_id, category):
-    print("Category_______________________________________________")
-    print("cht", chat_id)
-    print("usr", user_id)
-    print("_______________________________________________")
-    # TODO: crear tabla categorias y metodos para crear
     pending_todos[(chat_id, user_id)].category_id = category
 
 
 def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
-    print("Assignment_______________________________________________")
-    print("cht", chat_id)
-    print("usr", user_id)
-    print("_______________________________________________")
-
     user = User.get(User.id == assigned_user_id)
     if not (chat_id, user_id) in pending_assignment_users:
         pending_assignment_users[(chat_id, user_id)] = []
@@ -116,30 +100,22 @@ def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
 
 
 def setPendingTodoDeadline(chat_id, user_id, deadline):
-    print("Deadline: ", deadline)
     pending_todos[(chat_id, user_id)].deadline = deadline
 
 
+
 def storePendingTodo(chat_id, user_id):
-    print("Store_______________________________________________")
-    print("cht", chat_id)
-    print("usr", user_id)
-    print("_______________________________________________")
-
-
     pending_todos[(chat_id, user_id)].save()
 
     assignment_users = pending_assignment_users[(chat_id, user_id)]
     if assignment_users:
         pending_todos[(chat_id, user_id)].assignment_users.add(assignment_users)
 
-    printTodos()
- #   print([todo.description for todo in Todo.select()])
+    clear_pending_todo(chat_id, user_id)
 
-
-def clearPendingTodo(chat_id, user_id):
-    pending_todos.pop((chat_id, user_id))   # TODO_ revisar
-
+def clear_pending_todo(chat_id, user_id):
+    if (chat_id, user_id) in pending_todos:
+        del pending_todos[(chat_id, user_id)]
 
 
 
@@ -201,7 +177,7 @@ def createCategory(chat_id, name):
 
 
 pending_todoslist = {}
-
+pending_complete_todo = {}
 
 def set_todolist_filter_category(chat_id, user_id, category):
     pending_todoslist[(chat_id, user_id)] = {"category": category}
@@ -213,27 +189,25 @@ def set_todolist_filter_assigned(chat_id, user_id, user_assigned):
 
 def get_todo_list(chat_id, user_id):
     filters = pending_todoslist[(chat_id, user_id)]
-    print(filters['category'])
-
-    # todos = Todo.select().where(Todo.chat_belonging_id == chat_id).dicts()
-    #
-    # query = Select()
-    #
-
-
-    if filters['category'] != '-1':
+#TODO: mejorar eficiencia ...
+    if filters['assignment_users'] == '-1':
         todos = Todo.select().where((Todo.chat_belonging_id == chat_id) &
-                        (Todo.category_id == filters['category'])).dicts()
+                                (Todo.category_id == filters['category'] if filters['category'] != '-1' else True) &
+                                (Todo.completed == False)).dicts()
+
+
     else:
-        todos = Todo.select().where((Todo.chat_belonging_id == chat_id)).dicts()
+        todos = Todo.select().join(UserTodo).where((Todo.chat_belonging_id == chat_id) &
+                                    (Todo.category_id == filters['category'] if filters['category'] != '-1' else True) &
+                                    (UserTodo.user == filters['assignment_users']) &
+                                    (Todo.completed == False)).dicts()
 
 
-    # for todo in todos:
-    #     print("Descripcion: ", todo['de'])
     return todos
 
 def get_category_name(category_id):
     return Category.get(Category.id == category_id).name
+
 
 def get_assigned_users(todo_id):
     todos = Todo.get(Todo.id == todo_id)
@@ -243,8 +217,41 @@ def get_assigned_users(todo_id):
     return users
 
 
+def set_pending_complete_todo(chat_id, user_id, todo_id):
+    if not (chat_id, user_id) in pending_complete_todo:
+        pending_complete_todo[(chat_id, user_id)] = []
+    pending_complete_todo[(chat_id, user_id)].append(todo_id)
 
 
+def set_complete_todo(chat_id, user_id):
+    # Only store changes if they exist
+    if (chat_id, user_id) in pending_complete_todo:
+        for todo_id in pending_complete_todo[(chat_id, user_id)]:
+            Todo.set_by_id(todo_id, {'completed': True})
+
+
+def clear_pending_complete_todo(chat_id, user_id):
+    if(chat_id, user_id) in pending_complete_todo:
+        del pending_complete_todo[(chat_id, user_id)]
+
+
+messages_to_clear = {}
+
+def add_messages_to_clear(chat_id, user_id, message_id):
+    if not (chat_id, user_id) in messages_to_clear:
+        messages_to_clear[(chat_id, user_id)] = []
+    messages_to_clear[(chat_id, user_id)].append(message_id)
+
+
+def pop_messages_to_clear(chat_id, user_id):
+    if (chat_id, user_id) in messages_to_clear:
+        return messages_to_clear.pop((chat_id, user_id))
+    else:
+        return []
+
+
+
+##################################################################
 def init_db():
     print("Creating database...")
     db.create_tables([

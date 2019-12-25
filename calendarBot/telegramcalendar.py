@@ -47,7 +47,7 @@ def create_calendar(year=None,month=None):
     for week in my_calendar:
         row=[]
         for day in week:
-            if(day==0):
+            if(day == 0):
                 row.append(InlineKeyboardButton(" ",callback_data=data_ignore))
             else:
                 row.append(InlineKeyboardButton(str(day),callback_data=create_callback_data("DAY",year,month,day)))
