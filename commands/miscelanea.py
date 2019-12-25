@@ -52,9 +52,9 @@ def test(update, context):
 miscelanea_handlers = [
     CommandHandler('bop', bop),
     CommandHandler('start', start),
-    MessageHandler(Filters.text, general_check),   # , group=2  TODO
     CommandHandler('caps', caps),
     CommandHandler('test', test)
 ]
+miscelanea_handler_low_priority = MessageHandler(Filters.text, general_check)   # , group=2  TODO
 
 # dp.add_handler(MessageHandler(Filters.text, echo))

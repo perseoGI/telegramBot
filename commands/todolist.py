@@ -45,6 +45,22 @@ def get_username_from_id(bot, chat_id, user_id):
 
 
 
+####################### TODO: change design ######################
+
+def todolist_item_keyboard(todo_id):
+    keyboard = [None] * 4
+    keyboard[0] = [InlineKeyboardButton("Complete", callback_data=str(TODOLIST_COMPLETE) + "," + str(todo_id))]
+
+    keyboard[1] = [InlineKeyboardButton("<-", callback_data=str(TODOLIST_POSTPONE) + "," + str(todo_id)),
+                   InlineKeyboardButton("Postpone", callback_data=str(TODOLIST_POSTPONE) + "," + str(todo_id)),
+                   InlineKeyboardButton("->", callback_data=str(TODOLIST_POSTPONE) + "," + str(todo_id)) ]
+
+    keyboard[2] = [InlineKeyboardButton("Edit", callback_data=str(TODOLIST_POSTPONE) + "," + str(todo_id))]
+    keyboard[3] = [InlineKeyboardButton("Finish", callback_data=str(TODOLIST_POSTPONE) + "," + str(todo_id))]
+
+    return InlineKeyboardMarkup(keyboard)
+
+
 def todolist_comlete_postpone_keyboard(todo_id):
     keyboard = []
     row = []
@@ -96,7 +112,7 @@ def todolist_assigned(update, context):
                 message_id = context.bot.send_message(chat_id=chat_id,
                                          text=text,
                                          parse_mode=ParseMode.MARKDOWN,
-                                         reply_markup=todolist_comlete_postpone_keyboard(todo_id=todo['id'])).message_id
+                                         reply_markup=todolist_item_keyboard(todo_id=todo['id'])).message_id
             iter += 1
 
             db.add_messages_to_clear(chat_id, user_id, message_id) # Add message_id to clear them later
@@ -174,6 +190,7 @@ def delete_messages(bot, chat_id, user_id):
 # TODO
 def todolist_cancel(update, context):
     pass
+
 
 # TODOLIST
 todolist_conv_handler = ConversationHandler(

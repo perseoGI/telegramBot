@@ -1,7 +1,7 @@
 import database as db
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 import logging
-from telegram.ext import ConversationHandler
+from telegram.ext import ConversationHandler, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from calendarBot import telegramcalendar
 from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard
 
@@ -223,7 +223,7 @@ def create_category(update, context):
         return TODO_END
 
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler, ConversationHandler
+
 
 # TODOS
 todo_conv_handler = ConversationHandler(
