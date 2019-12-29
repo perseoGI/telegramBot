@@ -105,11 +105,11 @@ def setPendingTodoDeadline(chat_id, user_id, deadline):
 
 
 def storePendingTodo(chat_id, user_id):
+    print(pending_todos)
     pending_todos[(chat_id, user_id)].save()
 
-    assignment_users = pending_assignment_users[(chat_id, user_id)]
-    if assignment_users:
-        pending_todos[(chat_id, user_id)].assignment_users.add(assignment_users)
+    if (chat_id, user_id) in pending_assignment_users:
+        pending_todos[(chat_id, user_id)].assignment_users.add(pending_assignment_users.pop((chat_id, user_id)))
 
     clear_pending_todo(chat_id, user_id)
 
@@ -117,6 +117,26 @@ def clear_pending_todo(chat_id, user_id):
     if (chat_id, user_id) in pending_todos:
         del pending_todos[(chat_id, user_id)]
 
+
+
+todos_listed = {}
+
+def set_todos_listed(chat_id, user_id, todos):
+    todos_listed[(chat_id, user_id)] = [todo for todo in todos]
+    print(todos_listed)
+
+def get_todos_listed(chat_id, user_id, index):
+    todo = None
+    limit = None
+    length = len(todos_listed[(chat_id, user_id)])
+    if (chat_id, user_id) in todos_listed and length > index:
+        todo = todos_listed[(chat_id, user_id)][index]
+    if length == index + 1:
+        limit = 'R'
+    elif index == 0:
+        limit = 'L'
+
+    return todo, limit
 
 
 ########### Category ##############
