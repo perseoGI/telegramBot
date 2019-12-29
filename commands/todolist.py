@@ -11,7 +11,7 @@ from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyb
 
 ########################### TODOLIST ###########################################
 
-TODOLIST_CATEGORY, TODOLIST_ASSINGNED, TODOLIST_EDIT, TODOLIST_EDIT_TODO, TODOLIST_FINISH = range(5)
+TODOLIST_CATEGORY, TODOLIST_ASSINGNED, TODOLIST_MENU, TODOLIST_EDIT_DESCRIPTION, TODOLIST_EDIT_DEADLINE, TODOLIST_FINISH = range(6)
 
 # First '0' to null. callback cannot take '0' value because it has to be a string ('0' is a null)
 _, ACTION_COMPLETE, ACTION_UNCOMPLETE, ACTION_POSTPONE, ACTION_EDIT, ACTION_BACK, ACTION_FINISH, ACTION_NEXT, ACTION_NONE = range(9)
@@ -41,37 +41,61 @@ def todolist_category(update, context):
 
     return TODOLIST_ASSINGNED
 
+
+def todolist_assigned(update, context):
+    user_id = update.effective_user.id
+    chat_id = update.callback_query.message.chat_id
+    user_assigned = update.callback_query.data
+    message_id = update.callback_query.message.message_id
+    # Set last filter
+    db.set_todolist_filter_assigned(chat_id=chat_id, user_id=user_id, user_assigned=user_assigned)
+
+    # Create a temporal list of todos if exist
+    exist = db.get_todo_list(chat_id=chat_id, user_id=user_id)
+    if exist:
+        todolist_send_item(context.bot, message_id, chat_id, user_id)
+        return TODOLIST_MENU
+
+    else:   # no todos available
+        context.bot.edit_message_text(chat_id=chat_id,
+                                      message_id=message_id,
+                                      text="There is no pending todos :)\n*Now you are free!*",
+                                      parse_mode=ParseMode.MARKDOWN)
+
+        return ConversationHandler.END
+
+
 def get_username_from_id(bot, chat_id, user_id):
     return bot.getChatMember(chat_id=int(chat_id), user_id=user_id)['user']['first_name']
 
 
-
 ####################### TODO: change design ######################
 
-def todolist_item_keyboard(todo_id, index=0, limit=None, completed=None):
+
+def todolist_item_keyboard(limit=None, completed=None):
     keyboard = [None] * 4
-   # keyboard[0] = [InlineKeyboardButton("Un-complete", callback_data=str(ACTION_UNCOMPLETE) + "," + str(index)) if completed else
-   #                InlineKeyboardButton("Complete", callback_data=str(ACTION_COMPLETE) + "," + str(index))]
-    keyboard[0] = [] if completed else [InlineKeyboardButton("Complete", callback_data=str(ACTION_COMPLETE) + "," + str(index))]
+    keyboard[0] = [InlineKeyboardButton("Un-complete", callback_data=str(ACTION_UNCOMPLETE)) if completed else
+                   InlineKeyboardButton("Complete", callback_data=str(ACTION_COMPLETE))]
+  #  keyboard[0] = [] if completed else [InlineKeyboardButton("Complete", callback_data=str(ACTION_COMPLETE))]
 
-    keyboard[1] = [InlineKeyboardButton("Postpone", callback_data=str(ACTION_POSTPONE) + "," + str(index))]
+    keyboard[1] = [InlineKeyboardButton("Postpone", callback_data=str(ACTION_POSTPONE))]
 
-    keyboard[2] = [InlineKeyboardButton("Edit", callback_data=str(ACTION_EDIT) + "," + str(index))]
+    keyboard[2] = [InlineKeyboardButton("Edit", callback_data=str(ACTION_EDIT))]
 
     keyboard[3] = [InlineKeyboardButton(" ", callback_data=str(ACTION_NONE)) if limit in ('L', 'B') else
-                   InlineKeyboardButton("←", callback_data=str(ACTION_BACK) + "," + str(index - 1)),
+                   InlineKeyboardButton("←", callback_data=str(ACTION_BACK)),
 
                    InlineKeyboardButton("Finish", callback_data=str(ACTION_FINISH)),
 
                    InlineKeyboardButton(" ", callback_data=str(ACTION_NONE)) if limit in ('R', 'B') else
-                   InlineKeyboardButton("→", callback_data=str(ACTION_NEXT) + "," + str(index + 1))]
+                   InlineKeyboardButton("→", callback_data=str(ACTION_NEXT))]
 
     return InlineKeyboardMarkup(keyboard)
 
 
 
-def todolist_send_item(bot, update, chat_id, user_id, index):
-    todo, limit = db.get_todos_listed(chat_id, user_id, index)
+def todolist_send_item(bot, message_id, chat_id, user_id, new_message=None):
+    todo, limit = db.get_todos_listed(chat_id, user_id)
     if todo:
         if chat_id < 0:  # group
             creator_name = get_username_from_id(bot, chat_id, todo['creator_id'])
@@ -92,110 +116,110 @@ def todolist_send_item(bot, update, chat_id, user_id, index):
             text = "*{0}* \n``` {1} ```\n\n".format(db.get_category_name(todo['category_id']),
                                                     todo['description'])
 
-        bot.edit_message_text(chat_id=chat_id,
-                              message_id=update.callback_query.message.message_id,
+        if new_message:
+            bot.send_message( chat_id=chat_id,
                               text=text,
                               parse_mode=ParseMode.MARKDOWN,
-                              reply_markup=todolist_item_keyboard(todo_id=todo['id'], index=index, limit=limit, completed=todo['completed']))
-
-def todolist_assigned(update, context):
-    user_id = update.effective_user.id
-    chat_id = update.callback_query.message.chat_id
-    user_assigned = update.callback_query.data
-
-    db.set_todolist_filter_assigned(chat_id=chat_id, user_id=user_id, user_assigned=user_assigned)
-
-    # Obtain list of todos
-    todos = db.get_todo_list(chat_id=chat_id, user_id=user_id)
-    if todos:
-        db.set_todos_listed(chat_id, user_id, todos)
-
-        todolist_send_item(context.bot, update, chat_id, user_id, 0)
-
-        return TODOLIST_EDIT
-
-    else:   # no todos available
-        context.bot.edit_message_text(chat_id=chat_id,
-                                      message_id=update.callback_query.message.message_id,
-                                      text="There is no pending todos :)\n*Now you are free!*",
-                                      parse_mode=ParseMode.MARKDOWN)
-
-        return ConversationHandler.END
-
+                              reply_markup=todolist_item_keyboard(limit=limit, completed=todo['completed']))
+        else:
+            bot.edit_message_text(chat_id=chat_id,
+                              message_id=message_id,
+                              text=text,
+                              parse_mode=ParseMode.MARKDOWN,
+                              reply_markup=todolist_item_keyboard(limit=limit, completed=todo['completed']))
 
 
 def todolist_edit(update, context):
     user_id = update.effective_user.id
     chat_id = update.callback_query.message.chat_id
     data = update.callback_query.data.split(',')
+    message_id = update.callback_query.message.message_id
 
     operation = int(data[0])
     index = int(data[1]) if len(data) > 1 else None
-    if operation == ACTION_COMPLETE:  # TODO #or operation == ACTION_UNCOMPLETE:
-        db.set_pending_altered_todo(chat_id=chat_id, user_id=user_id, index=index, op={'completed': True})
-        todolist_send_item(context.bot, update, chat_id, user_id, index)
+    if operation == ACTION_COMPLETE or operation == ACTION_UNCOMPLETE:
+        action = True if operation == ACTION_COMPLETE else False
+        db.change_todos_listed(chat_id=chat_id, user_id=user_id, key='completed', value=action)
+        todolist_send_item(context.bot, message_id, chat_id, user_id)
 
-        return TODOLIST_EDIT
+        return TODOLIST_MENU
 
     # TODO
     elif operation == ACTION_EDIT:
+        todo, _ = db.get_todos_listed(chat_id, user_id)
+
         context.bot.edit_message_text(chat_id=chat_id,
-                                      message_id=update.callback_query.message.message_id,
+                                      message_id=message_id,
                                       text="Type to edit TODO:\n ```{0}```".
-                                      format(db.todos_listed[(chat_id, user_id)][index]['description']),
+                                      format(todo['description']),
                                       parse_mode=ParseMode.MARKDOWN)
 
-        return TODOLIST_EDIT_TODO
+        return TODOLIST_EDIT_DESCRIPTION
     elif operation == ACTION_POSTPONE:
-        pass
+        context.bot.edit_message_text(chat_id=chat_id,
+                                      message_id=update.callback_query.message.message_id,
+                                      text="Assign a new deadline",
+                                      reply_markup=telegramcalendar.create_calendar())
 
+        return TODOLIST_EDIT_DEADLINE
     # Store changes!
     elif operation == ACTION_FINISH:
 
         pending_changes = db.get_pending_changes_todo(chat_id, user_id)
         if pending_changes:
+            pending_changes = "Do you want to store pending changes?\n\n" + pending_changes
             context.bot.edit_message_text(chat_id=chat_id,
-                                          message_id=update.callback_query.message.message_id,
+                                          message_id=message_id,
                                           text=pending_changes,
                                           parse_mode=ParseMode.MARKDOWN,
                                           reply_markup=binary_keyboard())
             return TODOLIST_FINISH
         else:
             context.bot.edit_message_text(chat_id=chat_id,
-                                      message_id=update.callback_query.message.message_id,
+                                      message_id=message_id,
                                       text="No changes!")
             return ConversationHandler.END
 
-
     elif operation == ACTION_NEXT or operation == ACTION_BACK:
-        todolist_send_item(context.bot, update, chat_id, user_id, index)
-        return TODOLIST_EDIT
+        db.set_todos_listed_index(chat_id, user_id, 1 if operation == ACTION_NEXT else -1)
+        todolist_send_item(context.bot, message_id, chat_id, user_id)
+        return TODOLIST_MENU
 
     elif operation == ACTION_NONE:
-        return TODOLIST_EDIT
+        return TODOLIST_MENU
 
-    return TODOLIST_EDIT #ConversationHandler.END
+    return TODOLIST_MENU
 
-def todolist_edit_todo(update, context):
+
+def todolist_edit_description(update, context):
     user_id = update.message.from_user.id
     chat_id = update.message.chat_id
     edited_description = update.message.text
-   # db.set_pending_altered_todo(chat_id=chat_id, user_id=user_id, index=index, op={'description': edited_description})
- #   todolist_send_item(context.bot, update, chat_id, user_id, index)
+    db.change_todos_listed(chat_id=chat_id, user_id=user_id, key='description', value=edited_description)
+    todolist_send_item(context.bot, update, chat_id, user_id, new_message=True)
+    return TODOLIST_MENU
 
-    return TODOLIST_EDIT
+def todolist_edit_deadline(update, context):
+    user_id = update.effective_user.id
+    chat_id = update.callback_query.message.chat_id
+    date = telegramcalendar.process_calendar_selection(context.bot, update).strftime("%Y-%m-%d")
+
+    db.change_todos_listed(chat_id=chat_id, user_id=user_id, key='deadline', value=date)
+    todolist_send_item(context.bot, update.callback_query.message.message_id, chat_id, user_id)
+    return TODOLIST_MENU
+
 
 def todolist_finish(update, context):
     user_id = update.effective_user.id
     chat_id = update.callback_query.message.chat_id
     operation = update.callback_query.data
     if operation == '1':
-        db.set_changes_todo(chat_id=chat_id, user_id=user_id)
+        db.store_changes_todo(chat_id=chat_id, user_id=user_id)
         context.bot.edit_message_text(chat_id=chat_id,
                                       message_id=update.callback_query.message.message_id,
                                       text="Changes saved!")
     else:
-        db.clear_pending_changes_todo(chat_id, user_id)
+        db.clear_todo_list(chat_id, user_id)
         context.bot.edit_message_text(chat_id=chat_id,
                                       message_id=update.callback_query.message.message_id,
                                       text="Restore version!")
@@ -219,8 +243,9 @@ todolist_conv_handler = ConversationHandler(
     states={
         TODOLIST_CATEGORY: [CallbackQueryHandler(todolist_category)],
         TODOLIST_ASSINGNED: [CallbackQueryHandler(todolist_assigned)],
-        TODOLIST_EDIT: [CallbackQueryHandler(todolist_edit)],
-        TODOLIST_EDIT_TODO: [MessageHandler(Filters.text,todolist_edit_todo)],
+        TODOLIST_MENU: [CallbackQueryHandler(todolist_edit)],
+        TODOLIST_EDIT_DESCRIPTION: [MessageHandler(Filters.text, todolist_edit_description)],
+        TODOLIST_EDIT_DEADLINE: [CallbackQueryHandler(todolist_edit_deadline)],
         TODOLIST_FINISH: [CallbackQueryHandler(todolist_finish)]
     },
     fallbacks=[CommandHandler('todolist_cancel', todolist_cancel)]

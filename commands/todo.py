@@ -125,23 +125,22 @@ def todo_assignment(update, context):
 def todo_deadline(update, context):
     chat_id = update.callback_query.message.chat_id
     user_id = update.effective_user.id
-    selected, date = telegramcalendar.process_calendar_selection(context.bot, update)
-    print("Selected ", selected, " date: ", date )
-    if selected:
 
-        if date:    # Day selected
-            db.setPendingTodoDeadline(chat_id=chat_id, user_id=user_id, deadline=date)
-            context.bot.edit_message_text(chat_id=chat_id,
-                                          message_id=update.callback_query.message.message_id,
+    date = telegramcalendar.process_calendar_selection(context.bot, update)
 
-                                          text="You selected %s\nDesea guardar la tarea?" % (date.strftime("%d/%m/%Y")),
-                                          reply_markup=binary_keyboard())
-                                         #reply_markup=ReplyKeyboardRemove())
-        else: # no deadline selected
-            context.bot.edit_message_text(chat_id=chat_id,
-                                          message_id=update.callback_query.message.message_id,
-                                          text="Desea guardar la tarea?",
-                                          reply_markup=binary_keyboard())
+    if date != '0':    # Day selected
+        db.setPendingTodoDeadline(chat_id=chat_id, user_id=user_id, deadline=date)
+        context.bot.edit_message_text(chat_id=chat_id,
+                                      message_id=update.callback_query.message.message_id,
+
+                                      text="You selected %s\nDesea guardar la tarea?" % (date.strftime("%d/%m/%Y")),
+                                      reply_markup=binary_keyboard())
+                                     #reply_markup=ReplyKeyboardRemove())
+    else: # no deadline selected
+        context.bot.edit_message_text(chat_id=chat_id,
+                                      message_id=update.callback_query.message.message_id,
+                                      text="Desea guardar la tarea?",
+                                      reply_markup=binary_keyboard())
 
     return TODO_END
 
@@ -151,7 +150,6 @@ def todo_end(update, context):
     chat_id = update.callback_query.message.chat_id
     user_id = update.effective_user.id
 
-    print(chat_id, user_id)
     if answer == '1':
         db.storePendingTodo(
             chat_id=chat_id,

@@ -71,7 +71,7 @@ def process_calendar_selection(bot,update):
     :return: Returns a tuple (Boolean,datetime.datetime), indicating if a date is selected
                 and returning the date if so.
     """
-    ret_data = (False,None)
+    ret_data = False
     query = update.callback_query
     (action,year,month,day) = separate_callback_data(query.data)
     curr = datetime.datetime(int(year), int(month), 1)
@@ -82,7 +82,8 @@ def process_calendar_selection(bot,update):
             chat_id=query.message.chat_id,
             message_id=query.message.message_id
             )
-        ret_data = True,datetime.datetime(int(year),int(month),int(day))
+    #    ret_data = True,datetime.datetime(int(year),int(month),int(day))
+        ret_data = datetime.datetime(int(year),int(month),int(day))
     elif action == "PREV-MONTH":
         pre = curr - datetime.timedelta(days=1)
         bot.edit_message_text(text=query.message.text,
@@ -102,9 +103,15 @@ def process_calendar_selection(bot,update):
                               chat_id=query.message.chat_id,
                               message_id=query.message.message_id
                               )
-        ret_data = True, False # check for false in 2 tuple for STOP
+        # ret_data = True, False # check for false in 2 tuple for STOP
+        ret_data = '0' # check for false in 2 tuple for STOP
 
     else:
         bot.answer_callback_query(callback_query_id= query.id,text="Something went wrong!")
         # UNKNOWN
-    return ret_data
+
+    if ret_data:
+        return ret_data
+
+    else:
+        process_calendar_selection(bot,update)

@@ -189,6 +189,24 @@ def set_todolist_filter_assigned(chat_id, user_id, user_assigned):
     pending_todoslist[(chat_id, user_id)].update({"assignment_users": user_assigned})
 
 
+# def get_todo_list(chat_id, user_id):
+#     filters = pending_todoslist[(chat_id, user_id)]
+# #TODO: mejorar eficiencia ...
+#     if filters['assignment_users'] == '-1':
+#         todos = Todo.select().where((Todo.chat_belonging_id == chat_id) &
+#                                     (Todo.category_id == filters['category'] if filters['category'] != '-1' else True) &
+#                                     (Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
+#
+#     else:
+#         todos = Todo.select().join(UserTodo).where((Todo.chat_belonging_id == chat_id) &
+#                                     (Todo.category_id == filters['category'] if filters['category'] != '-1' else True) &
+#                                     (UserTodo.user == filters['assignment_users']) &
+#                                     (Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
+#     return todos
+
+
+todos_listed = {}
+
 def get_todo_list(chat_id, user_id):
     filters = pending_todoslist[(chat_id, user_id)]
 #TODO: mejorar eficiencia ...
@@ -203,8 +221,17 @@ def get_todo_list(chat_id, user_id):
                                     (UserTodo.user == filters['assignment_users']) &
                                     (Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
 
+    if todos:
+        # Store todos in temporal memory
+        todos_listed[(chat_id, user_id)] = {"todos": [todo for todo in todos],
+                                            "index": 0,
+                                            'completed': [],
+                                            'delayed': {},
+                                            'edited': {}}
+        return True
+    else:
+        return False
 
-    return todos
 
 def get_category_name(category_id):
     return Category.get(Category.id == category_id).name
@@ -218,18 +245,13 @@ def get_assigned_users(todo_id):
     return users
 
 
-todos_listed = {}
-
-def set_todos_listed(chat_id, user_id, todos):
-    todos_listed[(chat_id, user_id)] = [todo for todo in todos]
-    print(todos_listed)
-
-def get_todos_listed(chat_id, user_id, index):
+def get_todos_listed(chat_id, user_id):
     todo = None
     limit = None
-    length = len(todos_listed[(chat_id, user_id)])
-    if (chat_id, user_id) in todos_listed and length > index:
-        todo = todos_listed[(chat_id, user_id)][index]
+    length = len(todos_listed[(chat_id, user_id)]['todos'])
+    index = todos_listed[(chat_id, user_id)]['index']
+    if length > index:
+        todo = todos_listed[(chat_id, user_id)]['todos'][index]
     if length == 1:
         limit = 'B'  # B: Both
     elif length == index + 1:
@@ -239,57 +261,73 @@ def get_todos_listed(chat_id, user_id, index):
 
     return todo, limit
 
+# Pre: offset will never overpass max size of 'todos' list
+def set_todos_listed_index(chat_id, user_id, offset):
+    todos_listed[(chat_id, user_id)]['index'] += offset
 
 
-def set_pending_altered_todo(chat_id, user_id, index, op):
-    if not (chat_id, user_id) in pending_altered_todo:
-        pending_altered_todo[(chat_id, user_id)] = []
-    # pending_altered_todo[(chat_id, user_id)].append(todo_id)
+def change_todos_listed(chat_id, user_id, key, value):
+    todo = todos_listed[(chat_id, user_id)]
+    index = todo['index']
 
-    pending_altered_todo[(chat_id, user_id)].append((index, op))
-    todos_listed[(chat_id, user_id)][index].update(op)
+    if key == 'completed':
+        if value:
+            todo['completed'].append(index)
+        else:
+            todo['completed'].pop(index)
 
-#def set_pending_uncomplete_todo(chat_id, user_id, index):
+    elif key == 'deadline':
+        # Store previous deadline
+        todo['delayed'].update({index: todo['todos'][index]['deadline']})
 
+    elif key == 'description':
+        # Store previous description
+        todo['edited'].update({index: todo['todos'][index]['description']})
+
+    # Store change in provisional list
+    todo['todos'][index].update({key: value})
 
 
 def get_pending_changes_todo(chat_id, user_id):
-    if (chat_id, user_id) in pending_altered_todo:
-        text = "Do you want to store pending changes?\n\n"
-        for index, op in pending_altered_todo[(chat_id, user_id)]:
-            oper = list(op.keys())[0]
-            desc = todos_listed[(chat_id, user_id)][index]['description']
-            if oper == 'completed':
-                modify = 'Completed'
-            elif oper == 'deadline':
-                modify = 'Changed deadline to' + op[1]
-            elif oper == 'description':
-                modify = 'Changed description'
+    todos = todos_listed[(chat_id, user_id)]
+    text = ""
 
-            text += "*{0}*:\n ``` {1} ```\n\n".format(modify, desc)
-        return text
-    else:
-        return None
+    for index in todos['completed']:
+        text += "*Completed*:\n```{0}```\n \n".format(todos['todos'][index]['description'])
 
+    for index in todos['edited']:
+        text += "*Edited*:\n_Old_:\n```{0}```\n_New_:\n```{1}```\n\n"\
+            .format(todos['edited'][index], todos['todos'][index]['description'])
+
+    for index in todos['delayed']:
+        text += "*Delayed*:\n_From_ {0} _to_ {1}\n```{2}```\n\n"\
+            .format(todos['delayed'][index], todos['todos'][index]['deadline'], todos['todos'][index]['description'])
+
+    return text
 
 
-def set_changes_todo(chat_id, user_id):
-    # Only store changes if they exist
-    # if (chat_id, user_id) in pending_altered_todo:
-    #     for todo_id in pending_altered_todo[(chat_id, user_id)]:
-    #         Todo.set_by_id(todo_id, {'completed': True})
+def clear_todo_list(chat_id, user_id):
+    del todos_listed[(chat_id, user_id)]
 
-    for index, op in pending_altered_todo[(chat_id, user_id)]:
-        oper = list(op.keys())[0]
-        if oper == 'completed':
-            todo_id = todos_listed[(chat_id, user_id)][index]['id']
-            Todo.set_by_id(todo_id, {'completed': True})
 
-    clear_pending_changes_todo(chat_id, user_id)
+def store_changes_todo(chat_id, user_id):
+    todos = todos_listed[(chat_id, user_id)]
 
-def clear_pending_changes_todo(chat_id, user_id):
-    if(chat_id, user_id) in pending_altered_todo:
-        del pending_altered_todo[(chat_id, user_id)]
+    for index in todos['completed']:
+        todo_id = todos['todos'][index]['id']
+        Todo.set_by_id(todo_id, {'completed': True})
+
+    for index in todos['edited']:
+        todo_id = todos['todos'][index]['id']
+        Todo.set_by_id(todo_id, {'description': todos['todos'][index]['description']})
+
+    for index in todos['delayed']:
+        todo_id = todos['todos'][index]['id']
+        Todo.set_by_id(todo_id, {'deadline': todos['todos'][index]['deadline']})
+
+
+    clear_todo_list(chat_id, user_id)
+
 
 
 
