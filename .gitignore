@@ -11,6 +11,8 @@ secret.py
 *.db
 *__pycache__*
 __pycache__/
+venv/Scripts/*
+venv/Lib/*
 # Generated files
 .idea/**/contentModel.xml
 
