@@ -331,21 +331,6 @@ def store_changes_todo(chat_id, user_id):
 
 
 
-## Deprecated
-
-messages_to_clear = {}
-
-def add_messages_to_clear(chat_id, user_id, message_id):
-    if not (chat_id, user_id) in messages_to_clear:
-        messages_to_clear[(chat_id, user_id)] = []
-    messages_to_clear[(chat_id, user_id)].append(message_id)
-
-
-def pop_messages_to_clear(chat_id, user_id):
-    if (chat_id, user_id) in messages_to_clear:
-        return messages_to_clear.pop((chat_id, user_id))
-    else:
-        return []
 
 
 
