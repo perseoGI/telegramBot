@@ -210,7 +210,7 @@ todos_listed = {}
 def get_todo_list(chat_id, user_id):
     filters = pending_todoslist[(chat_id, user_id)]
 #TODO: mejorar eficiencia ...
-    if filters['assignment_users'] == '-1':
+    if not 'assignment_users' in filters or filters['assignment_users'] == '-1':
         todos = Todo.select().where((Todo.chat_belonging_id == chat_id) &
                                     (Todo.category_id == filters['category'] if filters['category'] != '-1' else True) &
                                     (Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()

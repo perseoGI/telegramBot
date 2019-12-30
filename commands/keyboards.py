@@ -1,7 +1,7 @@
 import database as db
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
-
-
+from enum import Enum
+from . import callbacks as Callback
 
 ############################ TODOs #########################################
 
@@ -41,3 +41,33 @@ def binary_keyboard():
                [InlineKeyboardButton('No', callback_data='0')]]
 
     return InlineKeyboardMarkup(keyboard)
+
+
+
+def todolist_item_keyboard(limit=None, completed=None):
+    keyboard = [None] * 4
+    keyboard[0] = [InlineKeyboardButton("Un-complete", callback_data=str(Callback.ACTION_UNCOMPLETE)) if completed else
+                   InlineKeyboardButton("Complete", callback_data=str(Callback.ACTION_COMPLETE))]
+    keyboard[1] = [InlineKeyboardButton("Postpone", callback_data=str(Callback.ACTION_POSTPONE))]
+
+    keyboard[2] = [InlineKeyboardButton("Edit", callback_data=str(Callback.ACTION_EDIT))]
+
+    keyboard[3] = [InlineKeyboardButton(" ", callback_data=str(Callback.ACTION_NONE)) if limit in ('L', 'B') else
+                   InlineKeyboardButton("←", callback_data=str(Callback.ACTION_BACK)),
+
+                   InlineKeyboardButton("Finish", callback_data=str(Callback.ACTION_FINISH)),
+
+                   InlineKeyboardButton(" ", callback_data=str(Callback.ACTION_NONE)) if limit in ('R', 'B') else
+                   InlineKeyboardButton("→", callback_data=str(Callback.ACTION_NEXT))]
+
+    return InlineKeyboardMarkup(keyboard)
+
+
+
+def todocategory_options_keyboard():
+    keyboard = []
+    keyboard.append(InlineKeyboardButton("Create category", callback_data=Callback.CREATE_CATEGORY))
+    keyboard.append(InlineKeyboardButton("Delete category", callback_data=Callback.DELETE_CATEGORY))
+    keyboard.append(InlineKeyboardButton("Edit category", callback_data=Callback.EDIT_CATEGORY))
+
+    return InlineKeyboardMarkup([button] for button in keyboard)

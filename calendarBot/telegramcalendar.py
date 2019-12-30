@@ -62,7 +62,7 @@ def create_calendar(year=None,month=None):
     return InlineKeyboardMarkup(keyboard)
 
 
-def process_calendar_selection(bot,update):
+def process_calendar_selection(bot, update):
     """
     Process the callback_query. This method generates a new calendar if forward or
     backward is pressed. This method should be called inside a CallbackQueryHandler.
@@ -114,4 +114,4 @@ def process_calendar_selection(bot,update):
         return ret_data
 
     else:
-        process_calendar_selection(bot,update)
+        return False        # Check if False, if does, return CommandHandler who has invoked this function

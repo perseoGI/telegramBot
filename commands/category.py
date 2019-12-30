@@ -2,7 +2,7 @@ import database as db
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ChatAction
 from telegram.ext import ConversationHandler, CallbackQueryHandler, CommandHandler, MessageHandler, Filters
 from calendarBot import telegramcalendar
-from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard
+from .keyboards import binary_keyboard, todocategory_options_keyboard
 
 import time
 from .common import send_message
@@ -10,10 +10,11 @@ from .common import send_message
 
 
 def todocategory_start(update, context):
-
     chat_id = update.message.chat_id
-    send_message(context.bot, chat_id, "Choose a category")
+    send_message(context.bot, chat_id, "Choose an option", reply_markup=todocategory_options_keyboard())
     return ConversationHandler.END
+
+
 
 def todocategory_cancel(update, context):
     pass

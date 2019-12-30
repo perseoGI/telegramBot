@@ -78,11 +78,17 @@ def todo_category(update, context):
 
         else:
             send_message(bot=context.bot,
-                        chat_id=chat_id,
-                        message_id=update.callback_query.message.message_id,
-                        text="Desea guardar la tarea?",
-                        reply_markup=binary_keyboard())
-            return TODO_END
+                         chat_id=chat_id,
+                         message_id=update.callback_query.message.message_id,
+                         text="Asigne un deadline",
+                         reply_markup=telegramcalendar.create_calendar())
+            return TODO_DEADLINE
+            # send_message(bot=context.bot,
+            #             chat_id=chat_id,
+            #             message_id=update.callback_query.message.message_id,
+            #             text="Desea guardar la tarea?",
+            #             reply_markup=binary_keyboard())
+            # return TODO_END
 
 
 def todo_another_assignment(update, context):
@@ -123,12 +129,14 @@ def todo_assignment(update, context):
                      reply_markup=telegramcalendar.create_calendar())
         return TODO_DEADLINE
 
-# update la tabla TODO para aceptar el deadline!
+
 def todo_deadline(update, context):
     chat_id = update.callback_query.message.chat_id
     user_id = update.effective_user.id
 
     date = telegramcalendar.process_calendar_selection(context.bot, update)
+    if not date:
+        return TODO_DEADLINE
 
     if date != '0':    # Day selected
         db.setPendingTodoDeadline(chat_id=chat_id, user_id=user_id, deadline=date)
