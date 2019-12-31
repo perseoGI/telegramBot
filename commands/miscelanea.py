@@ -41,19 +41,19 @@ def general_check(update, context):
     user_id = update.effective_user.id
     # Check if user or chat exist in database and if not, insert them
     db.checkDatabase(chat_id=chat_id, user_id=user_id)
-    print("Incoming msg: ", update.message.text)
+    # print("Incoming msg: ", update.message.text)
 
 
-def test(update, context):
-    chat_id = update.message.chat_id
-    for i in range(10):
-        context.bot.send_message(chat_id=chat_id, text="pruebaaa de spam "+ str(i))
+# def test(update, context):
+#     chat_id = update.message.chat_id
+#     for i in range(10):
+#         context.bot.send_message(chat_id=chat_id, text="pruebaaa de spam "+ str(i))
 
 miscelanea_handlers = [
     CommandHandler('bop', bop),
-    CommandHandler('start', start),
-    CommandHandler('caps', caps),
-    CommandHandler('test', test)
+    # CommandHandler('start', start),
+    # CommandHandler('caps', caps),
+    # CommandHandler('test', test)
 ]
 miscelanea_handler_low_priority = MessageHandler(Filters.text, general_check)   # , group=2  TODO
 
