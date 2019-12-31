@@ -1,19 +1,21 @@
-
-
 # User-specific stuff
-.idea/*
-.idea/**/workspace.xml
-.idea/**/tasks.xml
-.idea/**/usage.statistics.xml
-.idea/**/dictionaries
-.idea/**/shelf
 secret.py
 *.db
 *__pycache__*
 __pycache__/
 venv/Scripts/*
 venv/Lib/*
+venv/
+deprecated.py
+
+
 # Generated files
+.idea/*
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
 .idea/**/contentModel.xml
 
 # Sensitive or high-churn files
