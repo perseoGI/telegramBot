@@ -83,12 +83,6 @@ def todo_category(update, context):
                          text="Asigne un deadline",
                          reply_markup=telegramcalendar.create_calendar())
             return TODO_DEADLINE
-            # send_message(bot=context.bot,
-            #             chat_id=chat_id,
-            #             message_id=update.callback_query.message.message_id,
-            #             text="Desea guardar la tarea?",
-            #             reply_markup=binary_keyboard())
-            # return TODO_END
 
 
 def todo_another_assignment(update, context):
@@ -224,11 +218,11 @@ def create_category(update, context):
 
     else:
         send_message(bot=context.bot,
-                    chat_id=chat_id,
-                    text="Desea guardar la tarea?",
-                    reply_markup=binary_keyboard())
-        return TODO_END
-
+                     chat_id=chat_id,
+                     message_id=update.callback_query.message.message_id,
+                     text="Asigne un deadline",
+                     reply_markup=telegramcalendar.create_calendar())
+        return TODO_DEADLINE
 
 
 
