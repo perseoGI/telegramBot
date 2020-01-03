@@ -6,7 +6,9 @@ from calendarBot import telegramcalendar
 from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard
 from .common import send_message
 
-logging.basicConfig(level=logging.INFO,
+logging.basicConfig(filename='bot.log',
+                    filemode='a',
+                    level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -26,7 +28,7 @@ def todo_start(update, context):
 def todo_description(update, context):
     user = update.message.from_user
 
-    logger.info("Description of %s: %s", user.name, update.message.text)
+  #  logger.info("Description of %s: %s", user.name, update.message.text)
     chat_id = update.message.chat_id
 
     send_message(bot=context.bot,
@@ -48,8 +50,9 @@ def todo_description(update, context):
 
 def todo_category(update, context):
     user_id = update.effective_user.id
-   # logger.info("Category of %s: %s", user.first_name, update.message.text)
-    chat_id =update.callback_query.message.chat_id
+    user = update.effective_user
+    logger.info("Category of %s: %s", user.name, update.callback_query.data)
+    chat_id = update.callback_query.message.chat_id
     category = update.callback_query.data
     if category < '0':    # Create a new category
         send_message( bot=context.bot,
@@ -90,7 +93,8 @@ def todo_another_assignment(update, context):
     user_id = update.effective_user.id
     chat_id = update.callback_query.message.chat_id
     assigned_user_id = update.callback_query.data
-    #logger.info("Assignment of %s: %s", user.first_name, assigned_user_id)
+    user = update.effective_user
+    logger.info("Assignment of %s: %s", user.name, assigned_user_id)
 
     send_message(bot=context.bot,
                  chat_id=chat_id,

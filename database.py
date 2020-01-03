@@ -2,7 +2,14 @@ from peewee import *
 from playhouse.shortcuts import model_to_dict, dict_to_model
 import json
 # Pragma to enable foreign keys on_delete and avoid bugs
-db = SqliteDatabase('test1.db', pragmas={'foreign_keys': 1})
+db = SqliteDatabase('prod.db', pragmas={'foreign_keys': 1}, autoconnect=False)
+#mysql_db = MySQLDatabase('telegramBot', user='bot', password='TODO', host='localhost', port=3316)
+
+def connectDB():
+    db.connect()
+
+def closeDB():
+    db.close()
 
 class BaseModel(Model):
     class Meta:
@@ -91,10 +98,12 @@ def setPendingTodosCategory(chat_id, user_id, category):
 
 
 def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
+    db.connect()
     user = User.get(User.id == assigned_user_id)
     if not (chat_id, user_id) in pending_assignment_users:
         pending_assignment_users[(chat_id, user_id)] = []
     pending_assignment_users[(chat_id, user_id)].append(user)
+    db.close()
 
 
 
@@ -105,12 +114,12 @@ def setPendingTodoDeadline(chat_id, user_id, deadline):
 
 
 def storePendingTodo(chat_id, user_id):
-    print(pending_todos)
+    # print(pending_todos)
+    db.connect()
     pending_todos[(chat_id, user_id)].save()
-
     if (chat_id, user_id) in pending_assignment_users:
         pending_todos[(chat_id, user_id)].assignment_users.add(pending_assignment_users.pop((chat_id, user_id)))
-
+    db.close()
     clear_pending_todo(chat_id, user_id)
 
 def clear_pending_todo(chat_id, user_id):
@@ -124,22 +133,26 @@ def clear_pending_todo(chat_id, user_id):
 ########### Category ##############
 
 def getCategories(chat_id):
-    return Category.select().where(Category.chat_id == chat_id).dicts()
+    print(db.connect())
+    categories = Category.select().where(Category.chat_id == chat_id).dicts()
+    db.close()
+    return categories
 
-def printDB():
-    users = User.select()
-    print("Users: ", [user.id for user in users])
-    userChat = ChatUser.select()
-    for uC in userChat:
-        print('User_id {} on chat_id {}'.format(uC.user_id, uC.chat_id))
+# def printDB():
+#     users = User.select()
+#     print("Users: ", [user.id for user in users])
+#     userChat = ChatUser.select()
+#     for uC in userChat:
+#         print('User_id {} on chat_id {}'.format(uC.user_id, uC.chat_id))
 
-def printTodos():
-    todos = Todo.select()
-    for todo in todos:
-        print('User_id created {}, desc: {}\n Assinged to {}'.format(todo.creator_id, todo.description, todo.assignment_users))
+# def printTodos():
+#     todos = Todo.select()
+#     for todo in todos:
+#         print('User_id created {}, desc: {}\n Assinged to {}'.format(todo.creator_id, todo.description, todo.assignment_users))
 
 def checkDatabase(chat_id, user_id):
     # Check if user is register in database
+    db.connect(reuse_if_open=True)
     exist = User.select().where(User.id == user_id).count()
 
     if not exist: # Create the user
@@ -158,21 +171,27 @@ def checkDatabase(chat_id, user_id):
         if not exist:
             ChatUser.create(user_id=user_id, chat_id=chat_id)
 
+    db.close()
 
 
 
 def getUsersIdFromChat(chat_id):
+    db.connect(reuse_if_open=True)
     users = ChatUser.select(ChatUser.user_id).where(ChatUser.chat_id == chat_id).dicts()
+    db.close()
     return users
 
 
 def getCategoriesIdFromChat(chat_id):
+
     categories = Category.select(Category.name, Category.id).where(Category.chat_id == chat_id).dicts()
     return categories
 
 
 def createCategory(chat_id, name):
+    db.connect(reuse_if_open=True)
     category_id = Category.create(name=name, chat_id=chat_id)
+    db.close()
     return category_id._pk
 
 ########################### TODOLIST ###########################################
@@ -210,6 +229,7 @@ todos_listed = {}
 def get_todo_list(chat_id, user_id):
     filters = pending_todoslist[(chat_id, user_id)]
 #TODO: mejorar eficiencia ...
+
     if not 'assignment_users' in filters or filters['assignment_users'] == '-1':
         todos = Todo.select().where((Todo.chat_belonging_id == chat_id) &
                                     (Todo.category_id == filters['category'] if filters['category'] != '-1' else True) &
@@ -221,6 +241,7 @@ def get_todo_list(chat_id, user_id):
                                     (UserTodo.user == filters['assignment_users']) &
                                     (Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
 
+    db.connect()
     if todos:
         # Store todos in temporal memory
         todos_listed[(chat_id, user_id)] = {"todos": [todo for todo in todos],
@@ -228,20 +249,25 @@ def get_todo_list(chat_id, user_id):
                                             'completed': [],
                                             'delayed': {},
                                             'edited': {}}
-        return True
+        res = True
     else:
-        return False
-
+        res = False
+    db.close()
+    return res
 
 def get_category_name(category_id):
-    return Category.get(Category.id == category_id).name
-
+    db.connect()
+    category_name = Category.get(Category.id == category_id).name
+    db.close()
+    return category_name
 
 def get_assigned_users(todo_id):
+    db.connect()
     todos = Todo.get(Todo.id == todo_id)
     users = []
     for user in todos.assignment_users:
         users.append(user)
+    db.close()
     return users
 
 
@@ -312,7 +338,7 @@ def clear_todo_list(chat_id, user_id):
 
 def store_changes_todo(chat_id, user_id):
     todos = todos_listed[(chat_id, user_id)]
-
+    db.connect()
     for index in todos['completed']:
         todo_id = todos['todos'][index]['id']
         Todo.set_by_id(todo_id, {'completed': True})
@@ -325,7 +351,7 @@ def store_changes_todo(chat_id, user_id):
         todo_id = todos['todos'][index]['id']
         Todo.set_by_id(todo_id, {'deadline': todos['todos'][index]['deadline']})
 
-
+    db.close()
     clear_todo_list(chat_id, user_id)
 
 
@@ -337,6 +363,7 @@ def store_changes_todo(chat_id, user_id):
 ##################################################################
 def init_db():
     print("Creating database...")
+    db.connect()
     db.create_tables([
         User,
         Chat,
@@ -345,8 +372,11 @@ def init_db():
         Todo,
         UserTodo])  # UserTodo relation get_through_model has also to be created
     print("Database created!!!")
+    db.close()
 
-    #test()
+
+
+
 def test():
     set_todolist_filter_category(1,10, 1)
     print(pending_todoslist)

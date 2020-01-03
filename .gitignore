@@ -7,7 +7,7 @@ venv/Scripts/*
 venv/Lib/*
 venv/
 deprecated.py
-
+*.log
 
 # Generated files
 .idea/*
