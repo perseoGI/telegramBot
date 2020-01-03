@@ -92,4 +92,10 @@ https://github.com/python-telegram-bot/python-telegram-bot/wiki/Avoiding-flood-l
 - Generate events on the chat when deadline of a task has finished, allowing:
     - Delay the task
     - Mark as completed
+- Manage categories:
+    - Create a category (from outside a task creation interaction)
+    - Edit name of category
+    - Remove a category (if not empty, create a tour with uncompleted tasks in order to complete them)
+- Command to list completed tasks
+
      
