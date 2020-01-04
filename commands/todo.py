@@ -223,7 +223,6 @@ def create_category(update, context):
     else:
         send_message(bot=context.bot,
                      chat_id=chat_id,
-                     message_id=update.callback_query.message.message_id,
                      text="Asigne un deadline",
                      reply_markup=telegramcalendar.create_calendar())
         return TODO_DEADLINE
