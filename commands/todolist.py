@@ -36,11 +36,14 @@ def todolist_category(update, context):
     db.set_todolist_filter_category(chat_id=chat_id, user_id=user_id, category=category)
 
     if chat_id < 0:  # It's a group
+        db.connectDB()
+        group_member_ids = [user['user_id'] for user in db.getUsersIdFromChat(chat_id)]
+        db.closeDB()
         send_message(bot=context.bot,
                     chat_id=chat_id,
                     message_id=message_id,
                     text="Filtrar tareas por usuario asignado",
-                    reply_markup=todo_member_keyboard(chat_id, context.bot, todolist=True))
+                    reply_markup=todo_member_keyboard(group_member_ids, chat_id, context.bot, todolist=True))
         return TODOLIST_ASSINGNED
 
     else:

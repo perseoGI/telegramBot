@@ -5,16 +5,36 @@ from . import callbacks as Callback
 
 ############################ TODOs #########################################
 
-def todo_member_keyboard(chat_id, bot, todolist):
+# def todo_member_keyboard(chat_id, bot, todolist):
+#
+#     # Get user IDs members from database
+#     users = db.getUsersIdFromChat(chat_id)
+#     inline_array = []
+#     db.connectDB()
+#     for user in users:
+#         usr = bot.getChatMember(chat_id=int(chat_id), user_id=user['user_id'])
+#         inline_array.append(InlineKeyboardButton(usr['user']['first_name'], callback_data=usr['user']['id']))
+#     db.closeDB()
+#
+#     if todolist:
+#         inline_array.append(InlineKeyboardButton("Todos los usuarios", callback_data=-1))
+#
+#     keyboard_elements = [[element] for element in inline_array]
+#
+#     return InlineKeyboardMarkup(keyboard_elements)
+
+
+
+def todo_member_keyboard(users_id, chat_id, bot, todolist=False):
 
     # Get user IDs members from database
-    users = db.getUsersIdFromChat(chat_id)
+
     inline_array = []
-    db.connectDB()
-    for user in users:
-        usr = bot.getChatMember(chat_id=int(chat_id), user_id=user['user_id'])
+    # db.connectDB()
+    for user_id in users_id:
+        usr = bot.getChatMember(chat_id=int(chat_id), user_id=user_id)
         inline_array.append(InlineKeyboardButton(usr['user']['first_name'], callback_data=usr['user']['id']))
-    db.closeDB()
+    # db.closeDB()
 
     if todolist:
         inline_array.append(InlineKeyboardButton("Todos los usuarios", callback_data=-1))
@@ -22,6 +42,8 @@ def todo_member_keyboard(chat_id, bot, todolist):
     keyboard_elements = [[element] for element in inline_array]
 
     return InlineKeyboardMarkup(keyboard_elements)
+
+
 
 def todo_category_keyboard(chat_id, todolist):
     # Get categories IDs from database for a chat

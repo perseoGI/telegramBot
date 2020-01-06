@@ -50,6 +50,7 @@ def todo_description(update, context):
 
 def todo_category(update, context):
     user_id = update.effective_user.id
+    message_id = update.callback_query.message.message_id
     user = update.effective_user
     logger.info("Category of %s: %s", user.name, update.callback_query.data)
     chat_id = update.callback_query.message.chat_id
@@ -70,54 +71,84 @@ def todo_category(update, context):
             category=category)
 
         if chat_id < 0:       # It is a group
-            send_message(bot=context.bot,
-                        chat_id=chat_id,
-                        message_id=update.callback_query.message.message_id,
-                        text="Asigne la tarea",
-                        reply_markup=todo_member_keyboard(chat_id, context.bot, todolist=False))
-
-            return ANOTHER_ASSIGNMENT
-        # edit_message_text
+            return check_and_ask_assignation(context.bot, chat_id, user_id, message_id, ask_for_continuing=False)
 
         else:
             send_message(bot=context.bot,
                          chat_id=chat_id,
-                         message_id=update.callback_query.message.message_id,
+                         message_id=message_id,
                          text="Asigne un deadline",
                          reply_markup=telegramcalendar.create_calendar())
             return TODO_DEADLINE
+
+
+def check_and_ask_assignation(bot, chat_id, user_id, message_id, ask_for_continuing):
+    # Check users in group
+    users_not_assigned = db.getPendingTodoNotAssigned(chat_id, user_id)
+    if users_not_assigned:
+        if not ask_for_continuing:
+            send_message(bot=bot,
+                         chat_id=chat_id,
+                         message_id=message_id,
+                         text="Asigne la tarea",
+                         reply_markup=todo_member_keyboard(users_not_assigned, chat_id, bot))
+            return ANOTHER_ASSIGNMENT
+        else:
+            send_message(bot=bot,
+                 chat_id=chat_id,
+                  message_id=message_id,
+                  text="Desea asignar tarea a otro miembro mas?",
+                  reply_markup=binary_keyboard())
+            return ASSIGNMENT
+
+    else:
+        send_message(bot=bot,
+                     chat_id=chat_id,
+                     message_id=message_id,
+                     text="Asigne un deadline",
+                     reply_markup=telegramcalendar.create_calendar())
+        return TODO_DEADLINE
+
 
 
 def todo_another_assignment(update, context):
 
     user_id = update.effective_user.id
     chat_id = update.callback_query.message.chat_id
+    message_id = update.callback_query.message.message_id
     assigned_user_id = update.callback_query.data
     user = update.effective_user
     logger.info("Assignment of %s: %s", user.name, assigned_user_id)
-
-    send_message(bot=context.bot,
-                 chat_id=chat_id,
-                  message_id=update.callback_query.message.message_id,
-                  text="Desea asignar tarea a otro miembro mas?",
-                  reply_markup=binary_keyboard())
-
     # Store info in the database
     db.setPendingTodoAssingment(chat_id=chat_id, user_id=user_id, assigned_user_id=assigned_user_id)
-    return ASSIGNMENT
+
+    return check_and_ask_assignation(context.bot, chat_id, user_id, message_id, ask_for_continuing=True)
+
+    # send_message(bot=context.bot,
+    #              chat_id=chat_id,
+    #               message_id=update.callback_query.message.message_id,
+    #               text="Desea asignar tarea a otro miembro mas?",
+    #               reply_markup=binary_keyboard())
+
+
 
 
 def todo_assignment(update, context):
 
     answer = update.callback_query.data
     chat_id = update.callback_query.message.chat_id
+    user_id = update.effective_user.id
+    message_id = update.callback_query.message.message_id
+
     if answer == '1':     # Continue asking for assignments
-        send_message(bot=context.bot,
-                     chat_id=chat_id,
-                     message_id=update.callback_query.message.message_id,
-                     text="Asigne la tarea",
-                     reply_markup=todo_member_keyboard(chat_id, context.bot, todolist=False))
-        return ANOTHER_ASSIGNMENT
+        return check_and_ask_assignation(context.bot, chat_id, user_id, message_id, ask_for_continuing=False)
+
+        # send_message(bot=context.bot,
+        #              chat_id=chat_id,
+        #              message_id=update.callback_query.message.message_id,
+        #              text="Asigne la tarea",
+        #              reply_markup=todo_member_keyboard(chat_id, user_id, context.bot, todolist=False))
+        # return ANOTHER_ASSIGNMENT
 
     else:               # Next step
         send_message(bot=context.bot,
@@ -212,12 +243,9 @@ def create_category(update, context):
         category=category_id)
 
     if chat_id < 0:  # It is a group
-        send_message(bot=context.bot,
-                    chat_id=chat_id,
-                    text="Asigne la tarea",
-                    reply_markup=todo_member_keyboard(chat_id, context.bot, todolist=False))
 
-        return ANOTHER_ASSIGNMENT
+        return check_and_ask_assignation(context.bot, chat_id, user_id, message_id=None, ask_for_continuing=False)
+
     # edit_message_text
 
     else:

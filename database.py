@@ -102,10 +102,23 @@ def setPendingTodoAssingment(chat_id, user_id, assigned_user_id):
     user = User.get(User.id == assigned_user_id)
     if not (chat_id, user_id) in pending_assignment_users:
         pending_assignment_users[(chat_id, user_id)] = []
-    pending_assignment_users[(chat_id, user_id)].append(user)
+    pending_assignment_users[(chat_id, user_id)].append(user.id)
     db.close()
 
 
+def getPendingTodoNotAssigned(chat_id, user_id):
+    db.connect()
+    group_members = set([user['user_id'] for user in getUsersIdFromChat(chat_id)])
+    db.close()
+    if (chat_id, user_id) in pending_assignment_users:
+        already_assigned = pending_assignment_users[(chat_id, user_id)]
+        return list(group_members - set(already_assigned))  # The members that are not assigned yet!
+    else:
+        return group_members   # All the members!
+
+def getPendingTodoAssignment(chat_id, user_id):
+    if (chat_id, user_id) in pending_assignment_users:
+        return pending_assignment_users[(chat_id, user_id)]
 
 
 def setPendingTodoDeadline(chat_id, user_id, deadline):
@@ -176,9 +189,7 @@ def checkDatabase(chat_id, user_id):
 
 
 def getUsersIdFromChat(chat_id):
-    db.connect(reuse_if_open=True)
     users = ChatUser.select(ChatUser.user_id).where(ChatUser.chat_id == chat_id).dicts()
-    db.close()
     return users
 
 

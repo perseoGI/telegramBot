@@ -50,12 +50,20 @@ def main():
 
     print("Setting up bot")
     token = environ.get('BOT_KEY')
-    # for test purposes limit global throughput to 3 messages per 3 seconds
-    q = mq.MessageQueue(all_burst_limit=5, all_time_limit_ms=3000)
+
+    """ for test purposes limit global throughput to 3 messages per 3 seconds
+    20 msg / 60 s ~= 0.33 msg/s -> 1 msg / 3 s -> 3 msg / 9 s ---> 6 msg / 18 s -> ... see defaults...
+    Best ration (default ones) 
+       all_burst_limit = 30 msg
+       all_time_limit_ms = 1000
+       group_burst_limit = 20 msg
+       group_time_limit_ms = 60000
+    """
+    message_queue = mq.MessageQueue()
     # set connection pool size for bot
-    request = Request(con_pool_size=8)
-    testbot = MQBot(token, request=request, mqueue=q)
-    updater = Updater(bot=testbot, use_context=True)
+    request = Request(con_pool_size=50)  # For example. TODO: test capacity
+    bot = MQBot(token, request=request, mqueue=message_queue)
+    updater = Updater(bot=bot, use_context=True)
 
     # updater = Updater(environ['BOT_KEY'],  use_context=True)      # Option without MQBot
     dp = updater.dispatcher
