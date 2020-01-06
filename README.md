@@ -46,7 +46,7 @@ Activate virtual environment with following command:
 Once venv activated, a *(venv)* will appear on the beginning of our prompt. 
 To install python dependencies:
 
-    pip install -r requirments.txt
+    pip install -r requirements.txt
 
 
 ### Launch the bot
