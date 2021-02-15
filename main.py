@@ -1,5 +1,5 @@
 from telegram.ext import Updater
-from database import init_db
+from database import init_db, checkTodosDeadlines
 from commands.todo import todo_conv_handler
 from commands.todolist import todolist_conv_handler
 from commands.miscelanea import miscelanea_handlers, miscelanea_handler_low_priority
@@ -53,7 +53,7 @@ def main():
 
     """ for test purposes limit global throughput to 3 messages per 3 seconds
     20 msg / 60 s ~= 0.33 msg/s -> 1 msg / 3 s -> 3 msg / 9 s ---> 6 msg / 18 s -> ... see defaults...
-    Best ration (default ones) 
+    Best ration (default ones)
        all_burst_limit = 30 msg
        all_time_limit_ms = 1000
        group_burst_limit = 20 msg
@@ -67,6 +67,10 @@ def main():
 
     # updater = Updater(environ['BOT_KEY'],  use_context=True)      # Option without MQBot
     dp = updater.dispatcher
+
+    # Initiate periodic thread
+    checkTodosDeadlines()
+
 
     # Miscelanea
     for handler in miscelanea_handlers:

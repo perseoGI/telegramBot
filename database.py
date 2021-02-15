@@ -58,6 +58,7 @@ class Todo(BaseModel):
     assignment_users = ManyToManyField(User, backref='todos')
     description = TextField()
     deadline = DateField(null=True)
+    # deadline = DateTimeField(null=True)
     completed = BooleanField(default=False)
 
 UserTodo = Todo.assignment_users.get_through_model()  # Table to relates User with Todo.assignment_users
@@ -367,8 +368,29 @@ def store_changes_todo(chat_id, user_id):
 
 
 
+import time, threading, datetime
 
+def checkTodosDeadlines():
+    current_time = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
+    print (current_time)
 
+    db.connect()
+    pending_todos_expired = Todo.select().where((Todo.completed == False) & (current_time >= Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
+    pending_todos_to_expire_tomorrow = Todo.select().where((Todo.completed == False) & (current_time + datetime.timedelta(days=1) >= Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
+    pending_todos = Todo.select().where((Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
+
+    print ('expired')
+    for pe in pending_todos_expired:
+        print(pe)
+    print ('tomorrow')
+    for pe in pending_todos_to_expire_tomorrow:
+        print(pe)
+    print ('all')
+    for pe in pending_todos:
+        print(pe)
+    db.close()
+    # Relaunch periodic thread
+    threading.Timer(5, checkTodosDeadlines).start()
 
 
 ##################################################################
