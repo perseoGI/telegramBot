@@ -385,30 +385,22 @@ def checkTodosDeadlines():
     db.connect()
     pending_todos_expired = Todo.select().where((Todo.completed == False) & (current_date == Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
     pending_todos_to_expire_tomorrow = Todo.select().where((Todo.completed == False) & (current_date + timedelta(days=1) == Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
-    pending_todos = Todo.select().where((Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
 
-    print ('expired')
     for expired_todo in pending_todos_expired:
-        print(expired_todo)
-
-        text = "*Aviso*:\nLa tarea programada para el día {0} vence hoy.\n\n```{1}```\n \nDesea posponer la tarea o marcarla como completada?".format(expired_todo['deadline'], expired_todo['description'])
+        text = "*Aviso*:\nLa tarea programada para el día {0} vence hoy.\n\n``` {1} ```\n \nDesea posponer la tarea o marcarla como completada?".format(expired_todo['deadline'], expired_todo['description'])
         keyboard = [[InlineKeyboardButton('Posponer', callback_data='todo_deadline_achieved-postpone-{}'.format(expired_todo['id']))],
                     [InlineKeyboardButton('Marcar como completado', callback_data='todo_deadline_achieved-complete-{}'.format(expired_todo['id']))]]
 
         botManager.send_message(chat_id=expired_todo["chat_belonging_id"], text=text, reply_markup=InlineKeyboardMarkup(keyboard))
 
-    print ('tomorrow')
     for todo in pending_todos_to_expire_tomorrow:
-        text = "*Recordatorio*:\nLa tarea programada para el día {0} vence mañana.\n\n```{1}```".format(todo['deadline'], todo['description'])
+        text = "*Recordatorio*:\nLa tarea programada para el día {0} vence mañana.\n\n``` {1} ```".format(todo['deadline'], todo['description'])
         botManager.send_message(chat_id=todo["chat_belonging_id"], text=text)
-        print(todo)
-    print ('all')
-    for pe in pending_todos:
-        print(pe)
+
     db.close()
 
-    # Relaunch periodic thread
 
+    # Relaunch periodic thread
     current_datetime = datetime.today()
     tomorrow_datetime_at_9_am = current_datetime.replace(day = current_datetime.day, hour=9, minute=0, second=0, microsecond=0) + timedelta(days=1)
     seconds_to_next_morning = (tomorrow_datetime_at_9_am - current_datetime).total_seconds()

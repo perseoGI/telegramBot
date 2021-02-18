@@ -42,8 +42,8 @@ Activate virtual environment with following command:
     (Windows) venv\Scripts\activate
 
     (Linux/MacOS) source venv/bin/activate
-   
-Once venv activated, a *(venv)* will appear on the beginning of our prompt. 
+
+Once venv activated, a *(venv)* will appear on the beginning of our prompt.
 To install python dependencies:
 
     pip install -r requirements.txt
@@ -55,7 +55,7 @@ To launch the bot, just type following command:
     python main.py
 
 
-### Miscelanea 
+### Miscelanea
 ##### ConversationHandler on group/channel
 For enabling ConversationHandler on a group or channel:
 
@@ -74,9 +74,9 @@ Step 3 and 4 are **NOT** optional
 - Chat_id >0 if it is a private chat
 
 ##### Callback_data
-callback_data in a InlineKeyboardButton **CAN NOT** BE '0', because 0 is NULL 
+callback_data in a InlineKeyboardButton **CAN NOT** BE '0', because 0 is NULL
 
-##### Maximum messages to be send by a Bot 
+##### Maximum messages to be send by a Bot
 Telegram limits a bot up to:
 - 20 msg / 60 s on a group or channel
 - 30 msg / 1 s on a private chat
@@ -85,17 +85,24 @@ Check out main.py for a deeper explanation\
 https://github.com/python-telegram-bot/python-telegram-bot/wiki/Avoiding-flood-limits
 
 
+##### Monospaced text
+
+When sending a message with the bot on monospaced format, surround text with spaces:
+
+    ```{0}```.format(text)  # will omit the first word on text
+    ``` {0} ```.format(text)  # will work as expected
+
 
 #### TODO
 
-- Generate events on the chat when deadline of a task is ready to finish 
-- Generate events on the chat when deadline of a task has finished, allowing:
-    - Delay the task
-    - Mark as completed
+- [x] Generate events on the chat when deadline of a task is ready to finish
+- [x] Generate events on the chat when deadline of a task has finished, allowing:
+    - [x] Delay the task
+    - [x] Mark as completed
 - Manage categories:
     - Create a category (from outside a task creation interaction)
     - Edit name of category
     - Remove a category (if not empty, create a tour with uncompleted tasks in order to complete them)
 - Command to list completed tasks
 
-     
+

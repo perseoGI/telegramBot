@@ -28,7 +28,7 @@ def background_response_callback(update, context):
 
     elif action == 'complete':
         todo_description_completed = mark_todo_as_completed(todo_id)
-        botManager.send_message(chat_id, text="La tarea:\n\n```{0}```\n\nha sido completada con éxito".format(todo_description_completed), message_id=message_id)
+        botManager.send_message(chat_id, text="La tarea:\n\n``` {0} ```\n\nha sido completada con éxito".format(todo_description_completed), message_id=message_id)
         return ConversationHandler.END
 
 
@@ -48,7 +48,7 @@ def background_todo_postpone(update, context):
         botManager.send_message(
             chat_id=chat_id,
             message_id=message_id,
-            text="La tarea:\n\n```{0}```\n\nha sido pospuesta para el día {1}".format(todo_description, date.strftime("%d/%m/%Y")))
+            text="La tarea:\n\n``` {0} ```\n\nha sido pospuesta para el día {1}".format(todo_description, date.strftime("%d/%m/%Y")))
 
         deadline = date.strftime("%Y-%m-%d")
 
@@ -56,7 +56,7 @@ def background_todo_postpone(update, context):
         botManager.send_message(
             chat_id=chat_id,
             message_id=message_id,
-            text="La tarea:\n\n```{0}```\n\nha sido guardada sin deadline".format(todo_description))
+            text="La tarea:\n\n``` {0} ```\n\nha sido guardada sin deadline".format(todo_description))
 
         deadline = None
 
