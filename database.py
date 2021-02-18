@@ -332,14 +332,14 @@ def get_pending_changes_todo(chat_id, user_id):
     text = ""
 
     for index in todos['completed']:
-        text += "*Completed*:\n```{0}```\n \n".format(todos['todos'][index]['description'])
+        text += "*Completed*:\n``` {0} ```\n \n".format(todos['todos'][index]['description'])
 
     for index in todos['edited']:
-        text += "*Edited*:\n_Old_:\n```{0}```\n_New_:\n```{1}```\n\n"\
+        text += "*Edited*:\n_Old_:\n``` {0} ```\n_New_:\n``` {1} ```\n\n"\
             .format(todos['edited'][index], todos['todos'][index]['description'])
 
     for index in todos['delayed']:
-        text += "*Delayed*:\n_From_ {0} _to_ {1}\n```{2}```\n\n"\
+        text += "*Delayed*:\n_From_ {0} _to_ {1}\n``` {2} ```\n\n"\
             .format(todos['delayed'][index], todos['todos'][index]['deadline'], todos['todos'][index]['description'])
 
     return text
