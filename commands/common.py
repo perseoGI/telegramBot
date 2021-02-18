@@ -1,5 +1,4 @@
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, ChatAction
-
+from telegram import ParseMode, ChatAction
 
 def send_message(bot, chat_id, text, parse_mode=ParseMode.MARKDOWN, message_id=None, reply_markup=None):
     bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)

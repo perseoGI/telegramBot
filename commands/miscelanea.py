@@ -1,7 +1,7 @@
 import database as db
 import requests
 import re
-from telegram.ext import MessageHandler, CommandHandler, Filters
+from telegram.ext import MessageHandler, CommandHandler, Filters, CallbackQueryHandler
 
 ########################### Miscelanea ###########################################
 
@@ -49,12 +49,14 @@ def general_check(update, context):
 #     for i in range(10):
 #         context.bot.send_message(chat_id=chat_id, text="pruebaaa de spam "+ str(i))
 
+
 miscelanea_handlers = [
     CommandHandler('bop', bop),
     # CommandHandler('start', start),
     # CommandHandler('caps', caps),
     # CommandHandler('test', test)
 ]
+# dp.add_handler(MessageHandler(Filters.text, echo))
 miscelanea_handler_low_priority = MessageHandler(Filters.text, general_check)   # , group=2  TODO
 
-# dp.add_handler(MessageHandler(Filters.text, echo))
+

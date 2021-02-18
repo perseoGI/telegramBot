@@ -71,6 +71,7 @@ UserTodo = Todo.assignment_users.get_through_model()  # Table to relates User wi
 
 pending_todos = {}
 pending_assignment_users = {}
+pending_background_todo_ids = {}
 
 class TodoModel:
     def __init__(self, description):
@@ -368,20 +369,36 @@ def store_changes_todo(chat_id, user_id):
 
 
 
-import time, threading, datetime
+from datetime import datetime, timedelta, date
+from utils.botinteractions import BotManager
+import threading
+
+from commands.keyboards import binary_keyboard
+
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
+
+botManager = BotManager()
 
 def checkTodosDeadlines():
-    current_time = datetime.datetime.strptime(time.ctime(), "%a %b %d %H:%M:%S %Y")
-    print (current_time)
+    current_date = date.today()
 
     db.connect()
-    pending_todos_expired = Todo.select().where((Todo.completed == False) & (current_time >= Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
-    pending_todos_to_expire_tomorrow = Todo.select().where((Todo.completed == False) & (current_time + datetime.timedelta(days=1) >= Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
+    pending_todos_expired = Todo.select().where((Todo.completed == False) & (current_date == Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
+    pending_todos_to_expire_tomorrow = Todo.select().where((Todo.completed == False) & (current_date + timedelta(days=1) == Todo.deadline)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
     pending_todos = Todo.select().where((Todo.completed == False)).order_by(Todo.deadline.asc(nulls='LAST')).dicts()
 
     print ('expired')
-    for pe in pending_todos_expired:
-        print(pe)
+    for expired_todo in pending_todos_expired:
+        print(expired_todo)
+        text = "*Aviso*:\nLa tarea programada para el día {0} vence hoy.\n\n```{1}```\n \nDesea posponer la tarea o marcarla como completada?".format(expired_todo['deadline'], expired_todo['description'])
+        print(text)
+
+        keyboard = [[InlineKeyboardButton('Posponer', callback_data='todo_deadline_achieved-postpone-{}'.format(expired_todo['id']))],
+                    [InlineKeyboardButton('Marcar como completado', callback_data='todo_deadline_achieved-complete-{}'.format(expired_todo['id']))]]
+
+        keyboard = InlineKeyboardMarkup(keyboard)
+
+        botManager.send_message(chat_id=expired_todo["chat_belonging_id"], text=text, reply_markup=keyboard)
     print ('tomorrow')
     for pe in pending_todos_to_expire_tomorrow:
         print(pe)
@@ -389,8 +406,39 @@ def checkTodosDeadlines():
     for pe in pending_todos:
         print(pe)
     db.close()
+
     # Relaunch periodic thread
-    threading.Timer(5, checkTodosDeadlines).start()
+
+    current_datetime = datetime.today()
+    tomorrow_datetime_at_9_am = current_datetime.replace(day = current_datetime.day, hour=9, minute=0, second=0, microsecond=0) + timedelta(days=1)
+    seconds_to_next_morning = (tomorrow_datetime_at_9_am - current_datetime).total_seconds()
+
+    # threading.Timer(5, checkTodosDeadlines).start()
+    threading.Timer(seconds_to_next_morning, checkTodosDeadlines).start()
+
+
+def mark_todo_as_completed(todo_id):
+    db.connect()
+    Todo.set_by_id(todo_id, {'completed': True})
+    completed_todo_description = Todo.get(Todo.id == todo_id).description
+    db.close()
+    return completed_todo_description
+
+def set_pending_background_todo_id(chat_id, user_id, message_id, todo_id):
+    pending_background_todo_ids[(chat_id, user_id, message_id)] = todo_id
+
+def get_pending_background_todo_id_and_description(chat_id, user_id, message_id):
+    todo_id = pending_background_todo_ids[(chat_id, user_id, message_id)]
+    del pending_background_todo_ids[(chat_id, user_id, message_id)]
+    db.connect()
+    todo_description = Todo.get(Todo.id == todo_id).description
+    db.close()
+    return (todo_id, todo_description)
+
+def set_todo_deadline(todo_id, newDeadline):
+    db.connect()
+    Todo.set_by_id(todo_id, {'deadline': newDeadline})
+    db.close()
 
 
 ##################################################################

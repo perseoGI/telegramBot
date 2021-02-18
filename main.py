@@ -3,6 +3,7 @@ from database import init_db, checkTodosDeadlines
 from commands.todo import todo_conv_handler
 from commands.todolist import todolist_conv_handler
 from commands.miscelanea import miscelanea_handlers, miscelanea_handler_low_priority
+from commands.background import background_response_handler
 from commands.category import todocategory_conv_handler
 from os import environ
 import secret       # Secret key for bot. Just set environ with BOT_KEY
@@ -10,6 +11,7 @@ import secret       # Secret key for bot. Just set environ with BOT_KEY
 from telegram.ext import messagequeue as mq
 import telegram.bot
 from telegram.utils.request import Request
+from utils.botinteractions import BotManager
 
 # https://github.com/python-telegram-bot/python-telegram-bot/wiki/Avoiding-flood-limits
 # Class to "avoid" flood limits while sending multiple messages
@@ -43,6 +45,7 @@ class MQBot(telegram.bot.Bot):
         OPTIONAL arguments'''
         return super(MQBot, self).edit_message_text(*args, **kwargs)
 
+bot = None
 
 def main():
     # Create or launch database
@@ -68,14 +71,18 @@ def main():
     # updater = Updater(environ['BOT_KEY'],  use_context=True)      # Option without MQBot
     dp = updater.dispatcher
 
+    # Create BotInteractions singleton and configure the bot instance
+    BotManager().set_bot(bot)
+
     # Initiate periodic thread
     checkTodosDeadlines()
-
 
     # Miscelanea
     for handler in miscelanea_handlers:
         dp.add_handler(handler)
     dp.add_handler(miscelanea_handler_low_priority, group=2)    # general_check function has to have low priority to allow todo_description work
+
+    dp.add_handler(background_response_handler)
 
     # TODOs
     dp.add_handler(todo_conv_handler)
