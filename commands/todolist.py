@@ -94,6 +94,7 @@ def get_username_from_id(bot, chat_id, user_id):
 
 def todolist_send_item(bot, message_id, chat_id, user_id):
     todo, limit = db.get_todos_listed(chat_id, user_id)
+    print(todo)
     if todo:
         if chat_id < 0:  # group
             creator_name = get_username_from_id(bot, chat_id, todo['creator_id'])
@@ -113,6 +114,7 @@ def todolist_send_item(bot, message_id, chat_id, user_id):
         else:  # individual chat, no need creator and assigned name
             text = "*{0}* \n``` {1} ```\n_Deadline: {2}_\n\n".format(db.get_category_name(todo['category_id']),
                                                     todo['description'], todo['deadline'])
+        print(text)
         send_message( bot=bot,
                       chat_id=chat_id,
                       message_id=message_id,

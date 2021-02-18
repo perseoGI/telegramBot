@@ -390,18 +390,18 @@ def checkTodosDeadlines():
     print ('expired')
     for expired_todo in pending_todos_expired:
         print(expired_todo)
-        text = "*Aviso*:\nLa tarea programada para el día {0} vence hoy.\n\n```{1}```\n \nDesea posponer la tarea o marcarla como completada?".format(expired_todo['deadline'], expired_todo['description'])
-        print(text)
 
+        text = "*Aviso*:\nLa tarea programada para el día {0} vence hoy.\n\n```{1}```\n \nDesea posponer la tarea o marcarla como completada?".format(expired_todo['deadline'], expired_todo['description'])
         keyboard = [[InlineKeyboardButton('Posponer', callback_data='todo_deadline_achieved-postpone-{}'.format(expired_todo['id']))],
                     [InlineKeyboardButton('Marcar como completado', callback_data='todo_deadline_achieved-complete-{}'.format(expired_todo['id']))]]
 
-        keyboard = InlineKeyboardMarkup(keyboard)
+        botManager.send_message(chat_id=expired_todo["chat_belonging_id"], text=text, reply_markup=InlineKeyboardMarkup(keyboard))
 
-        botManager.send_message(chat_id=expired_todo["chat_belonging_id"], text=text, reply_markup=keyboard)
     print ('tomorrow')
-    for pe in pending_todos_to_expire_tomorrow:
-        print(pe)
+    for todo in pending_todos_to_expire_tomorrow:
+        text = "*Recordatorio*:\nLa tarea programada para el día {0} vence mañana.\n\n```{1}```".format(todo['deadline'], todo['description'])
+        botManager.send_message(chat_id=todo["chat_belonging_id"], text=text)
+        print(todo)
     print ('all')
     for pe in pending_todos:
         print(pe)
