@@ -239,7 +239,7 @@ def todolist_cancel(update, context):
 
 # TODOLIST
 todolist_conv_handler = ConversationHandler(
-    allow_reentry = True,
+    allow_reentry = True,  # allow message reentry. This will avoid users not to get blocked by a previous context
     entry_points=[CommandHandler('todolist', todolist_start)],
     states={
         TODOLIST_CATEGORY: [CallbackQueryHandler(todolist_category)],
