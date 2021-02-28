@@ -7,6 +7,7 @@ from calendarBot import telegramcalendar
 from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard, todolist_item_keyboard
 from .common import send_message
 from . import callbacks as Callback
+from i18n import _
 
 
 
@@ -22,7 +23,7 @@ def todolist_start(update, context):
     send_message(
         bot=context.bot,
         chat_id=chat_id,
-        text="Filtrar tareas por categoria",
+        text=_("Filter TODOs by category"),
         reply_markup=todo_category_keyboard(chat_id, todolist=True))
 
     return TODOLIST_CATEGORY
@@ -42,7 +43,7 @@ def todolist_category(update, context):
         send_message(bot=context.bot,
                     chat_id=chat_id,
                     message_id=message_id,
-                    text="Filtrar tareas por usuario asignado",
+                    text=_("Filter TODOs by user assigned"),
                     reply_markup=todo_member_keyboard(group_member_ids, chat_id, context.bot, todolist=True))
         return TODOLIST_ASSINGNED
 
@@ -76,7 +77,7 @@ def create_temporal_todo_list(bot, chat_id, user_id, message_id):
         send_message(bot=bot,
                     chat_id=chat_id,
                     message_id=message_id,
-                    text="There is no pending todos :)\n*Now you are free!*")
+                    text=_("There is no pending todos :)\n*Now you are free!*"))
 
         return False
 
@@ -104,9 +105,9 @@ def todolist_send_item(bot, message_id, chat_id, user_id):
                 if i < len(assignment_users_id) - 2:
                     assignment_users_names += ", "
                 elif i == len(assignment_users_id) - 2:
-                    assignment_users_names += " and "
+                    assignment_users_names += _(" and ")
 
-            text = "*{0}* {5}\n``` {1} ```\n\n  _Created by {2}\n  Assigned to {3}\n  Deadline: {4}_\n\n" \
+            text = _("*{0}* {5}\n``` {1} ```\n\n  _Created by {2}\n  Assigned to {3}\n  Deadline: {4}_\n\n") \
                 .format(db.get_category_name(todo['category_id']), todo['description'], creator_name,
                         assignment_users_names, todo['deadline'], "   COMPLETED!" if todo['completed'] else "")
 
