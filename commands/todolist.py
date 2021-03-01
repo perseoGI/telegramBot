@@ -7,7 +7,7 @@ from calendarBot import telegramcalendar
 from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard, todolist_item_keyboard
 from .common import send_message
 from . import callbacks as Callback
-from i18n import _
+from i18n import _, install_user_language
 
 
 
@@ -19,11 +19,12 @@ TODOLIST_CATEGORY, TODOLIST_ASSINGNED, TODOLIST_MENU, TODOLIST_EDIT_DESCRIPTION,
 
 def todolist_start(update, context):
     chat_id = update.message.chat_id
-
+    # print (update)
+    install_user_language(update)
     send_message(
         bot=context.bot,
         chat_id=chat_id,
-        text=_("Filter tasks by category"),
+        text=_("Filter TODOs by category"),
         reply_markup=todo_category_keyboard(chat_id, todolist=True))
 
     return TODOLIST_CATEGORY

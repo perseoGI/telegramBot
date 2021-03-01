@@ -20,7 +20,7 @@ msgstr ""
 
 #: commands/todolist.py:26
 msgid "Filter TODOs by category"
-msgstr ""
+msgstr "Strujan bajen"
 
 #: commands/todolist.py:46
 msgid "Filter TODOs by user assigned"
