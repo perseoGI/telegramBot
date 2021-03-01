@@ -6,7 +6,7 @@ from commands.misc import misc_handlers, misc_handler_low_priority
 from commands.background import background_response_handler
 from commands.category import todocategory_conv_handler
 from os import environ
-import secret       # Secret key for bot. Just set environ with BOT_KEY
+import secret  # Secret key for bot. Just set environ with BOT_KEY
 
 from telegram.ext import messagequeue as mq
 import telegram.bot
@@ -19,7 +19,8 @@ from utils.botinteractions import BotManager
 #       20 msg / 60 s   on groups or channels
 #       30 msg / 1 s    on private chats
 class MQBot(telegram.bot.Bot):
-    '''A subclass of Bot which delegates send method handling to MQ'''
+    """A subclass of Bot which delegates send method handling to MQ"""
+
     def __init__(self, *args, is_queued_def=True, mqueue=None, **kwargs):
         super(MQBot, self).__init__(*args, **kwargs)
         # below 2 attributes should be provided for decorator usage
@@ -35,24 +36,26 @@ class MQBot(telegram.bot.Bot):
 
     @mq.queuedmessage
     def send_message(self, *args, **kwargs):
-        '''Wrapped method would accept new `queued` and `isgroup`
-        OPTIONAL arguments'''
+        """Wrapped method would accept new `queued` and `isgroup`
+        OPTIONAL arguments"""
         return super(MQBot, self).send_message(*args, **kwargs)
 
     @mq.queuedmessage
     def edit_message_text(self, *args, **kwargs):
-        '''Wrapped method would accept new `queued` and `isgroup`
-        OPTIONAL arguments'''
+        """Wrapped method would accept new `queued` and `isgroup`
+        OPTIONAL arguments"""
         return super(MQBot, self).edit_message_text(*args, **kwargs)
 
+
 bot = None
+
 
 def main():
     # Create or launch database
     init_db()
 
     print("Setting up bot")
-    token = environ.get('BOT_KEY')
+    token = environ.get("BOT_KEY")
 
     """ for test purposes limit global throughput to 3 messages per 3 seconds
     20 msg / 60 s ~= 0.33 msg/s -> 1 msg / 3 s -> 3 msg / 9 s ---> 6 msg / 18 s -> ... see defaults...
@@ -80,7 +83,9 @@ def main():
     # Misc
     for handler in misc_handlers:
         dp.add_handler(handler)
-    dp.add_handler(misc_handler_low_priority, group=2)    # general_check function has to have low priority to allow todo_description work
+    dp.add_handler(
+        misc_handler_low_priority, group=2
+    )  # general_check function has to have low priority to allow todo_description work
 
     dp.add_handler(background_response_handler)
 
@@ -98,5 +103,5 @@ def main():
     updater.idle()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
