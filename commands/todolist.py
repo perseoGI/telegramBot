@@ -23,7 +23,7 @@ def todolist_start(update, context):
     send_message(
         bot=context.bot,
         chat_id=chat_id,
-        text=_("Filter TODOs by category"),
+        text=_("Filter tasks by category"),
         reply_markup=todo_category_keyboard(chat_id, todolist=True))
 
     return TODOLIST_CATEGORY
@@ -43,7 +43,7 @@ def todolist_category(update, context):
         send_message(bot=context.bot,
                     chat_id=chat_id,
                     message_id=message_id,
-                    text=_("Filter TODOs by user assigned"),
+                    text=_("Filter tasks by user assigned"),
                     reply_markup=todo_member_keyboard(group_member_ids, chat_id, context.bot, todolist=True))
         return TODOLIST_ASSINGNED
 
@@ -109,7 +109,7 @@ def todolist_send_item(bot, message_id, chat_id, user_id):
 
             text = _("*{0}* {5}\n``` {1} ```\n\n  _Created by {2}\n  Assigned to {3}\n  Deadline: {4}_\n\n") \
                 .format(db.get_category_name(todo['category_id']), todo['description'], creator_name,
-                        assignment_users_names, todo['deadline'], "   COMPLETED!" if todo['completed'] else "")
+                        assignment_users_names, todo['deadline'], _("   COMPLETED!") if todo['completed'] else "")
 
         else:  # individual chat, no need creator and assigned name
             text = "*{0}* \n``` {1} ```\n_Deadline: {2}_\n\n".format(db.get_category_name(todo['category_id']),
@@ -142,7 +142,7 @@ def todolist_edit(update, context):
         send_message( bot=context.bot,
                       chat_id=chat_id,
                       message_id=message_id,
-                      text="Type to edit TODO:\n ``` {0} ```".
+                      text=_("Type to edit task:") + "\n ``` {0} ```".
                       format(todo['description']))
 
         return TODOLIST_EDIT_DESCRIPTION
@@ -150,7 +150,7 @@ def todolist_edit(update, context):
         send_message(bot=context.bot,
                      chat_id=chat_id,
                      message_id=message_id,
-                     text="Assign a new deadline",
+                     text=_("Assign a new deadline"),
                      reply_markup=telegramcalendar.create_calendar())
 
         return TODOLIST_EDIT_DEADLINE
@@ -159,7 +159,7 @@ def todolist_edit(update, context):
 
         pending_changes = db.get_pending_changes_todo(chat_id, user_id)
         if pending_changes:
-            pending_changes = "Do you want to store pending changes?\n\n" + pending_changes
+            pending_changes = _("Do you want to store pending changes?\n\n") + pending_changes
             send_message(bot=context.bot,
                          chat_id=chat_id,
                          message_id=message_id,
@@ -170,7 +170,7 @@ def todolist_edit(update, context):
             send_message(bot=context.bot,
                          chat_id=chat_id,
                          message_id=message_id,
-                         text="No changes!")
+                         text=_("No changes!"))
             return ConversationHandler.END
 
     elif operation == Callback.ACTION_NEXT or operation == Callback.ACTION_BACK:
@@ -221,13 +221,13 @@ def todolist_finish(update, context):
         send_message( bot=context.bot,
                       chat_id=chat_id,
                       message_id=message_id,
-                      text="Changes saved!")
+                      text=_("Changes saved!"))
     else:
         db.clear_todo_list(chat_id, user_id)
         send_message(bot=context.bot,
                      chat_id=chat_id,
                      message_id=message_id,
-                     text="Restore version!")
+                     text=_("Restore version!"))
 
     return ConversationHandler.END
 

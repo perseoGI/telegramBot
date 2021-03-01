@@ -5,6 +5,7 @@ from telegram.ext import ConversationHandler, CommandHandler, MessageHandler, Fi
 from calendarBot import telegramcalendar
 from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard
 from .common import send_message
+from i18n import _
 
 logging.basicConfig(filename='bot.log',
                     filemode='a',
@@ -19,8 +20,8 @@ DESCRIPTION, CATEGORY, CREATE_CATEGORY, ANOTHER_ASSIGNMENT, ASSIGNMENT, TODO_DEA
 
 
 def todo_start(update, context):
-    logger.info("New todo from: %s, cat: %d, user: %d", update.message.from_user.name, update.message.chat_id, update.message.from_user.id)
-    send_message(bot=context.bot,text="En que consiste la tarea?", chat_id=update.message.chat_id)
+    logger.info(_("New todo from: %s, cat: %d, user: %d"), update.message.from_user.name, update.message.chat_id, update.message.from_user.id)
+    send_message(bot=context.bot,text=_("What is the task?"), chat_id=update.message.chat_id)
 
     return DESCRIPTION
 
@@ -33,7 +34,7 @@ def todo_description(update, context):
 
     send_message(bot=context.bot,
                 chat_id=chat_id,
-                text="En que categoria lo incluirias?",
+                text=_("In which category will you include it?"),
                 reply_markup=todo_category_keyboard(chat_id, todolist=False))
 
     # Check if user or chat exist in database and if not, insert them
@@ -59,7 +60,7 @@ def todo_category(update, context):
         send_message( bot=context.bot,
                       chat_id=chat_id,
                       message_id=update.callback_query.message.message_id,
-                      text="Escriba el nombre de la nueva categoria",
+                      text=_("Type the neme for the new category"),
                       )
         return CREATE_CATEGORY
 
@@ -77,7 +78,7 @@ def todo_category(update, context):
             send_message(bot=context.bot,
                          chat_id=chat_id,
                          message_id=message_id,
-                         text="Asigne un deadline",
+                         text=_("Assing a dadline to the task"),
                          reply_markup=telegramcalendar.create_calendar())
             return TODO_DEADLINE
 
@@ -90,14 +91,14 @@ def check_and_ask_assignation(bot, chat_id, user_id, message_id, ask_for_continu
             send_message(bot=bot,
                          chat_id=chat_id,
                          message_id=message_id,
-                         text="Asigne la tarea",
+                         text=_("Assign the task"),
                          reply_markup=todo_member_keyboard(users_not_assigned, chat_id, bot))
             return ANOTHER_ASSIGNMENT
         else:
             send_message(bot=bot,
                  chat_id=chat_id,
                   message_id=message_id,
-                  text="Desea asignar tarea a otro miembro mas?",
+                  text=_("Do you want to assign a task to another member?"),
                   reply_markup=binary_keyboard())
             return ASSIGNMENT
 
@@ -105,7 +106,7 @@ def check_and_ask_assignation(bot, chat_id, user_id, message_id, ask_for_continu
         send_message(bot=bot,
                      chat_id=chat_id,
                      message_id=message_id,
-                     text="Asigne un deadline",
+                     text=_("Assign a deadline"),
                      reply_markup=telegramcalendar.create_calendar())
         return TODO_DEADLINE
 
@@ -118,7 +119,7 @@ def todo_another_assignment(update, context):
     message_id = update.callback_query.message.message_id
     assigned_user_id = update.callback_query.data
     user = update.effective_user
-    logger.info("Assignment of %s: %s", user.name, assigned_user_id)
+    logger.info(_("Assignment of %s: %s"), user.name, assigned_user_id)
     # Store info in the database
     db.setPendingTodoAssingment(chat_id=chat_id, user_id=user_id, assigned_user_id=assigned_user_id)
 
@@ -154,7 +155,7 @@ def todo_assignment(update, context):
         send_message(bot=context.bot,
                      chat_id=chat_id,
                      message_id=update.callback_query.message.message_id,
-                     text="Asigne un deadline",
+                     text=_("Assign a deadline"),
                      reply_markup=telegramcalendar.create_calendar())
         return TODO_DEADLINE
 
@@ -172,14 +173,14 @@ def todo_deadline(update, context):
         send_message(bot=context.bot,
                      chat_id=chat_id,
                      message_id=update.callback_query.message.message_id,
-                     text="You selected %s\nDesea guardar la tarea?" % (date.strftime("%d/%m/%Y")),
+                     text=_("You selected %s\nDo you want to save the task?" % (date.strftime("%d/%m/%Y"))),
                      reply_markup=binary_keyboard())
                                      #reply_markup=ReplyKeyboardRemove())
     else: # no deadline selected
         send_message(bot=context.bot,
                      chat_id=chat_id,
                       message_id=update.callback_query.message.message_id,
-                      text="Desea guardar la tarea?",
+                      text=_("Do you want to save the task?"),
                       reply_markup=binary_keyboard())
 
     return TODO_END
@@ -198,7 +199,7 @@ def todo_end(update, context):
         send_message(bot=context.bot,
                      chat_id=chat_id,
                      message_id=update.callback_query.message.message_id,
-                     text="Tarea guardada")
+                     text=_("Task saved"))
     else:
         db.clear_pending_todo(
             chat_id=chat_id,
@@ -207,7 +208,7 @@ def todo_end(update, context):
         send_message(bot=context.bot,
                      chat_id=chat_id,
                      message_id=update.callback_query.message.message_id,
-                     text="Tarea descartada")
+                     text=_("Task has been discarted"))
 
     return ConversationHandler.END
 
@@ -218,7 +219,7 @@ def todo_cancel(update, context):
 
     user = update.message.from_user
     logger.info("User %s canceled the conversation.", user.first_name)
-    update.message.reply_text('Tarea descartada!',
+    update.message.reply_text('Task has been discarted!',
                               reply_markup=InlineKeyboardMarkup([]))
 
     return ConversationHandler.END
@@ -251,7 +252,7 @@ def create_category(update, context):
     else:
         send_message(bot=context.bot,
                      chat_id=chat_id,
-                     text="Asigne un deadline",
+                     text=_("Assign a deadline"),
                      reply_markup=telegramcalendar.create_calendar())
         return TODO_DEADLINE
 

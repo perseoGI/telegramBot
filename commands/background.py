@@ -2,6 +2,7 @@ from database import mark_todo_as_completed, set_todo_deadline, get_pending_back
 from utils.botinteractions import BotManager
 from calendarBot import telegramcalendar
 from telegram.ext import ConversationHandler, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
+from i18n import _
 
 botManager = BotManager()
 
@@ -22,13 +23,13 @@ def background_response_callback(update, context):
         botManager.send_message(
                      chat_id=chat_id,
                      message_id=message_id,
-                     text="Asigne un nuevo deadline",
+                     text=_("Asigne un nuevo deadline"),
                      reply_markup=telegramcalendar.create_calendar())
         return BACKGROUND_TODO_POSTPONE
 
     elif action == 'complete':
         todo_description_completed = mark_todo_as_completed(todo_id)
-        botManager.send_message(chat_id, text="La tarea:\n\n``` {0} ```\n\nha sido completada con éxito".format(todo_description_completed), message_id=message_id)
+        botManager.send_message(chat_id, text=_("La tarea:\n\n``` {0} ```\n\nha sido completada con éxito").format(todo_description_completed), message_id=message_id)
         return ConversationHandler.END
 
 
@@ -48,7 +49,7 @@ def background_todo_postpone(update, context):
         botManager.send_message(
             chat_id=chat_id,
             message_id=message_id,
-            text="La tarea:\n\n``` {0} ```\n\nha sido pospuesta para el día {1}".format(todo_description, date.strftime("%d/%m/%Y")))
+            text=_("La tarea:\n\n``` {0} ```\n\nha sido pospuesta para el día {1}").format(todo_description, date.strftime("%d/%m/%Y")))
 
         deadline = date.strftime("%Y-%m-%d")
 
@@ -56,7 +57,7 @@ def background_todo_postpone(update, context):
         botManager.send_message(
             chat_id=chat_id,
             message_id=message_id,
-            text="La tarea:\n\n``` {0} ```\n\nha sido guardada sin deadline".format(todo_description))
+            text=_("La tarea:\n\n``` {0} ```\n\nha sido guardada sin deadline")).format(todo_description)
 
         deadline = None
 
@@ -67,7 +68,7 @@ def background_todo_postpone(update, context):
 def background_todo_cancel(update, context):
     user = update.message.from_user
     # logger.info("Background Todo: User %s canceled the conversation.", user.first_name)
-    update.message.reply_text('Ha ocurrido un error', reply_markup=None)
+    update.message.reply_text(_("Ha ocurrido un error"), reply_markup=None)
 
     return ConversationHandler.END
 

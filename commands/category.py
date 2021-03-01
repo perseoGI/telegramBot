@@ -6,12 +6,13 @@ from .keyboards import binary_keyboard, todocategory_options_keyboard
 
 import time
 from .common import send_message
+from i18n import _
 
 
 
 def todocategory_start(update, context):
     chat_id = update.message.chat_id
-    send_message(context.bot, chat_id, "Choose an option", reply_markup=todocategory_options_keyboard())
+    send_message(context.bot, chat_id, _("Choose an option"), reply_markup=todocategory_options_keyboard())
     return ConversationHandler.END
 
 
