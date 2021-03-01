@@ -2,7 +2,7 @@ from telegram.ext import Updater
 from database import init_db, checkTodosDeadlines
 from commands.todo import todo_conv_handler
 from commands.todolist import todolist_conv_handler
-from commands.miscelanea import miscelanea_handlers, miscelanea_handler_low_priority
+from commands.misc import misc_handlers, misc_handler_low_priority
 from commands.background import background_response_handler
 from commands.category import todocategory_conv_handler
 from os import environ
@@ -77,10 +77,10 @@ def main():
     # Initiate periodic thread
     checkTodosDeadlines()
 
-    # Miscelanea
-    for handler in miscelanea_handlers:
+    # Misc
+    for handler in misc_handlers:
         dp.add_handler(handler)
-    dp.add_handler(miscelanea_handler_low_priority, group=2)    # general_check function has to have low priority to allow todo_description work
+    dp.add_handler(misc_handler_low_priority, group=2)    # general_check function has to have low priority to allow todo_description work
 
     dp.add_handler(background_response_handler)
 

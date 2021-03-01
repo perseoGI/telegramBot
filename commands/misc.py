@@ -3,7 +3,7 @@ import requests
 import re
 from telegram.ext import MessageHandler, CommandHandler, Filters, CallbackQueryHandler
 
-########################### Miscelanea ###########################################
+########################### Misc ###########################################
 
 
 def start(update, context):
@@ -50,13 +50,13 @@ def general_check(update, context):
 #         context.bot.send_message(chat_id=chat_id, text="pruebaaa de spam "+ str(i))
 
 
-miscelanea_handlers = [
+misc_handlers = [
     CommandHandler('bop', bop),
     # CommandHandler('start', start),
     # CommandHandler('caps', caps),
     # CommandHandler('test', test)
 ]
 # dp.add_handler(MessageHandler(Filters.text, echo))
-miscelanea_handler_low_priority = MessageHandler(Filters.text, general_check)   # , group=2  TODO
+misc_handler_low_priority = MessageHandler(Filters.text, general_check)   # , group=2  TODO
 
 

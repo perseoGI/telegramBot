@@ -55,7 +55,7 @@ To launch the bot, just type following command:
     python main.py
 
 
-### Miscelanea
+### Misc
 ##### ConversationHandler on group/channel
 For enabling ConversationHandler on a group or channel:
 
