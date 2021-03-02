@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-03-02 19:28+0100\n"
+"POT-Creation-Date: 2021-03-02 19:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,12 +102,8 @@ msgstr ""
 msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
 msgstr ""
 
-#: commands/todo.py:44
-msgid "New todo from: %s, cat: %d, user: %d"
-msgstr ""
-
 #: commands/todo.py:50
-msgid "What is the task?"
+msgid "What is the task about?"
 msgstr ""
 
 #: commands/todo.py:65
