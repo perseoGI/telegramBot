@@ -91,7 +91,7 @@ def todo_category(update, context):
             update=update,
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
-            text=_("Type the neme for the new category"),
+            text=_("Type the name for the new category"),
         )
         return CREATE_CATEGORY
 
@@ -114,7 +114,7 @@ def todo_category(update, context):
                 update=update,
                 chat_id=chat_id,
                 message_id=message_id,
-                text=_("Assing a dadline to the task"),
+                text=_("Assing a deadline to the task"),
                 reply_markup=telegramcalendar.create_calendar(),
             )
             return TODO_DEADLINE
@@ -140,7 +140,7 @@ def check_and_ask_assignation(
                 update=update,
                 chat_id=chat_id,
                 message_id=message_id,
-                text=_("Do you want to assign a task to another member?"),
+                text=_("Do you want to assign the task to another member?"),
                 reply_markup=binary_keyboard(),
             )
             return ASSIGNMENT

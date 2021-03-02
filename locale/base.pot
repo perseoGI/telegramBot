@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-03-02 19:05+0100\n"
+"POT-Creation-Date: 2021-03-02 19:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,51 +54,51 @@ msgstr ""
 msgid "Choose an option"
 msgstr ""
 
-#: commands/keyboards.py:45
+#: commands/keyboards.py:44
 msgid "All users"
 msgstr ""
 
-#: commands/keyboards.py:64
+#: commands/keyboards.py:61
 msgid "All categories"
 msgstr ""
 
-#: commands/keyboards.py:68
+#: commands/keyboards.py:64
 msgid "Create new category"
 msgstr ""
 
-#: commands/keyboards.py:89
+#: commands/keyboards.py:85
 msgid "Un-complete"
 msgstr ""
 
-#: commands/keyboards.py:93
+#: commands/keyboards.py:89
 msgid "Complete"
 msgstr ""
 
-#: commands/keyboards.py:97
+#: commands/keyboards.py:93
 msgid "Postpone"
 msgstr ""
 
-#: commands/keyboards.py:101
+#: commands/keyboards.py:97
 msgid "Edit"
 msgstr ""
 
-#: commands/keyboards.py:108
+#: commands/keyboards.py:104
 msgid "Finish"
 msgstr ""
 
-#: commands/keyboards.py:121
+#: commands/keyboards.py:117
 msgid "Create category"
 msgstr ""
 
-#: commands/keyboards.py:126
+#: commands/keyboards.py:122
 msgid "Delete category"
 msgstr ""
 
-#: commands/keyboards.py:130
+#: commands/keyboards.py:126
 msgid "Edit category"
 msgstr ""
 
-#: commands/misc.py:16
+#: commands/misc.py:17
 msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
 msgstr ""
 
@@ -115,11 +115,11 @@ msgid "In which category will you include it?"
 msgstr ""
 
 #: commands/todo.py:94
-msgid "Type the neme for the new category"
+msgid "Type the name for the new category"
 msgstr ""
 
 #: commands/todo.py:117
-msgid "Assing a dadline to the task"
+msgid "Assing a deadline to the task"
 msgstr ""
 
 #: commands/todo.py:134
@@ -127,7 +127,7 @@ msgid "Assign the task"
 msgstr ""
 
 #: commands/todo.py:143
-msgid "Do you want to assign a task to another member?"
+msgid "Do you want to assign the task to another member?"
 msgstr ""
 
 #: commands/todo.py:153 commands/todo.py:205 commands/todo.py:312
@@ -203,11 +203,11 @@ msgstr ""
 msgid "No changes!"
 msgstr ""
 
-#: commands/todolist.py:282
+#: commands/todolist.py:284
 msgid "Changes saved!"
 msgstr ""
 
-#: commands/todolist.py:290
+#: commands/todolist.py:292
 msgid "Restore version!"
 msgstr ""
 
