@@ -10,8 +10,10 @@ from telegram.ext import (
 )
 from calendarBot import telegramcalendar
 from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard
-from .common import send_message
+
+# from .common import send_message
 from i18n import _
+from utils.botinteractions import BotManager
 
 logging.basicConfig(
     filename="bot.log",
@@ -21,6 +23,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+botManager = BotManager()
 
 ############################ TODOS ##################################
 
@@ -42,8 +46,8 @@ def todo_start(update, context):
         update.message.chat_id,
         update.message.from_user.id,
     )
-    send_message(
-        bot=context.bot, text=_("What is the task?"), chat_id=update.message.chat_id
+    botManager.send_message(
+        update=update, text=_("What is the task?"), chat_id=update.message.chat_id
     )
 
     return DESCRIPTION
@@ -55,8 +59,8 @@ def todo_description(update, context):
     #  logger.info("Description of %s: %s", user.name, update.message.text)
     chat_id = update.message.chat_id
 
-    send_message(
-        bot=context.bot,
+    botManager.send_message(
+        update=update,
         chat_id=chat_id,
         text=_("In which category will you include it?"),
         reply_markup=todo_category_keyboard(chat_id, todolist=False),
@@ -83,8 +87,8 @@ def todo_category(update, context):
     chat_id = update.callback_query.message.chat_id
     category = update.callback_query.data
     if category < "0":  # Create a new category
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
             text=_("Type the neme for the new category"),
@@ -97,12 +101,17 @@ def todo_category(update, context):
 
         if chat_id < 0:  # It is a group
             return check_and_ask_assignation(
-                context.bot, chat_id, user_id, message_id, ask_for_continuing=False
+                context.bot,
+                update,
+                chat_id,
+                user_id,
+                message_id,
+                ask_for_continuing=False,
             )
 
         else:
-            send_message(
-                bot=context.bot,
+            botManager.send_message(
+                update=update,
                 chat_id=chat_id,
                 message_id=message_id,
                 text=_("Assing a dadline to the task"),
@@ -111,13 +120,15 @@ def todo_category(update, context):
             return TODO_DEADLINE
 
 
-def check_and_ask_assignation(bot, chat_id, user_id, message_id, ask_for_continuing):
+def check_and_ask_assignation(
+    bot, update, chat_id, user_id, message_id, ask_for_continuing
+):
     # Check users in group
     users_not_assigned = db.getPendingTodoNotAssigned(chat_id, user_id)
     if users_not_assigned:
         if not ask_for_continuing:
-            send_message(
-                bot=bot,
+            botManager.send_message(
+                update=update,
                 chat_id=chat_id,
                 message_id=message_id,
                 text=_("Assign the task"),
@@ -125,8 +136,8 @@ def check_and_ask_assignation(bot, chat_id, user_id, message_id, ask_for_continu
             )
             return ANOTHER_ASSIGNMENT
         else:
-            send_message(
-                bot=bot,
+            botManager.send_message(
+                update=update,
                 chat_id=chat_id,
                 message_id=message_id,
                 text=_("Do you want to assign a task to another member?"),
@@ -135,8 +146,8 @@ def check_and_ask_assignation(bot, chat_id, user_id, message_id, ask_for_continu
             return ASSIGNMENT
 
     else:
-        send_message(
-            bot=bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
             text=_("Assign a deadline"),
@@ -159,10 +170,9 @@ def todo_another_assignment(update, context):
     )
 
     return check_and_ask_assignation(
-        context.bot, chat_id, user_id, message_id, ask_for_continuing=True
+        context.bot, update, chat_id, user_id, message_id, ask_for_continuing=True
     )
 
-    # send_message(bot=context.bot,
     #              chat_id=chat_id,
     #               message_id=update.callback_query.message.message_id,
     #               text="Desea asignar tarea a otro miembro mas?",
@@ -178,10 +188,9 @@ def todo_assignment(update, context):
 
     if answer == "1":  # Continue asking for assignments
         return check_and_ask_assignation(
-            context.bot, chat_id, user_id, message_id, ask_for_continuing=False
+            context.bot, update, chat_id, user_id, message_id, ask_for_continuing=False
         )
 
-        # send_message(bot=context.bot,
         #              chat_id=chat_id,
         #              message_id=update.callback_query.message.message_id,
         #              text="Asigne la tarea",
@@ -189,8 +198,8 @@ def todo_assignment(update, context):
         # return ANOTHER_ASSIGNMENT
 
     else:  # Next step
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
             text=_("Assign a deadline"),
@@ -209,20 +218,18 @@ def todo_deadline(update, context):
 
     if date != "0":  # Day selected
         db.setPendingTodoDeadline(chat_id=chat_id, user_id=user_id, deadline=date)
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
-            text=_(
-                "You selected %s\nDo you want to save the task?"
-                % (date.strftime("%d/%m/%Y"))
-            ),
+            text=_("You have selected %s\nDo you want to save the task?")
+            % (date.strftime("%d/%m/%Y")),
             reply_markup=binary_keyboard(),
         )
         # reply_markup=ReplyKeyboardRemove())
     else:  # no deadline selected
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
             text=_("Do you want to save the task?"),
@@ -240,17 +247,17 @@ def todo_end(update, context):
     if answer == "1":
         db.storePendingTodo(chat_id=chat_id, user_id=user_id)
 
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
-            text=_("Task saved"),
+            text=_("Task saved!"),
         )
     else:
         db.clear_pending_todo(chat_id=chat_id, user_id=user_id)
 
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
             text=_("Task has been discarted"),
@@ -288,14 +295,19 @@ def create_category(update, context):
     if chat_id < 0:  # It is a group
 
         return check_and_ask_assignation(
-            context.bot, chat_id, user_id, message_id=None, ask_for_continuing=False
+            context.bot,
+            update,
+            chat_id,
+            user_id,
+            message_id=None,
+            ask_for_continuing=False,
         )
 
     # edit_message_text
 
     else:
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             text=_("Assign a deadline"),
             reply_markup=telegramcalendar.create_calendar(),

@@ -437,6 +437,7 @@ from commands.keyboards import binary_keyboard
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 
 botManager = BotManager()
+from i18n import _
 
 
 def checkTodosDeadlines():
@@ -460,13 +461,13 @@ def checkTodosDeadlines():
     )
 
     for expired_todo in pending_todos_expired:
-        text = "*Aviso*:\nLa tarea programada para el día {0} vence hoy.\n\n``` {1} ```\n \nDesea posponer la tarea o marcarla como completada?".format(
-            expired_todo["deadline"], expired_todo["description"]
-        )
+        text = _(
+            "*Warning*:\nTask scheduled for day {0} is due today.\n\n``` {1} ```\n \nDo you want to postpone the task or mark it as completed?"
+        ).format(expired_todo["deadline"], expired_todo["description"])
         keyboard = [
             [
                 InlineKeyboardButton(
-                    "Posponer",
+                    _("Postpone"),
                     callback_data="todo_deadline_achieved-postpone-{}".format(
                         expired_todo["id"]
                     ),
@@ -474,7 +475,7 @@ def checkTodosDeadlines():
             ],
             [
                 InlineKeyboardButton(
-                    "Marcar como completado",
+                    _("Mark as completed"),
                     callback_data="todo_deadline_achieved-complete-{}".format(
                         expired_todo["id"]
                     ),
@@ -483,16 +484,19 @@ def checkTodosDeadlines():
         ]
 
         botManager.send_message(
+            update=None,  # TODO: store last language for user and send it on the last message language
             chat_id=expired_todo["chat_belonging_id"],
             text=text,
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
 
     for todo in pending_todos_to_expire_tomorrow:
-        text = "*Recordatorio*:\nLa tarea programada para el día {0} vence mañana.\n\n``` {1} ```".format(
-            todo["deadline"], todo["description"]
+        text = _(
+            "*Reminder*:\nThe task scheduled for day {0} is due tomorrow.\n\n``` {1} ```"
+        ).format(todo["deadline"], todo["description"])
+        botManager.send_message(
+            update=None, chat_id=todo["chat_belonging_id"], text=text
         )
-        botManager.send_message(chat_id=todo["chat_belonging_id"], text=text)
 
     db.close()
 

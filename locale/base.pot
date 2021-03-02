@@ -1,41 +1,180 @@
-# Translations template for PROJECT.
-# Copyright (C) 2021 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-02-28 02:51+0100\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-03-02 19:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: pygettext.py 1.5\n"
 
-#: commands/todolist.py:26
-msgid "Filter TODOs by category"
+
+#: commands/background.py:38 commands/todolist.py:197
+msgid "Assign a new deadline"
 msgstr ""
 
-#: commands/todolist.py:46
-msgid "Filter TODOs by user assigned"
+#: commands/background.py:47
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been completed successfully"
 msgstr ""
 
-#: commands/todolist.py:80
+#: commands/background.py:72
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been postpone to day {1}"
+msgstr ""
+
+#: commands/background.py:83
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been stored without dadline"
+msgstr ""
+
+#: commands/background.py:95
+msgid "An error has occurred"
+msgstr ""
+
+#: commands/category.py:23
+msgid "Choose an option"
+msgstr ""
+
+#: commands/keyboards.py:45
+msgid "All users"
+msgstr ""
+
+#: commands/keyboards.py:64
+msgid "All categories"
+msgstr ""
+
+#: commands/keyboards.py:68
+msgid "Create new category"
+msgstr ""
+
+#: commands/keyboards.py:89
+msgid "Un-complete"
+msgstr ""
+
+#: commands/keyboards.py:93
+msgid "Complete"
+msgstr ""
+
+#: commands/keyboards.py:97
+msgid "Postpone"
+msgstr ""
+
+#: commands/keyboards.py:101
+msgid "Edit"
+msgstr ""
+
+#: commands/keyboards.py:108
+msgid "Finish"
+msgstr ""
+
+#: commands/keyboards.py:121
+msgid "Create category"
+msgstr ""
+
+#: commands/keyboards.py:126
+msgid "Delete category"
+msgstr ""
+
+#: commands/keyboards.py:130
+msgid "Edit category"
+msgstr ""
+
+#: commands/misc.py:16
+msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
+msgstr ""
+
+#: commands/todo.py:44
+msgid "New todo from: %s, cat: %d, user: %d"
+msgstr ""
+
+#: commands/todo.py:50
+msgid "What is the task?"
+msgstr ""
+
+#: commands/todo.py:65
+msgid "In which category will you include it?"
+msgstr ""
+
+#: commands/todo.py:94
+msgid "Type the neme for the new category"
+msgstr ""
+
+#: commands/todo.py:117
+msgid "Assing a dadline to the task"
+msgstr ""
+
+#: commands/todo.py:134
+msgid "Assign the task"
+msgstr ""
+
+#: commands/todo.py:143
+msgid "Do you want to assign a task to another member?"
+msgstr ""
+
+#: commands/todo.py:153 commands/todo.py:205 commands/todo.py:312
+msgid "Assign a deadline"
+msgstr ""
+
+#: commands/todo.py:166
+msgid "Assignment of %s: %s"
+msgstr ""
+
+#: commands/todo.py:225
+msgid ""
+"You have selected %s\n"
+"Do you want to save the task?"
+msgstr ""
+
+#: commands/todo.py:235
+msgid "Do you want to save the task?"
+msgstr ""
+
+#: commands/todo.py:254
+msgid "Task saved!"
+msgstr ""
+
+#: commands/todo.py:263
+msgid "Task has been discarted"
+msgstr ""
+
+#: commands/todolist.py:43
+msgid "Filter tasks by category"
+msgstr ""
+
+#: commands/todolist.py:65
+msgid "Filter tasks by user assigned"
+msgstr ""
+
+#: commands/todolist.py:106
 msgid ""
 "There is no pending todos :)\n"
 "*Now you are free!*"
 msgstr ""
 
-#: commands/todolist.py:108
+#: commands/todolist.py:135
 msgid " and "
 msgstr ""
 
-#: commands/todolist.py:110
+#: commands/todolist.py:137
 msgid ""
 "*{0}* {5}\n"
 "``` {1} ```\n"
@@ -44,5 +183,31 @@ msgid ""
 "  Assigned to {3}\n"
 "  Deadline: {4}_\n"
 "\n"
+msgstr ""
+
+#: commands/todolist.py:145
+msgid "   COMPLETED!"
+msgstr ""
+
+#: commands/todolist.py:188
+msgid "Type to edit task:"
+msgstr ""
+
+#: commands/todolist.py:208
+msgid ""
+"Do you want to store pending changes?\n"
+"\n"
+msgstr ""
+
+#: commands/todolist.py:223
+msgid "No changes!"
+msgstr ""
+
+#: commands/todolist.py:282
+msgid "Changes saved!"
+msgstr ""
+
+#: commands/todolist.py:290
+msgid "Restore version!"
 msgstr ""
 

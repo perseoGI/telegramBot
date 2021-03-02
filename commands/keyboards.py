@@ -41,9 +41,7 @@ def todo_member_keyboard(users_id, chat_id, bot, todolist=False):
     # db.closeDB()
 
     if todolist:
-        inline_array.append(
-            InlineKeyboardButton(_("Todos los usuarios"), callback_data=-1)
-        )
+        inline_array.append(InlineKeyboardButton(_("All users"), callback_data=-1))
 
     keyboard_elements = [[element] for element in inline_array]
 
@@ -60,12 +58,10 @@ def todo_category_keyboard(chat_id, todolist):
             InlineKeyboardButton(category["name"], callback_data=category["id"])
         )
     if todolist:
-        inline_array.append(
-            InlineKeyboardButton(_("Todas las categorias"), callback_data=-1)
-        )
+        inline_array.append(InlineKeyboardButton(_("All categories"), callback_data=-1))
     else:
         inline_array.append(
-            InlineKeyboardButton(_("Crea una categoria"), callback_data=-1)
+            InlineKeyboardButton(_("Create new category"), callback_data=-1)
         )
 
     db.closeDB()

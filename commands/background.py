@@ -35,7 +35,7 @@ def background_response_callback(update, context):
         botManager.send_message(
             chat_id=chat_id,
             message_id=message_id,
-            text=_("Asigne un nuevo deadline"),
+            text=_("Assign a new deadline"),
             reply_markup=telegramcalendar.create_calendar(),
         )
         return BACKGROUND_TODO_POSTPONE
@@ -44,7 +44,7 @@ def background_response_callback(update, context):
         todo_description_completed = mark_todo_as_completed(todo_id)
         botManager.send_message(
             chat_id,
-            text=_("La tarea:\n\n``` {0} ```\n\nha sido completada con éxito").format(
+            text=_("Task:\n\n``` {0} ```\n\nhas been completed successfully").format(
                 todo_description_completed
             ),
             message_id=message_id,
@@ -69,9 +69,9 @@ def background_todo_postpone(update, context):
         botManager.send_message(
             chat_id=chat_id,
             message_id=message_id,
-            text=_(
-                "La tarea:\n\n``` {0} ```\n\nha sido pospuesta para el día {1}"
-            ).format(todo_description, date.strftime("%d/%m/%Y")),
+            text=_("Task:\n\n``` {0} ```\n\nhas been postpone to day {1}").format(
+                todo_description, date.strftime("%d/%m/%Y")
+            ),
         )
 
         deadline = date.strftime("%Y-%m-%d")
@@ -80,7 +80,7 @@ def background_todo_postpone(update, context):
         botManager.send_message(
             chat_id=chat_id,
             message_id=message_id,
-            text=_("La tarea:\n\n``` {0} ```\n\nha sido guardada sin deadline"),
+            text=_("Task:\n\n``` {0} ```\n\nhas been stored without dadline"),
         ).format(todo_description)
 
         deadline = None
@@ -92,7 +92,7 @@ def background_todo_postpone(update, context):
 def background_todo_cancel(update, context):
     user = update.message.from_user
     # logger.info("Background Todo: User %s canceled the conversation.", user.first_name)
-    update.message.reply_text(_("Ha ocurrido un error"), reply_markup=None)
+    update.message.reply_text(_("An error has occurred"), reply_markup=None)
 
     return ConversationHandler.END
 

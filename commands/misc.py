@@ -2,14 +2,19 @@ import database as db
 import requests
 import re
 from telegram.ext import MessageHandler, CommandHandler, Filters, CallbackQueryHandler
+from utils.botinteractions import BotManager
+from i18n import _
 
 ########################### Misc ###########################################
 
+botManager = BotManager()
+
 
 def start(update, context):
-    context.bot.send_message(
+    botManager.send_message(
+        update=update,
         chat_id=update.message.chat_id,
-        text="Soy el bot para el equipo de Planeanding, dejame ayudarte!",
+        text=_("Hey! I'm PlaneandingBot, let me help you managing your tasks :)"),
     )
 
 

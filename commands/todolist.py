@@ -19,8 +19,6 @@ from .keyboards import (
 from .common import send_message
 from . import callbacks as Callback
 from i18n import _, install_user_language, es
-
-
 from utils.botinteractions import BotManager
 
 botManager = BotManager()
@@ -42,7 +40,7 @@ def todolist_start(update, context):
     botManager.send_message(
         update=update,
         chat_id=chat_id,
-        text="Filter TODOs by category",
+        text=_("Filter tasks by category"),
         reply_markup=todo_category_keyboard(chat_id, todolist=True),
     )
     return TODOLIST_CATEGORY
@@ -72,7 +70,7 @@ def todolist_category(update, context):
         return TODOLIST_ASSINGNED
 
     else:
-        if create_temporal_todo_list(context.bot, chat_id, user_id, message_id):
+        if create_temporal_todo_list(context.bot, update, chat_id, user_id, message_id):
             return TODOLIST_MENU
         else:
             return ConversationHandler.END
@@ -87,22 +85,22 @@ def todolist_assigned(update, context):
     db.set_todolist_filter_assigned(
         chat_id=chat_id, user_id=user_id, user_assigned=user_assigned
     )
-    if create_temporal_todo_list(context.bot, chat_id, user_id, message_id):
+    if create_temporal_todo_list(context.bot, update, chat_id, user_id, message_id):
         return TODOLIST_MENU
     else:
         return ConversationHandler.END
 
 
-def create_temporal_todo_list(bot, chat_id, user_id, message_id):
+def create_temporal_todo_list(bot, update, chat_id, user_id, message_id):
     # Create a temporal list of todos if exist
     exist = db.get_todo_list(chat_id=chat_id, user_id=user_id)
     if exist:
-        todolist_send_item(bot, message_id, chat_id, user_id)
+        todolist_send_item(bot, update, message_id, chat_id, user_id)
         return True
 
     else:  # no todos available
-        send_message(
-            bot=bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
             text=_("There is no pending todos :)\n*Now you are free!*"),
@@ -120,7 +118,7 @@ def get_username_from_id(bot, chat_id, user_id):
 ####################### TODO: change design ######################
 
 
-def todolist_send_item(bot, message_id, chat_id, user_id):
+def todolist_send_item(bot, update, message_id, chat_id, user_id):
     todo, limit = db.get_todos_listed(chat_id, user_id)
     if todo:
         if chat_id < 0:  # group
@@ -153,8 +151,8 @@ def todolist_send_item(bot, message_id, chat_id, user_id):
                 todo["description"],
                 todo["deadline"],
             )
-        send_message(
-            bot=bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
             text=text,
@@ -177,15 +175,14 @@ def todolist_edit(update, context):
         db.change_todos_listed(
             chat_id=chat_id, user_id=user_id, key="completed", value=action
         )
-        todolist_send_item(context.bot, message_id, chat_id, user_id)
+        todolist_send_item(context.bot, update, message_id, chat_id, user_id)
 
         return TODOLIST_MENU
 
     elif operation == Callback.ACTION_EDIT:
-        todo, _ = db.get_todos_listed(chat_id, user_id)
-
-        send_message(
-            bot=context.bot,
+        todo, limit = db.get_todos_listed(chat_id, user_id)
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
             text=_("Type to edit task:") + "\n ``` {0} ```".format(todo["description"]),
@@ -193,8 +190,8 @@ def todolist_edit(update, context):
 
         return TODOLIST_EDIT_DESCRIPTION
     elif operation == Callback.ACTION_POSTPONE:
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
             text=_("Assign a new deadline"),
@@ -202,16 +199,16 @@ def todolist_edit(update, context):
         )
 
         return TODOLIST_EDIT_DEADLINE
+
     # Store changes!
     elif operation == Callback.ACTION_FINISH:
-
         pending_changes = db.get_pending_changes_todo(chat_id, user_id)
         if pending_changes:
             pending_changes = (
                 _("Do you want to store pending changes?\n\n") + pending_changes
             )
-            send_message(
-                bot=context.bot,
+            botManager.send_message(
+                update=update,
                 chat_id=chat_id,
                 message_id=message_id,
                 text=pending_changes,
@@ -219,8 +216,8 @@ def todolist_edit(update, context):
             )
             return TODOLIST_FINISH
         else:
-            send_message(
-                bot=context.bot,
+            botManager.send_message(
+                update=update,
                 chat_id=chat_id,
                 message_id=message_id,
                 text=_("No changes!"),
@@ -231,7 +228,7 @@ def todolist_edit(update, context):
         db.set_todos_listed_index(
             chat_id, user_id, 1 if operation == Callback.ACTION_NEXT else -1
         )
-        todolist_send_item(context.bot, message_id, chat_id, user_id)
+        todolist_send_item(context.bot, update, message_id, chat_id, user_id)
         return TODOLIST_MENU
 
     elif operation == Callback.ACTION_NONE:
@@ -248,7 +245,9 @@ def todolist_edit_description(update, context):
         chat_id=chat_id, user_id=user_id, key="description", value=edited_description
     )
     # Send message as new message
-    todolist_send_item(context.bot, message_id=None, chat_id=chat_id, user_id=user_id)
+    todolist_send_item(
+        context.bot, update, message_id=None, chat_id=chat_id, user_id=user_id
+    )
     return TODOLIST_MENU
 
 
@@ -266,7 +265,7 @@ def todolist_edit_deadline(update, context):
         date = None
     db.change_todos_listed(chat_id=chat_id, user_id=user_id, key="deadline", value=date)
     todolist_send_item(
-        context.bot, update.callback_query.message.message_id, chat_id, user_id
+        context.bot, update, update.callback_query.message.message_id, chat_id, user_id
     )
     return TODOLIST_MENU
 
@@ -278,16 +277,16 @@ def todolist_finish(update, context):
     operation = update.callback_query.data
     if operation == "1":
         db.store_changes_todo(chat_id=chat_id, user_id=user_id)
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
             text=_("Changes saved!"),
         )
     else:
         db.clear_todo_list(chat_id, user_id)
-        send_message(
-            bot=context.bot,
+        botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
             text=_("Restore version!"),

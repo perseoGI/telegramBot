@@ -21,5 +21,8 @@ languages = {"es": es, "de": de, "en": en}
 
 
 def install_user_language(update):
+    if not update:
+        return en.gettext
+
     lang = update["_effective_user"]["language_code"]
     return languages[lang].gettext
