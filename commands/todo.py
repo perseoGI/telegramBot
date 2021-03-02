@@ -41,13 +41,13 @@ botManager = BotManager()
 
 def todo_start(update, context):
     logger.info(
-        _("New todo from: %s, cat: %d, user: %d"),
+        ("New task from: %s, cat: %d, user: %d"),
         update.message.from_user.name,
         update.message.chat_id,
         update.message.from_user.id,
     )
     botManager.send_message(
-        update=update, text=_("What is the task?"), chat_id=update.message.chat_id
+        update=update, text=_("What is the task about?"), chat_id=update.message.chat_id
     )
 
     return DESCRIPTION
