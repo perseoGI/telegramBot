@@ -1,0 +1,241 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# asm4ever <perseo.gi98@gmail.com>, 2021
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-03-02 19:39+0100\n"
+"PO-Revision-Date: 2021-02-28 02:01+0000\n"
+"Last-Translator: asm4ever <perseo.gi98@gmail.com>, 2021\n"
+"Language-Team: French (https://www.transifex.com/my-own-16/teams/117602/fr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: commands/background.py:38 commands/todolist.py:197
+msgid "Assign a new deadline"
+msgstr "Attribuer une nouvelle échéance"
+
+#: commands/background.py:47
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been completed successfully"
+msgstr ""
+"Tâche:\n"
+"\n"
+"`` {0} ``\n"
+"\n"
+"a été terminé avec succès"
+
+#: commands/background.py:72
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been postpone to day {1}"
+msgstr ""
+"Tâche:\n"
+"\n"
+"`` {0} ``\n"
+"\n"
+"a été reporté au jour {1}"
+
+#: commands/background.py:83
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been stored without dadline"
+msgstr ""
+"Tâche:\n"
+"\n"
+"`` {0} ``\n"
+"\n"
+"a été stocké sans dadline"
+
+#: commands/background.py:95
+msgid "An error has occurred"
+msgstr "Une erreur est survenue"
+
+#: commands/category.py:23
+msgid "Choose an option"
+msgstr "Choisis une option"
+
+#: commands/keyboards.py:44
+msgid "All users"
+msgstr "Tous les utilisateurs"
+
+#: commands/keyboards.py:61
+msgid "All categories"
+msgstr "Toutes catégories"
+
+#: commands/keyboards.py:64
+msgid "Create new category"
+msgstr "Créer une nouvelle catégorie"
+
+#: commands/keyboards.py:85
+msgid "Un-complete"
+msgstr "Non terminé"
+
+#: commands/keyboards.py:89
+msgid "Complete"
+msgstr "Compléter"
+
+#: commands/keyboards.py:93
+msgid "Postpone"
+msgstr "Reporter"
+
+#: commands/keyboards.py:97
+msgid "Edit"
+msgstr "Éditer"
+
+#: commands/keyboards.py:104
+msgid "Finish"
+msgstr "Finir"
+
+#: commands/keyboards.py:117
+msgid "Create category"
+msgstr "Créer une catégorie"
+
+#: commands/keyboards.py:122
+msgid "Delete category"
+msgstr "Supprimer la catégorie"
+
+#: commands/keyboards.py:126
+msgid "Edit category"
+msgstr "Modifier la catégorie"
+
+#: commands/misc.py:17
+msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
+msgstr ""
+"Hé! Je suis PlaneandingBot, laissez-moi vous aider à gérer vos tâches :)"
+
+#: commands/todo.py:50
+msgid "What is the task about?"
+msgstr "Quelle est la tâche?"
+
+#: commands/todo.py:65
+msgid "In which category will you include it?"
+msgstr "Dans quelle catégorie allez-vous l'inclure?"
+
+#: commands/todo.py:94
+msgid "Type the name for the new category"
+msgstr "Tapez le nom de la nouvelle catégorie"
+
+#: commands/todo.py:117
+msgid "Assing a deadline to the task"
+msgstr "Fixer une échéance à la tâche"
+
+#: commands/todo.py:134
+msgid "Assign the task"
+msgstr "Attribuer la tâche"
+
+#: commands/todo.py:143
+msgid "Do you want to assign the task to another member?"
+msgstr "Voulez-vous attribuer la tâche à un autre membre?"
+
+#: commands/todo.py:153 commands/todo.py:205 commands/todo.py:312
+msgid "Assign a deadline"
+msgstr "Attribuer une date limite"
+
+#: commands/todo.py:166
+msgid "Assignment of %s: %s"
+msgstr "Affectation de %s: %s"
+
+#: commands/todo.py:225
+msgid ""
+"You have selected %s\n"
+"Do you want to save the task?"
+msgstr ""
+"Vous avez sélectionné %s\n"
+"Voulez-vous enregistrer la tâche?"
+
+#: commands/todo.py:235
+msgid "Do you want to save the task?"
+msgstr "Voulez-vous enregistrer la tâche?"
+
+#: commands/todo.py:254
+msgid "Task saved!"
+msgstr "Tâche enregistrée!"
+
+#: commands/todo.py:263
+msgid "Task has been discarted"
+msgstr "La tâche a été interrompue"
+
+#: commands/todolist.py:43
+msgid "Filter tasks by category"
+msgstr "Filtrer les tâches par catégorie"
+
+#: commands/todolist.py:65
+msgid "Filter tasks by user assigned"
+msgstr "Filtrer les tâches par utilisateur affecté"
+
+#: commands/todolist.py:106
+msgid ""
+"There is no pending todos :)\n"
+"*Now you are free!*"
+msgstr ""
+"Il n'y a pas de todos en attente :)\n"
+"*Maintenant vous êtes libre!*"
+
+#: commands/todolist.py:135
+msgid " and "
+msgstr " et"
+
+#: commands/todolist.py:137
+msgid ""
+"*{0}* {5}\n"
+"``` {1} ```\n"
+"\n"
+"  _Created by {2}\n"
+"  Assigned to {3}\n"
+"  Deadline: {4}_\n"
+"\n"
+msgstr ""
+"* {0} * {5}\n"
+"`` {1} `` `\n"
+"\n"
+"  _Créé par {2}\n"
+"  Attribué à {3}\n"
+"  Date limite: {4} _\n"
+"\n"
+
+#: commands/todolist.py:145
+msgid "   COMPLETED!"
+msgstr "   COMPLÉTÉ!"
+
+#: commands/todolist.py:188
+msgid "Type to edit task:"
+msgstr "Tapez pour modifier la tâche:"
+
+#: commands/todolist.py:208
+msgid ""
+"Do you want to store pending changes?\n"
+"\n"
+msgstr ""
+"Voulez-vous stocker les modifications en attente?\n"
+"\n"
+
+#: commands/todolist.py:223
+msgid "No changes!"
+msgstr "Aucun changement!"
+
+#: commands/todolist.py:284
+msgid "Changes saved!"
+msgstr "Changements sauvegardés!"
+
+#: commands/todolist.py:292
+msgid "Restore version!"
+msgstr "Restaurez la version!"
