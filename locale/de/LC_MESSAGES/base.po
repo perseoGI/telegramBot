@@ -1,42 +1,201 @@
-# German (Germany) translations for PROJECT.
-# Copyright (C) 2021 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# asm4ever <perseo.gi98@gmail.com>, 2021
+# 
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-02-28 02:51+0100\n"
-"PO-Revision-Date: 2021-02-28 02:52+0100\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language: de_DE\n"
-"Language-Team: de_DE <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-03-02 19:39+0100\n"
+"PO-Revision-Date: 2021-02-28 02:01+0000\n"
+"Last-Translator: asm4ever <perseo.gi98@gmail.com>, 2021\n"
+"Language-Team: German (https://www.transifex.com/my-own-16/teams/117602/de/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: pygettext.py 1.5\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: commands/todolist.py:26
-msgid "Filter TODOs by category"
-msgstr "Strujan bajen"
+#: commands/background.py:38 commands/todolist.py:197
+msgid "Assign a new deadline"
+msgstr "Weisen Sie eine neue Frist zu"
 
-#: commands/todolist.py:46
-msgid "Filter TODOs by user assigned"
+#: commands/background.py:47
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been completed successfully"
 msgstr ""
+"Aufgabe:\n"
+"\n"
+"`` `{0}` ``\n"
+"\n"
+"wurde erfolgreich abgeschlossen"
 
-#: commands/todolist.py:80
+#: commands/background.py:72
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been postpone to day {1}"
+msgstr ""
+"Aufgabe:\n"
+"\n"
+"`` `{0}` ``\n"
+"\n"
+"wurde auf Tag verschoben {1}"
+
+#: commands/background.py:83
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been stored without dadline"
+msgstr ""
+"Aufgabe:\n"
+"\n"
+"`` `{0}` ``\n"
+"\n"
+"wurde ohne dadline gespeichert"
+
+#: commands/background.py:95
+msgid "An error has occurred"
+msgstr "Ein Fehler ist aufgetreten"
+
+#: commands/category.py:23
+msgid "Choose an option"
+msgstr "Wähle eine Option"
+
+#: commands/keyboards.py:44
+msgid "All users"
+msgstr "Alle Nutzer"
+
+#: commands/keyboards.py:61
+msgid "All categories"
+msgstr "Alle Kategorien"
+
+#: commands/keyboards.py:64
+msgid "Create new category"
+msgstr "Neue Kategorie erstellen"
+
+#: commands/keyboards.py:85
+msgid "Un-complete"
+msgstr "Unvollständig"
+
+#: commands/keyboards.py:89
+msgid "Complete"
+msgstr "Komplett"
+
+#: commands/keyboards.py:93
+msgid "Postpone"
+msgstr "Verschieben"
+
+#: commands/keyboards.py:97
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: commands/keyboards.py:104
+msgid "Finish"
+msgstr "Fertig"
+
+#: commands/keyboards.py:117
+msgid "Create category"
+msgstr "Kategorie erstellen"
+
+#: commands/keyboards.py:122
+msgid "Delete category"
+msgstr "Kategorie löschen"
+
+#: commands/keyboards.py:126
+msgid "Edit category"
+msgstr "Kategorie bearbeiten"
+
+#: commands/misc.py:17
+msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
+msgstr ""
+"Hallo! Ich bin PlaneandingBot, lass mich dir bei der Verwaltung deiner "
+"Aufgaben helfen :)"
+
+#: commands/todo.py:50
+msgid "What is the task about?"
+msgstr "Worum geht es in der Aufgabe?"
+
+#: commands/todo.py:65
+msgid "In which category will you include it?"
+msgstr "In welche Kategorie werden Sie es aufnehmen?"
+
+#: commands/todo.py:94
+msgid "Type the name for the new category"
+msgstr "Geben Sie den Namen für die neue Kategorie ein"
+
+#: commands/todo.py:117
+msgid "Assing a deadline to the task"
+msgstr "Festlegen einer Frist für die Aufgabe"
+
+#: commands/todo.py:134
+msgid "Assign the task"
+msgstr "Weisen Sie die Aufgabe zu"
+
+#: commands/todo.py:143
+msgid "Do you want to assign the task to another member?"
+msgstr "Möchten Sie die Aufgabe einem anderen Mitglied zuweisen?"
+
+#: commands/todo.py:153 commands/todo.py:205 commands/todo.py:312
+msgid "Assign a deadline"
+msgstr "Weisen Sie eine Frist zu"
+
+#: commands/todo.py:166
+msgid "Assignment of %s: %s"
+msgstr "Zuweisung von %s: %s"
+
+#: commands/todo.py:225
+msgid ""
+"You have selected %s\n"
+"Do you want to save the task?"
+msgstr ""
+"Sie haben %s ausgewählt\n"
+"Möchten Sie die Aufgabe speichern?"
+
+#: commands/todo.py:235
+msgid "Do you want to save the task?"
+msgstr "Möchten Sie die Aufgabe speichern?"
+
+#: commands/todo.py:254
+msgid "Task saved!"
+msgstr "Aufgabe gespeichert!"
+
+#: commands/todo.py:263
+msgid "Task has been discarted"
+msgstr "Aufgabe wurde freigegeben"
+
+#: commands/todolist.py:43
+msgid "Filter tasks by category"
+msgstr "Filtern Sie Aufgaben nach Kategorie"
+
+#: commands/todolist.py:65
+msgid "Filter tasks by user assigned"
+msgstr "Filtern Sie Aufgaben nach zugewiesenem Benutzer"
+
+#: commands/todolist.py:106
 msgid ""
 "There is no pending todos :)\n"
 "*Now you are free!*"
 msgstr ""
+"Es gibt keine ausstehenden Aufgaben :)\n"
+"*Jetzt bist du frei!*"
 
-#: commands/todolist.py:108
+#: commands/todolist.py:135
 msgid " and "
-msgstr ""
+msgstr " und"
 
-#: commands/todolist.py:110
+#: commands/todolist.py:137
 msgid ""
 "*{0}* {5}\n"
 "``` {1} ```\n"
@@ -46,4 +205,38 @@ msgid ""
 "  Deadline: {4}_\n"
 "\n"
 msgstr ""
+"* {0} * {5}\n"
+"`` `{1}` ``\n"
+"\n"
+"  _Erstellt von {2}\n"
+"  Zugewiesen an {3}\n"
+"  Frist: {4} _\n"
+"\n"
 
+#: commands/todolist.py:145
+msgid "   COMPLETED!"
+msgstr "   ABGESCHLOSSEN!"
+
+#: commands/todolist.py:188
+msgid "Type to edit task:"
+msgstr "Typ zum Bearbeiten der Aufgabe:"
+
+#: commands/todolist.py:208
+msgid ""
+"Do you want to store pending changes?\n"
+"\n"
+msgstr ""
+"Möchten Sie ausstehende Änderungen speichern?\n"
+"\n"
+
+#: commands/todolist.py:223
+msgid "No changes!"
+msgstr "Keine Änderungen!"
+
+#: commands/todolist.py:284
+msgid "Changes saved!"
+msgstr "Änderungen gespeichert!"
+
+#: commands/todolist.py:292
+msgid "Restore version!"
+msgstr "Version wiederherstellen!"
