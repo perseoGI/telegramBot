@@ -1,48 +1,200 @@
-# Translations template for PROJECT.
-# Copyright (C) 2021 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
-# Perseo Gutierrez <perseo.gi98@gmail.com>, 2021
+# asm4ever <perseo.gi98@gmail.com>, 2021
 # 
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-02-28 02:51+0100\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2021-03-02 19:39+0100\n"
 "PO-Revision-Date: 2021-02-28 02:01+0000\n"
-"Last-Translator: Perseo Gutierrez <perseo.gi98@gmail.com>, 2021\n"
+"Last-Translator: asm4ever <perseo.gi98@gmail.com>, 2021\n"
 "Language-Team: Spanish (https://www.transifex.com/my-own-16/teams/117602/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: pygettext.py 1.5\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: commands/todolist.py:26
-msgid "Filter TODOs by category"
+#: commands/background.py:38 commands/todolist.py:197
+msgid "Assign a new deadline"
+msgstr "Asigne una nueva fecha límite"
+
+#: commands/background.py:47
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been completed successfully"
+msgstr ""
+"La tarea:\n"
+"\n"
+"`` `{0}` ``\n"
+"\n"
+"se ha completado con éxito"
+
+#: commands/background.py:72
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been postpone to day {1}"
+msgstr ""
+"La tarea:\n"
+"\n"
+"`` `{0}` ``\n"
+"\n"
+"se ha pospuesto hasta el día {1}"
+
+#: commands/background.py:83
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been stored without dadline"
+msgstr ""
+"La tarea:\n"
+"\n"
+"`` `{0}` ``\n"
+"\n"
+"se ha almacenado sin Dadline"
+
+#: commands/background.py:95
+msgid "An error has occurred"
+msgstr "Se ha producido un error"
+
+#: commands/category.py:23
+msgid "Choose an option"
+msgstr "Elige una opcion"
+
+#: commands/keyboards.py:44
+msgid "All users"
+msgstr "Todos los usuarios"
+
+#: commands/keyboards.py:61
+msgid "All categories"
+msgstr "Todas las categorias"
+
+#: commands/keyboards.py:64
+msgid "Create new category"
+msgstr "Crear nueva categoría"
+
+#: commands/keyboards.py:85
+msgid "Un-complete"
+msgstr "Descompletar"
+
+#: commands/keyboards.py:89
+msgid "Complete"
+msgstr "Completar"
+
+#: commands/keyboards.py:93
+msgid "Postpone"
+msgstr "Posponer"
+
+#: commands/keyboards.py:97
+msgid "Edit"
+msgstr "Editar"
+
+#: commands/keyboards.py:104
+msgid "Finish"
+msgstr "Finalizar"
+
+#: commands/keyboards.py:117
+msgid "Create category"
+msgstr "Crear categoría"
+
+#: commands/keyboards.py:122
+msgid "Delete category"
+msgstr "Eliminar categoría"
+
+#: commands/keyboards.py:126
+msgid "Edit category"
+msgstr "Editar categoria"
+
+#: commands/misc.py:17
+msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
+msgstr ""
+"¡Ey! Soy el bot Planeanding, déjame ayudarte a administrar tus tareas :)"
+
+#: commands/todo.py:50
+msgid "What is the task about?"
+msgstr "¿En que consiste la tarea?"
+
+#: commands/todo.py:65
+msgid "In which category will you include it?"
+msgstr "¿En qué categoría lo incluirás?"
+
+#: commands/todo.py:94
+msgid "Type the name for the new category"
+msgstr "Escriba el nombre de la nueva categoría"
+
+#: commands/todo.py:117
+msgid "Assing a deadline to the task"
+msgstr "Asigne una fecha límite para la tarea"
+
+#: commands/todo.py:134
+msgid "Assign the task"
+msgstr "Asigne la tarea"
+
+#: commands/todo.py:143
+msgid "Do you want to assign the task to another member?"
+msgstr "¿Quieres asignar la tarea a otro miembro?"
+
+#: commands/todo.py:153 commands/todo.py:205 commands/todo.py:312
+msgid "Assign a deadline"
+msgstr "Asigne una fecha límite"
+
+#: commands/todo.py:166
+msgid "Assignment of %s: %s"
+msgstr "Asignación de %s: %s"
+
+#: commands/todo.py:225
+msgid ""
+"You have selected %s\n"
+"Do you want to save the task?"
+msgstr ""
+"Has seleccionado %s\n"
+"¿Quieres guardar la tarea?"
+
+#: commands/todo.py:235
+msgid "Do you want to save the task?"
+msgstr "¿Quieres guardar la tarea?"
+
+#: commands/todo.py:254
+msgid "Task saved!"
+msgstr "¡Tarea guardada!"
+
+#: commands/todo.py:263
+msgid "Task has been discarted"
+msgstr "La tarea ha sido descartada"
+
+#: commands/todolist.py:43
+msgid "Filter tasks by category"
 msgstr "Filtrar tareas por categoría"
 
-#: commands/todolist.py:46
-msgid "Filter TODOs by user assigned"
-msgstr "Filtrar TODOs por usuario asignado"
+#: commands/todolist.py:65
+msgid "Filter tasks by user assigned"
+msgstr "Filtrar tareas por usuario asignado"
 
-#: commands/todolist.py:80
+#: commands/todolist.py:106
 msgid ""
 "There is no pending todos :)\n"
 "*Now you are free!*"
 msgstr ""
-"No hay más tareas pendientes :)\n"
-"*Disfruta de tu tiempo libre!*"
+"No hay todos pendientes :)\n"
+"*¡Ahora eres libre!*"
 
-#: commands/todolist.py:108
+#: commands/todolist.py:135
 msgid " and "
-msgstr " y "
+msgstr " y"
 
-#: commands/todolist.py:110
+#: commands/todolist.py:137
 msgid ""
 "*{0}* {5}\n"
 "``` {1} ```\n"
@@ -52,3 +204,38 @@ msgid ""
 "  Deadline: {4}_\n"
 "\n"
 msgstr ""
+"* {0} * {5}\n"
+"`` `{1}` ``\n"
+"\n"
+"  _Creado por {2}\n"
+"  Asignado a {3}\n"
+"  Plazo: {4} _\n"
+"\n"
+
+#: commands/todolist.py:145
+msgid "   COMPLETED!"
+msgstr "   ¡TERMINADO!"
+
+#: commands/todolist.py:188
+msgid "Type to edit task:"
+msgstr "Escriba para editar la tarea:"
+
+#: commands/todolist.py:208
+msgid ""
+"Do you want to store pending changes?\n"
+"\n"
+msgstr ""
+"¿Quieres almacenar los cambios pendientes?\n"
+"\n"
+
+#: commands/todolist.py:223
+msgid "No changes!"
+msgstr "¡Sin cambios!"
+
+#: commands/todolist.py:284
+msgid "Changes saved!"
+msgstr "¡Cambios guardados!"
+
+#: commands/todolist.py:292
+msgid "Restore version!"
+msgstr "¡Restaurar versión!"
