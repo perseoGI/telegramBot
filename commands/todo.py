@@ -9,7 +9,7 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 from calendarBot import telegramcalendar
-from .keyboards import todo_member_keyboard, todo_category_keyboard, binary_keyboard
+from .keyboards import todo_member_keyboard_content, todo_category_keyboard_content, binary_keyboard
 
 # from .common import send_message
 from i18n import _
@@ -63,7 +63,7 @@ def todo_description(update, context):
         update=update,
         chat_id=chat_id,
         text=_("In which category will you include it?"),
-        reply_markup=todo_category_keyboard(chat_id, todolist=False),
+        reply_markup=todo_category_keyboard_content(chat_id, todolist=False),
     )
 
     # Check if user or chat exist in database and if not, insert them
@@ -132,7 +132,7 @@ def check_and_ask_assignation(
                 chat_id=chat_id,
                 message_id=message_id,
                 text=_("Assign the task"),
-                reply_markup=todo_member_keyboard(users_not_assigned, chat_id, bot),
+                reply_markup=todo_member_keyboard_content(users_not_assigned, chat_id, bot),
             )
             return ANOTHER_ASSIGNMENT
         else:
@@ -173,11 +173,6 @@ def todo_another_assignment(update, context):
         context.bot, update, chat_id, user_id, message_id, ask_for_continuing=True
     )
 
-    #              chat_id=chat_id,
-    #               message_id=update.callback_query.message.message_id,
-    #               text="Desea asignar tarea a otro miembro mas?",
-    #               reply_markup=binary_keyboard())
-
 
 def todo_assignment(update, context):
 
@@ -190,12 +185,6 @@ def todo_assignment(update, context):
         return check_and_ask_assignation(
             context.bot, update, chat_id, user_id, message_id, ask_for_continuing=False
         )
-
-        #              chat_id=chat_id,
-        #              message_id=update.callback_query.message.message_id,
-        #              text="Asigne la tarea",
-        #              reply_markup=todo_member_keyboard(chat_id, user_id, context.bot, todolist=False))
-        # return ANOTHER_ASSIGNMENT
 
     else:  # Next step
         botManager.send_message(
@@ -226,7 +215,7 @@ def todo_deadline(update, context):
             % (date.strftime("%d/%m/%Y")),
             reply_markup=binary_keyboard(),
         )
-        # reply_markup=ReplyKeyboardRemove())
+
     else:  # no deadline selected
         botManager.send_message(
             update=update,

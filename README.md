@@ -99,10 +99,11 @@ When sending a message with the bot on monospaced format, surround text with spa
 - [x] Generate events on the chat when deadline of a task has finished, allowing:
     - [x] Delay the task
     - [x] Mark as completed
-- [] Manage categories:
-    - [] Create a category (from outside a task creation interaction)
-    - [] Edit name of category
-    - [] Remove a category (if not empty, create a tour with uncompleted tasks in order to complete them)
-- [] Command to list completed tasks
+- [  ] Manage categories:
+    - [  ] Create a category (from outside a task creation interaction)
+    - [  ] Edit name of category
+    - [  ] Remove a category (if not empty, create a tour with uncompleted tasks in order to complete them)
+- [  ] Command to list completed tasks
 
+- [  ] Create an static getChatMember function instead of passing bot up and down on the architecture
 

@@ -8,7 +8,7 @@ from telegram.ext import (
     Filters,
 )
 from calendarBot import telegramcalendar
-from .keyboards import binary_keyboard, todocategory_options_keyboard
+from .keyboards import binary_keyboard, todocategory_options_keyboard_content
 
 import time
 from .common import send_message
@@ -21,7 +21,7 @@ def todocategory_start(update, context):
         context.bot,
         chat_id,
         _("Choose an option"),
-        reply_markup=todocategory_options_keyboard(),
+        reply_markup=todocategory_options_keyboard_content(),
     )
     return ConversationHandler.END
 

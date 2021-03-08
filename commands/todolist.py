@@ -11,14 +11,17 @@ from telegram.ext import (
 )
 from calendarBot import telegramcalendar
 from .keyboards import (
-    todo_member_keyboard,
+    todo_member_keyboard_content,
     todo_category_keyboard,
+    todo_category_keyboard_content,
     binary_keyboard,
-    todolist_item_keyboard,
+    binary_keyboard_content,
+
+    todolist_item_keyboard_content,
 )
 from .common import send_message
 from . import callbacks as Callback
-from i18n import _, install_user_language, es
+from i18n import _, install_user_language
 from utils.botinteractions import BotManager
 
 botManager = BotManager()
@@ -41,7 +44,9 @@ def todolist_start(update, context):
         update=update,
         chat_id=chat_id,
         text=_("Filter tasks by category"),
-        reply_markup=todo_category_keyboard(chat_id, todolist=True),
+        #reply_markup=todo_category_keyboard(chat_id, todolist=True),
+        reply_markup=todo_category_keyboard_content(chat_id, todolist=True),
+        #reply_markup=binary_keyboard_content()
     )
     return TODOLIST_CATEGORY
 
@@ -63,7 +68,7 @@ def todolist_category(update, context):
             chat_id=chat_id,
             message_id=message_id,
             text=_("Filter tasks by user assigned"),
-            reply_markup=todo_member_keyboard(
+            reply_markup=todo_member_keyboard_content(
                 group_member_ids, chat_id, context.bot, todolist=True
             ),
         )
@@ -156,7 +161,7 @@ def todolist_send_item(bot, update, message_id, chat_id, user_id):
             chat_id=chat_id,
             message_id=message_id,
             text=text,
-            reply_markup=todolist_item_keyboard(
+            reply_markup=todolist_item_keyboard_content(
                 limit=limit, completed=todo["completed"]
             ),
         )

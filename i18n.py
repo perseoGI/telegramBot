@@ -1,5 +1,7 @@
 # Import gettext module
+
 import gettext
+from os import walk
 
 # Set the local directory
 localedir = "./locale"
@@ -8,16 +10,13 @@ localedir = "./locale"
 en = gettext.translation("base", localedir, fallback=True)
 _ = en.gettext
 
-es = gettext.translation("base", localedir, languages=["es"])
-es.install()
+languages = {}
 
-# en = gettext.translation('base', localedir, languages=['en'])
-# en.install()
 
-de = gettext.translation("base", localedir, languages=["de"])
-de.install()
-
-languages = {"es": es, "de": de, "en": en}
+def setup_locales():
+    for locale in next(walk(localedir))[1]:
+        languages[locale] = gettext.translation("base", localedir, languages=[locale])
+        languages[locale].install()
 
 
 def install_user_language(update):

@@ -2,40 +2,13 @@ from telegram import ParseMode, ChatAction
 
 from i18n import install_user_language
 
+from commands.keyboards import create_locale_keyboard
+
 
 class BotManager:
     class __impl:
         bot = None
         """ implementation of the singleton class """
-
-        def send_message(
-            self,
-            chat_id,
-            text,
-            parse_mode=ParseMode.MARKDOWN,
-            message_id=None,
-            reply_markup=None,
-        ):
-            # bot = self.bot if not bot else bot  # TODO
-            print(self.bot)
-            self.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
-            if message_id:
-                self.bot.edit_message_text(
-                    chat_id=chat_id,
-                    message_id=message_id,
-                    text=text,
-                    parse_mode=parse_mode,
-                    reply_markup=reply_markup,
-                    disable_notification=True,
-                )
-            else:
-                self.bot.send_message(
-                    chat_id=chat_id,
-                    text=text,
-                    parse_mode=parse_mode,
-                    reply_markup=reply_markup,
-                    disable_notification=True,
-                )
 
         def send_message(
             self,
@@ -48,6 +21,11 @@ class BotManager:
         ):
 
             translate = install_user_language(update)
+
+            #if "inline_keyboard" in reply_markup:
+            if reply_markup:
+                reply_markup = create_locale_keyboard(translator=translate, keyboard_content=reply_markup)
+
 
             self.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 

@@ -12,6 +12,7 @@ from telegram.ext import messagequeue as mq
 import telegram.bot
 from telegram.utils.request import Request
 from utils.botinteractions import BotManager
+from i18n import setup_locales
 
 # https://github.com/python-telegram-bot/python-telegram-bot/wiki/Avoiding-flood-limits
 # Class to "avoid" flood limits while sending multiple messages
@@ -53,6 +54,9 @@ bot = None
 def main():
     # Create or launch database
     init_db()
+
+    # Setup and install languages
+    setup_locales()
 
     print("Setting up bot")
     token = environ.get("BOT_KEY")
