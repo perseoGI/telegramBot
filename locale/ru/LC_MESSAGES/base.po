@@ -1,0 +1,373 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# asm4ever <perseo.gi98@gmail.com>, 2021
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-09 18:26+0100\n"
+"PO-Revision-Date: 2021-02-28 02:01+0000\n"
+"Last-Translator: asm4ever <perseo.gi98@gmail.com>, 2021\n"
+"Language-Team: Russian (https://www.transifex.com/my-own-16/teams/117602/ru/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ru\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "January"
+msgstr "Январь"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "February"
+msgstr "Февраль"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "March"
+msgstr "марш"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "April"
+msgstr "апреля"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "May"
+msgstr "Май"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "June"
+msgstr "июнь"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "July"
+msgstr "июль"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "August"
+msgstr "август"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "September"
+msgstr "сентябрь"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "October"
+msgstr "Октябрь"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "November"
+msgstr "Ноябрь"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "December"
+msgstr "Декабрь"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Monday"
+msgstr "понедельник"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Tuesday"
+msgstr "вторник"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Wednesday"
+msgstr "среда"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Thursday"
+msgstr "Четверг"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Friday"
+msgstr "Пятница"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Saturday"
+msgstr "Суббота"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Sunday"
+msgstr "воскресенье"
+
+#: telegramBot/calendarBot/telegramcalendar.py:69
+msgid "No deadline"
+msgstr "Нет крайнего срока"
+
+#: telegramBot/commands/background.py:38 telegramBot/commands/todolist.py:198
+msgid "Assign a new deadline"
+msgstr "Назначьте новый срок"
+
+#: telegramBot/commands/background.py:47
+#, python-brace-format
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been completed successfully"
+msgstr ""
+"Задача:\n"
+"\n"
+"`` {0} `` `\n"
+"\n"
+"был успешно завершен"
+
+#: telegramBot/commands/background.py:72
+#, python-brace-format
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been postpone to day {1}"
+msgstr ""
+"Задача:\n"
+"\n"
+"`` {0} `` `\n"
+"\n"
+"перенесен на день {1}"
+
+#: telegramBot/commands/background.py:83
+#, python-brace-format
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been stored without dadline"
+msgstr ""
+"Задача:\n"
+"\n"
+"`` {0} `` `\n"
+"\n"
+"хранился без папок"
+
+#: telegramBot/commands/background.py:95
+msgid "An error has occurred"
+msgstr "произошла ошибка"
+
+#: telegramBot/commands/category.py:23
+msgid "Choose an option"
+msgstr "Выберите опцию"
+
+#: telegramBot/commands/keyboards.py:23
+msgid "Yes"
+msgstr "да"
+
+#: telegramBot/commands/keyboards.py:23
+msgid "No"
+msgstr "Нет"
+
+#: telegramBot/commands/keyboards.py:37
+msgid "All categories"
+msgstr "Все категории"
+
+#: telegramBot/commands/keyboards.py:39
+msgid "Create new category"
+msgstr "Создать новую категорию"
+
+#: telegramBot/commands/keyboards.py:58
+msgid "All users"
+msgstr "Все пользователи"
+
+#: telegramBot/commands/keyboards.py:66
+msgid "Un-complete"
+msgstr "Незавершенный"
+
+#: telegramBot/commands/keyboards.py:68
+msgid "Complete"
+msgstr "Полный"
+
+#: telegramBot/commands/keyboards.py:70 telegramBot/database.py:470
+msgid "Postpone"
+msgstr "Откладывать"
+
+#: telegramBot/commands/keyboards.py:72
+msgid "Edit"
+msgstr "Редактировать"
+
+#: telegramBot/commands/keyboards.py:78
+msgid "Finish"
+msgstr "Заканчивать"
+
+#: telegramBot/commands/keyboards.py:88
+msgid "Create category"
+msgstr "Создать категорию"
+
+#: telegramBot/commands/keyboards.py:89
+msgid "Delete category"
+msgstr "Удалить категорию"
+
+#: telegramBot/commands/keyboards.py:90
+msgid "Edit category"
+msgstr "Изменить категорию"
+
+#: telegramBot/commands/misc.py:17
+msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
+msgstr ""
+"Привет! Я PlaneandingBot, позвольте мне помочь вам справиться с вашими "
+"задачами :)"
+
+#: telegramBot/commands/todolist.py:44
+msgid "Filter tasks by category"
+msgstr "Фильтровать задачи по категории"
+
+#: telegramBot/commands/todolist.py:66
+msgid "Filter tasks by user assigned"
+msgstr "Фильтровать задачи по назначенному пользователю"
+
+#: telegramBot/commands/todolist.py:107
+msgid ""
+"There is no pending todos :)\n"
+"*Now you are free!*"
+msgstr ""
+"Нет незавершенных задач :)\n"
+"*Теперь вы свободны!*"
+
+#: telegramBot/commands/todolist.py:136
+msgid " and "
+msgstr " и"
+
+#: telegramBot/commands/todolist.py:139
+#, python-brace-format
+msgid ""
+"*{0}* {5}\n"
+"``` {1} ```\n"
+"\n"
+"  _Created by {2}\n"
+"  Assigned to {3}\n"
+"  Deadline: {4}_\n"
+"\n"
+msgstr ""
+"* {0} * {5}\n"
+"`` {1} ``\n"
+"\n"
+"  _Создано {2}\n"
+"  Назначен на {3}\n"
+"  Срок: {4} _\n"
+"\n"
+
+#: telegramBot/commands/todolist.py:146
+msgid "   COMPLETED!"
+msgstr "   ЗАВЕРШЕННЫЙ!"
+
+#: telegramBot/commands/todolist.py:189
+msgid "Type to edit task:"
+msgstr "Введите для редактирования задачу:"
+
+#: telegramBot/commands/todolist.py:209
+msgid ""
+"Do you want to store pending changes?\n"
+"\n"
+msgstr ""
+"Вы хотите сохранить ожидающие изменения?\n"
+"\n"
+
+#: telegramBot/commands/todolist.py:224
+msgid "No changes!"
+msgstr "Без изменений!"
+
+#: telegramBot/commands/todolist.py:285
+msgid "Changes saved!"
+msgstr "Изменения сохранены!"
+
+#: telegramBot/commands/todolist.py:293
+msgid "Restore version!"
+msgstr "Восстановить версию!"
+
+#: telegramBot/commands/todo.py:50
+msgid "What is the task about?"
+msgstr "В чем задача?"
+
+#: telegramBot/commands/todo.py:65
+msgid "In which category will you include it?"
+msgstr "В какую категорию вы его включите?"
+
+#: telegramBot/commands/todo.py:94
+msgid "Type the name for the new category"
+msgstr "Введите название новой категории"
+
+#: telegramBot/commands/todo.py:117
+msgid "Assing a deadline to the task"
+msgstr "Назначение крайнего срока для задачи"
+
+#: telegramBot/commands/todo.py:134
+msgid "Assign the task"
+msgstr "Назначьте задачу"
+
+#: telegramBot/commands/todo.py:143
+msgid "Do you want to assign the task to another member?"
+msgstr "Вы хотите поручить задачу другому участнику?"
+
+#: telegramBot/commands/todo.py:153 telegramBot/commands/todo.py:194
+#: telegramBot/commands/todo.py:301
+msgid "Assign a deadline"
+msgstr "Назначьте крайний срок"
+
+#: telegramBot/commands/todo.py:166
+#, python-format
+msgid "Assignment of %s: %s"
+msgstr "Назначение %s: %s"
+
+#: telegramBot/commands/todo.py:214
+#, python-format
+msgid ""
+"You have selected %s\n"
+"Do you want to save the task?"
+msgstr ""
+"Вы выбрали %s\n"
+"Вы хотите сохранить задание?"
+
+#: telegramBot/commands/todo.py:224
+msgid "Do you want to save the task?"
+msgstr "Вы хотите сохранить задание?"
+
+#: telegramBot/commands/todo.py:243
+msgid "Task saved!"
+msgstr "Задача сохранена!"
+
+#: telegramBot/commands/todo.py:252
+msgid "Task has been discarted"
+msgstr "Задача была отменена"
+
+#: telegramBot/database.py:465
+#, python-brace-format
+msgid ""
+"*Warning*:\n"
+"Task scheduled for day {0} is due today.\n"
+"\n"
+"``` {1} ```\n"
+" \n"
+"Do you want to postpone the task or mark it as completed?"
+msgstr ""
+"*Предупреждение*:\n"
+"Задача, запланированная на день {0}, должна быть выполнена сегодня.\n"
+"\n"
+"`` {1} ``\n"
+" \n"
+"Хотите отложить задачу или пометить ее как выполненную?"
+
+#: telegramBot/database.py:478
+msgid "Mark as completed"
+msgstr "Отметить как завершенное"
+
+#: telegramBot/database.py:495
+#, python-brace-format
+msgid ""
+"*Reminder*:\n"
+"The task scheduled for day {0} is due tomorrow.\n"
+"\n"
+"``` {1} ```"
+msgstr ""
+"*Напоминание*:\n"
+"Задача, запланированная на день {0}, должна быть выполнена завтра.\n"
+"\n"
+"`` {1} ``"
