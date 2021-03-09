@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-09 18:17+0100\n"
+"POT-Creation-Date: 2021-03-09 18:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,31 +66,31 @@ msgid "December"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
-msgid "Mo"
+msgid "Monday"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
-msgid "Tu"
+msgid "Tuesday"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
-msgid "We"
+msgid "Wednesday"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
-msgid "Th"
+msgid "Thursday"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
-msgid "Fr"
+msgid "Friday"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
-msgid "Sa"
+msgid "Saturday"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
-msgid "Su"
+msgid "Sunday"
 msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:69
