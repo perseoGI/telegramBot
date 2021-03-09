@@ -1,0 +1,373 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+# Translators:
+# asm4ever <perseo.gi98@gmail.com>, 2021
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-09 18:26+0100\n"
+"PO-Revision-Date: 2021-02-28 02:01+0000\n"
+"Last-Translator: asm4ever <perseo.gi98@gmail.com>, 2021\n"
+"Language-Team: Greek (https://www.transifex.com/my-own-16/teams/117602/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "January"
+msgstr "Ιανουάριος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "February"
+msgstr "Φεβρουάριος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "March"
+msgstr "Μάρτιος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "April"
+msgstr "Απρίλιος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "May"
+msgstr "Ενδέχεται"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "June"
+msgstr "Ιούνιος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "July"
+msgstr "Ιούλιος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "August"
+msgstr "Αύγουστος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "September"
+msgstr "Σεπτέμβριος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "October"
+msgstr "Οκτώβριος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "November"
+msgstr "Νοέμβριος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "December"
+msgstr "Δεκέμβριος"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Monday"
+msgstr "Δευτέρα"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Tuesday"
+msgstr "Τρίτη"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Wednesday"
+msgstr "Τετάρτη"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Thursday"
+msgstr "Πέμπτη"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Friday"
+msgstr "Παρασκευή"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Saturday"
+msgstr "Σάββατο"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Sunday"
+msgstr "Κυριακή"
+
+#: telegramBot/calendarBot/telegramcalendar.py:69
+msgid "No deadline"
+msgstr "Χωρίς προθεσμία"
+
+#: telegramBot/commands/background.py:38 telegramBot/commands/todolist.py:198
+msgid "Assign a new deadline"
+msgstr "Εκχώρηση νέας προθεσμίας"
+
+#: telegramBot/commands/background.py:47
+#, python-brace-format
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been completed successfully"
+msgstr ""
+"Εργο:\n"
+"\n"
+"\"{0}\" \"\n"
+"\n"
+"ολοκληρώθηκε με επιτυχία"
+
+#: telegramBot/commands/background.py:72
+#, python-brace-format
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been postpone to day {1}"
+msgstr ""
+"Εργο:\n"
+"\n"
+"\"{0}\" \"\n"
+"\n"
+"έχει αναβληθεί για την ημέρα {1}"
+
+#: telegramBot/commands/background.py:83
+#, python-brace-format
+msgid ""
+"Task:\n"
+"\n"
+"``` {0} ```\n"
+"\n"
+"has been stored without dadline"
+msgstr ""
+"Εργο:\n"
+"\n"
+"\"{0}\" \"\n"
+"\n"
+"έχει αποθηκευτεί χωρίς προθεσμία"
+
+#: telegramBot/commands/background.py:95
+msgid "An error has occurred"
+msgstr "Παρουσιάστηκε σφάλμα"
+
+#: telegramBot/commands/category.py:23
+msgid "Choose an option"
+msgstr "Διάλεξε μια επιλογή"
+
+#: telegramBot/commands/keyboards.py:23
+msgid "Yes"
+msgstr "Ναί"
+
+#: telegramBot/commands/keyboards.py:23
+msgid "No"
+msgstr "Οχι"
+
+#: telegramBot/commands/keyboards.py:37
+msgid "All categories"
+msgstr "Ολες οι κατηγορίες"
+
+#: telegramBot/commands/keyboards.py:39
+msgid "Create new category"
+msgstr "Δημιουργία νέας κατηγορίας"
+
+#: telegramBot/commands/keyboards.py:58
+msgid "All users"
+msgstr "Ολοι οι χρήστες"
+
+#: telegramBot/commands/keyboards.py:66
+msgid "Un-complete"
+msgstr "Δεν ολοκληρώθηκε"
+
+#: telegramBot/commands/keyboards.py:68
+msgid "Complete"
+msgstr "Πλήρης"
+
+#: telegramBot/commands/keyboards.py:70 telegramBot/database.py:470
+msgid "Postpone"
+msgstr "Αναβάλλω"
+
+#: telegramBot/commands/keyboards.py:72
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: telegramBot/commands/keyboards.py:78
+msgid "Finish"
+msgstr "Φινίρισμα"
+
+#: telegramBot/commands/keyboards.py:88
+msgid "Create category"
+msgstr "Δημιουργία κατηγορίας"
+
+#: telegramBot/commands/keyboards.py:89
+msgid "Delete category"
+msgstr "Διαγραφή κατηγορίας"
+
+#: telegramBot/commands/keyboards.py:90
+msgid "Edit category"
+msgstr "Επεξεργασία κατηγορίας"
+
+#: telegramBot/commands/misc.py:17
+msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
+msgstr ""
+"Γεια! Είμαι PlaneandingBot, επιτρέψτε μου να σας βοηθήσω να διαχειριστείτε "
+"τις εργασίες σας :)"
+
+#: telegramBot/commands/todolist.py:44
+msgid "Filter tasks by category"
+msgstr "Φιλτράρετε εργασίες ανά κατηγορία"
+
+#: telegramBot/commands/todolist.py:66
+msgid "Filter tasks by user assigned"
+msgstr "Φιλτράρετε εργασίες ανά χρήστη που έχει ανατεθεί"
+
+#: telegramBot/commands/todolist.py:107
+msgid ""
+"There is no pending todos :)\n"
+"*Now you are free!*"
+msgstr ""
+"Δεν υπάρχουν εκκρεμείς εκκρεμότητες :)\n"
+"* Τώρα είστε ελεύθεροι! *"
+
+#: telegramBot/commands/todolist.py:136
+msgid " and "
+msgstr " και"
+
+#: telegramBot/commands/todolist.py:139
+#, python-brace-format
+msgid ""
+"*{0}* {5}\n"
+"``` {1} ```\n"
+"\n"
+"  _Created by {2}\n"
+"  Assigned to {3}\n"
+"  Deadline: {4}_\n"
+"\n"
+msgstr ""
+"* {0} * {5}\n"
+"\"\" {1} \"\"\n"
+"\n"
+"  _ Δημιουργήθηκε από {2}\n"
+"  Ανατέθηκε σε {3}\n"
+"  Προθεσμία: {4} _\n"
+"\n"
+
+#: telegramBot/commands/todolist.py:146
+msgid "   COMPLETED!"
+msgstr "   ΟΛΟΚΛΗΡΩΘΗΚΕ ΤΟ!"
+
+#: telegramBot/commands/todolist.py:189
+msgid "Type to edit task:"
+msgstr "Πληκτρολογήστε για επεξεργασία εργασίας:"
+
+#: telegramBot/commands/todolist.py:209
+msgid ""
+"Do you want to store pending changes?\n"
+"\n"
+msgstr ""
+"Θέλετε να αποθηκεύσετε τις εκκρεμείς αλλαγές;\n"
+"\n"
+
+#: telegramBot/commands/todolist.py:224
+msgid "No changes!"
+msgstr "Χωρίς αλλαγές!"
+
+#: telegramBot/commands/todolist.py:285
+msgid "Changes saved!"
+msgstr "Οι αλλαγές αποθηκεύτηκαν!"
+
+#: telegramBot/commands/todolist.py:293
+msgid "Restore version!"
+msgstr "Επαναφορά έκδοσης!"
+
+#: telegramBot/commands/todo.py:50
+msgid "What is the task about?"
+msgstr "Τι είναι το έργο;"
+
+#: telegramBot/commands/todo.py:65
+msgid "In which category will you include it?"
+msgstr "Σε ποια κατηγορία θα το συμπεριλάβετε;"
+
+#: telegramBot/commands/todo.py:94
+msgid "Type the name for the new category"
+msgstr "Πληκτρολογήστε το όνομα για τη νέα κατηγορία"
+
+#: telegramBot/commands/todo.py:117
+msgid "Assing a deadline to the task"
+msgstr "Καθορισμός προθεσμίας για την εργασία"
+
+#: telegramBot/commands/todo.py:134
+msgid "Assign the task"
+msgstr "Εκχωρήστε την εργασία"
+
+#: telegramBot/commands/todo.py:143
+msgid "Do you want to assign the task to another member?"
+msgstr "Θέλετε να αναθέσετε την εργασία σε άλλο μέλος;"
+
+#: telegramBot/commands/todo.py:153 telegramBot/commands/todo.py:194
+#: telegramBot/commands/todo.py:301
+msgid "Assign a deadline"
+msgstr "Ορίστε μια προθεσμία"
+
+#: telegramBot/commands/todo.py:166
+#, python-format
+msgid "Assignment of %s: %s"
+msgstr "Αντιστοίχιση %s: %s"
+
+#: telegramBot/commands/todo.py:214
+#, python-format
+msgid ""
+"You have selected %s\n"
+"Do you want to save the task?"
+msgstr ""
+"Έχετε επιλέξει %s\n"
+"Θέλετε να αποθηκεύσετε την εργασία;"
+
+#: telegramBot/commands/todo.py:224
+msgid "Do you want to save the task?"
+msgstr "Θέλετε να αποθηκεύσετε την εργασία;"
+
+#: telegramBot/commands/todo.py:243
+msgid "Task saved!"
+msgstr "Η εργασία αποθηκεύτηκε!"
+
+#: telegramBot/commands/todo.py:252
+msgid "Task has been discarted"
+msgstr "Η εργασία έχει διαγραφεί"
+
+#: telegramBot/database.py:465
+#, python-brace-format
+msgid ""
+"*Warning*:\n"
+"Task scheduled for day {0} is due today.\n"
+"\n"
+"``` {1} ```\n"
+" \n"
+"Do you want to postpone the task or mark it as completed?"
+msgstr ""
+"*Προειδοποίηση*:\n"
+"Η εργασία που έχει προγραμματιστεί για την ημέρα {0} αναμένεται σήμερα.\n"
+"\n"
+"\"\" {1} \"\"\n"
+" \n"
+"Θέλετε να αναβάλλετε την εργασία ή να την επισημάνετε ως ολοκληρωμένη;"
+
+#: telegramBot/database.py:478
+msgid "Mark as completed"
+msgstr "Επισήμανση ως ολοκληρωμένου"
+
+#: telegramBot/database.py:495
+#, python-brace-format
+msgid ""
+"*Reminder*:\n"
+"The task scheduled for day {0} is due tomorrow.\n"
+"\n"
+"``` {1} ```"
+msgstr ""
+"*Υπενθύμιση*:\n"
+"Η εργασία που έχει προγραμματιστεί για την ημέρα {0} αναμένεται αύριο.\n"
+"\n"
+"\"\" {1} \"\""
