@@ -1,29 +1,112 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR ORGANIZATION
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 # Translators:
 # asm4ever <perseo.gi98@gmail.com>, 2021
 # 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2021-03-02 19:39+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-03-09 18:26+0100\n"
 "PO-Revision-Date: 2021-02-28 02:01+0000\n"
 "Last-Translator: asm4ever <perseo.gi98@gmail.com>, 2021\n"
 "Language-Team: German (https://www.transifex.com/my-own-16/teams/117602/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: pygettext.py 1.5\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: commands/background.py:38 commands/todolist.py:197
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "January"
+msgstr "Januar"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "February"
+msgstr "Februar"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "March"
+msgstr "März"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "April"
+msgstr "April"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "May"
+msgstr "Kann"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "June"
+msgstr "Juni"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "July"
+msgstr "Juli"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "August"
+msgstr "August"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "September"
+msgstr "September"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "October"
+msgstr "Oktober"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "November"
+msgstr "November"
+
+#: telegramBot/calendarBot/telegramcalendar.py:20
+msgid "December"
+msgstr "Dezember"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Monday"
+msgstr "Montag"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Tuesday"
+msgstr "Dienstag"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Thursday"
+msgstr "Donnerstag"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Friday"
+msgstr "Freitag"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Saturday"
+msgstr "Samstag"
+
+#: telegramBot/calendarBot/telegramcalendar.py:21
+msgid "Sunday"
+msgstr "Sonntag"
+
+#: telegramBot/calendarBot/telegramcalendar.py:69
+msgid "No deadline"
+msgstr "Keine Frist"
+
+#: telegramBot/commands/background.py:38 telegramBot/commands/todolist.py:198
 msgid "Assign a new deadline"
 msgstr "Weisen Sie eine neue Frist zu"
 
-#: commands/background.py:47
+#: telegramBot/commands/background.py:47
+#, python-brace-format
 msgid ""
 "Task:\n"
 "\n"
@@ -37,7 +120,8 @@ msgstr ""
 "\n"
 "wurde erfolgreich abgeschlossen"
 
-#: commands/background.py:72
+#: telegramBot/commands/background.py:72
+#, python-brace-format
 msgid ""
 "Task:\n"
 "\n"
@@ -51,7 +135,8 @@ msgstr ""
 "\n"
 "wurde auf Tag verschoben {1}"
 
-#: commands/background.py:83
+#: telegramBot/commands/background.py:83
+#, python-brace-format
 msgid ""
 "Task:\n"
 "\n"
@@ -65,125 +150,81 @@ msgstr ""
 "\n"
 "wurde ohne dadline gespeichert"
 
-#: commands/background.py:95
+#: telegramBot/commands/background.py:95
 msgid "An error has occurred"
 msgstr "Ein Fehler ist aufgetreten"
 
-#: commands/category.py:23
+#: telegramBot/commands/category.py:23
 msgid "Choose an option"
 msgstr "Wähle eine Option"
 
-#: commands/keyboards.py:44
-msgid "All users"
-msgstr "Alle Nutzer"
+#: telegramBot/commands/keyboards.py:23
+msgid "Yes"
+msgstr "Ja"
 
-#: commands/keyboards.py:61
+#: telegramBot/commands/keyboards.py:23
+msgid "No"
+msgstr "Nein"
+
+#: telegramBot/commands/keyboards.py:37
 msgid "All categories"
 msgstr "Alle Kategorien"
 
-#: commands/keyboards.py:64
+#: telegramBot/commands/keyboards.py:39
 msgid "Create new category"
 msgstr "Neue Kategorie erstellen"
 
-#: commands/keyboards.py:85
+#: telegramBot/commands/keyboards.py:58
+msgid "All users"
+msgstr "Alle Nutzer"
+
+#: telegramBot/commands/keyboards.py:66
 msgid "Un-complete"
 msgstr "Unvollständig"
 
-#: commands/keyboards.py:89
+#: telegramBot/commands/keyboards.py:68
 msgid "Complete"
 msgstr "Komplett"
 
-#: commands/keyboards.py:93
+#: telegramBot/commands/keyboards.py:70 telegramBot/database.py:470
 msgid "Postpone"
 msgstr "Verschieben"
 
-#: commands/keyboards.py:97
+#: telegramBot/commands/keyboards.py:72
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: commands/keyboards.py:104
+#: telegramBot/commands/keyboards.py:78
 msgid "Finish"
 msgstr "Fertig"
 
-#: commands/keyboards.py:117
+#: telegramBot/commands/keyboards.py:88
 msgid "Create category"
 msgstr "Kategorie erstellen"
 
-#: commands/keyboards.py:122
+#: telegramBot/commands/keyboards.py:89
 msgid "Delete category"
 msgstr "Kategorie löschen"
 
-#: commands/keyboards.py:126
+#: telegramBot/commands/keyboards.py:90
 msgid "Edit category"
 msgstr "Kategorie bearbeiten"
 
-#: commands/misc.py:17
+#: telegramBot/commands/misc.py:17
 msgid "Hey! I'm PlaneandingBot, let me help you managing your tasks :)"
 msgstr ""
 "Hallo! Ich bin PlaneandingBot, lass mich dir bei der Verwaltung deiner "
 "Aufgaben helfen :)"
 
-#: commands/todo.py:50
-msgid "What is the task about?"
-msgstr "Worum geht es in der Aufgabe?"
-
-#: commands/todo.py:65
-msgid "In which category will you include it?"
-msgstr "In welche Kategorie werden Sie es aufnehmen?"
-
-#: commands/todo.py:94
-msgid "Type the name for the new category"
-msgstr "Geben Sie den Namen für die neue Kategorie ein"
-
-#: commands/todo.py:117
-msgid "Assing a deadline to the task"
-msgstr "Festlegen einer Frist für die Aufgabe"
-
-#: commands/todo.py:134
-msgid "Assign the task"
-msgstr "Weisen Sie die Aufgabe zu"
-
-#: commands/todo.py:143
-msgid "Do you want to assign the task to another member?"
-msgstr "Möchten Sie die Aufgabe einem anderen Mitglied zuweisen?"
-
-#: commands/todo.py:153 commands/todo.py:205 commands/todo.py:312
-msgid "Assign a deadline"
-msgstr "Weisen Sie eine Frist zu"
-
-#: commands/todo.py:166
-msgid "Assignment of %s: %s"
-msgstr "Zuweisung von %s: %s"
-
-#: commands/todo.py:225
-msgid ""
-"You have selected %s\n"
-"Do you want to save the task?"
-msgstr ""
-"Sie haben %s ausgewählt\n"
-"Möchten Sie die Aufgabe speichern?"
-
-#: commands/todo.py:235
-msgid "Do you want to save the task?"
-msgstr "Möchten Sie die Aufgabe speichern?"
-
-#: commands/todo.py:254
-msgid "Task saved!"
-msgstr "Aufgabe gespeichert!"
-
-#: commands/todo.py:263
-msgid "Task has been discarted"
-msgstr "Aufgabe wurde freigegeben"
-
-#: commands/todolist.py:43
+#: telegramBot/commands/todolist.py:44
 msgid "Filter tasks by category"
 msgstr "Filtern Sie Aufgaben nach Kategorie"
 
-#: commands/todolist.py:65
+#: telegramBot/commands/todolist.py:66
 msgid "Filter tasks by user assigned"
 msgstr "Filtern Sie Aufgaben nach zugewiesenem Benutzer"
 
-#: commands/todolist.py:106
+#: telegramBot/commands/todolist.py:107
 msgid ""
 "There is no pending todos :)\n"
 "*Now you are free!*"
@@ -191,11 +232,12 @@ msgstr ""
 "Es gibt keine ausstehenden Aufgaben :)\n"
 "*Jetzt bist du frei!*"
 
-#: commands/todolist.py:135
+#: telegramBot/commands/todolist.py:136
 msgid " and "
 msgstr " und"
 
-#: commands/todolist.py:137
+#: telegramBot/commands/todolist.py:139
+#, python-brace-format
 msgid ""
 "*{0}* {5}\n"
 "``` {1} ```\n"
@@ -213,15 +255,15 @@ msgstr ""
 "  Frist: {4} _\n"
 "\n"
 
-#: commands/todolist.py:145
+#: telegramBot/commands/todolist.py:146
 msgid "   COMPLETED!"
 msgstr "   ABGESCHLOSSEN!"
 
-#: commands/todolist.py:188
+#: telegramBot/commands/todolist.py:189
 msgid "Type to edit task:"
 msgstr "Typ zum Bearbeiten der Aufgabe:"
 
-#: commands/todolist.py:208
+#: telegramBot/commands/todolist.py:209
 msgid ""
 "Do you want to store pending changes?\n"
 "\n"
@@ -229,14 +271,103 @@ msgstr ""
 "Möchten Sie ausstehende Änderungen speichern?\n"
 "\n"
 
-#: commands/todolist.py:223
+#: telegramBot/commands/todolist.py:224
 msgid "No changes!"
 msgstr "Keine Änderungen!"
 
-#: commands/todolist.py:284
+#: telegramBot/commands/todolist.py:285
 msgid "Changes saved!"
 msgstr "Änderungen gespeichert!"
 
-#: commands/todolist.py:292
+#: telegramBot/commands/todolist.py:293
 msgid "Restore version!"
 msgstr "Version wiederherstellen!"
+
+#: telegramBot/commands/todo.py:50
+msgid "What is the task about?"
+msgstr "Worum geht es in der Aufgabe?"
+
+#: telegramBot/commands/todo.py:65
+msgid "In which category will you include it?"
+msgstr "In welche Kategorie werden Sie es aufnehmen?"
+
+#: telegramBot/commands/todo.py:94
+msgid "Type the name for the new category"
+msgstr "Geben Sie den Namen für die neue Kategorie ein"
+
+#: telegramBot/commands/todo.py:117
+msgid "Assing a deadline to the task"
+msgstr "Festlegen einer Frist für die Aufgabe"
+
+#: telegramBot/commands/todo.py:134
+msgid "Assign the task"
+msgstr "Weisen Sie die Aufgabe zu"
+
+#: telegramBot/commands/todo.py:143
+msgid "Do you want to assign the task to another member?"
+msgstr "Möchten Sie die Aufgabe einem anderen Mitglied zuweisen?"
+
+#: telegramBot/commands/todo.py:153 telegramBot/commands/todo.py:194
+#: telegramBot/commands/todo.py:301
+msgid "Assign a deadline"
+msgstr "Weisen Sie eine Frist zu"
+
+#: telegramBot/commands/todo.py:166
+#, python-format
+msgid "Assignment of %s: %s"
+msgstr "Zuweisung von %s: %s"
+
+#: telegramBot/commands/todo.py:214
+#, python-format
+msgid ""
+"You have selected %s\n"
+"Do you want to save the task?"
+msgstr ""
+"Sie haben %s ausgewählt\n"
+"Möchten Sie die Aufgabe speichern?"
+
+#: telegramBot/commands/todo.py:224
+msgid "Do you want to save the task?"
+msgstr "Möchten Sie die Aufgabe speichern?"
+
+#: telegramBot/commands/todo.py:243
+msgid "Task saved!"
+msgstr "Aufgabe gespeichert!"
+
+#: telegramBot/commands/todo.py:252
+msgid "Task has been discarted"
+msgstr "Aufgabe wurde freigegeben"
+
+#: telegramBot/database.py:465
+#, python-brace-format
+msgid ""
+"*Warning*:\n"
+"Task scheduled for day {0} is due today.\n"
+"\n"
+"``` {1} ```\n"
+" \n"
+"Do you want to postpone the task or mark it as completed?"
+msgstr ""
+"*Warnung*:\n"
+"Die für Tag {0} geplante Aufgabe ist heute fällig.\n"
+"\n"
+"`` `{1}` ``\n"
+" \n"
+"Möchten Sie die Aufgabe verschieben oder als erledigt markieren?"
+
+#: telegramBot/database.py:478
+msgid "Mark as completed"
+msgstr "Als erledigt markieren"
+
+#: telegramBot/database.py:495
+#, python-brace-format
+msgid ""
+"*Reminder*:\n"
+"The task scheduled for day {0} is due tomorrow.\n"
+"\n"
+"``` {1} ```"
+msgstr ""
+"*Erinnerung*:\n"
+"Die für Tag {0} geplante Aufgabe ist morgen fällig.\n"
+"\n"
+"`` `{1}` ``"
