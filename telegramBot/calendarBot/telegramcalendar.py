@@ -18,7 +18,7 @@ from datetime import date
 
 # this is declared on calendar.month_name but _ is needed to force create i18n translations
 month_name = [_('January'), _('February'), _('March'), _('April'), _('May'), _('June'), _('July'), _('August'), _('September'), _('October'), _('November'), _('December')]
-week_days_name = [_("Mo"), _("Tu"), _("We"), _("Th"), _("Fr"), _("Sa"), _("Su")]
+week_days_name = [_("Monday"), _("Tuesday"), _("Wednesday"), _("Thursday"), _("Friday"), _("Saturday"), _("Sunday")]
 
 botManager = BotManager()
 
@@ -50,7 +50,7 @@ def create_calendar_content(year=None, month=None):
     keyboard.append([(month_name[month] + " " + str(year), data_ignore)])
 
     # Second row - Week Days
-    keyboard.append([(day, data_ignore) for day in week_days_name ])
+    keyboard.append([(day[:3], data_ignore) for day in week_days_name ])
 
     my_calendar = calendar.monthcalendar(year, month)
     for week in my_calendar:
