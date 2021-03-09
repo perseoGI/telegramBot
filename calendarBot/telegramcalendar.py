@@ -11,7 +11,16 @@ Base methods for calendar keyboard creation and processing.
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardRemove
 import datetime
 import calendar
+from i18n import _
+from utils.botinteractions import BotManager
 
+from datetime import date
+
+# this is declared on calendar.month_name but _ is needed to force create i18n translations
+month_name = [_('January'), _('February'), _('March'), _('April'), _('May'), _('June'), _('July'), _('August'), _('September'), _('October'), _('November'), _('December')]
+week_days_name = [_("Mo"), _("Tu"), _("We"), _("Th"), _("Fr"), _("Sa"), _("Su")]
+
+botManager = BotManager()
 
 def create_callback_data(action, year, month, day):
     """ Create the callback data associated to each button"""
@@ -22,8 +31,7 @@ def separate_callback_data(data):
     """ Separate the callback data"""
     return data.split(";")
 
-
-def create_calendar(year=None, month=None):
+def create_calendar_content(year=None, month=None):
     """
     Create an inline keyboard with the provided year and month
     :param int year: Year to use in the calendar, if None the current year is used.
@@ -37,55 +45,96 @@ def create_calendar(year=None, month=None):
         month = now.month
     data_ignore = create_callback_data("IGNORE", year, month, 0)
     keyboard = []
+
     # First row - Month and Year
-    row = []
-    row.append(
-        InlineKeyboardButton(
-            calendar.month_name[month] + " " + str(year), callback_data=data_ignore
-        )
-    )
-    keyboard.append(row)
+    keyboard.append([(month_name[month] + " " + str(year), data_ignore)])
+
     # Second row - Week Days
-    row = []
-    for day in ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]:
-        row.append(InlineKeyboardButton(day, callback_data=data_ignore))
-    keyboard.append(row)
+    keyboard.append([(day, data_ignore) for day in week_days_name ])
 
     my_calendar = calendar.monthcalendar(year, month)
     for week in my_calendar:
         row = []
         for day in week:
             if day == 0:
-                row.append(InlineKeyboardButton(" ", callback_data=data_ignore))
+                row.append((" ", data_ignore))
+            elif now.day == day and now.month == month and now.year == year:
+                row.append(( '[ ' + str(day) + ' ]', create_callback_data("DAY", year, month, day)))
             else:
-                row.append(
-                    InlineKeyboardButton(
-                        str(day),
-                        callback_data=create_callback_data("DAY", year, month, day),
-                    )
-                )
+                row.append(( str(day), create_callback_data("DAY", year, month, day)))
         keyboard.append(row)
     # Last row - Buttons
-    row = []
-    row.append(
-        InlineKeyboardButton(
-            "<", callback_data=create_callback_data("PREV-MONTH", year, month, day)
-        )
-    )
-    row.append(
-        InlineKeyboardButton(
-            "No deadline", callback_data=create_callback_data("STOP", year, month, day)
-        )
-    )
-    row.append(
-        InlineKeyboardButton(
-            ">", callback_data=create_callback_data("NEXT-MONTH", year, month, day)
-        )
-    )
+    row = [
+        ( "<", create_callback_data("PREV-MONTH", year, month, day)),
+        ( _("No deadline"), create_callback_data("STOP", year, month, day)),
+        ( ">", create_callback_data("NEXT-MONTH", year, month, day))
+    ]
     keyboard.append(row)
 
-    return InlineKeyboardMarkup(keyboard)
+    return keyboard
 
+# def create_calendar(year=None, month=None):
+    # """
+    # Create an inline keyboard with the provided year and month
+    # :param int year: Year to use in the calendar, if None the current year is used.
+    # :param int month: Month to use in the calendar, if None the current month is used.
+    # :return: Returns the InlineKeyboardMarkup object with the calendar.
+    # """
+    # now = datetime.datetime.now()
+    # if year == None:
+        # year = now.year
+    # if month == None:
+        # month = now.month
+    # data_ignore = create_callback_data("IGNORE", year, month, 0)
+    # keyboard = []
+    # # First row - Month and Year
+    # row = []
+    # row.append(
+        # InlineKeyboardButton(
+            # calendar.month_name[month] + " " + str(year), callback_data=data_ignore
+        # )
+    # )
+    # keyboard.append(row)
+    # # Second row - Week Days
+    # row = []
+    # for day in ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"]:
+        # row.append(InlineKeyboardButton(day, callback_data=data_ignore))
+    # keyboard.append(row)
+
+    # my_calendar = calendar.monthcalendar(year, month)
+    # for week in my_calendar:
+        # row = []
+        # for day in week:
+            # if day == 0:
+                # row.append(InlineKeyboardButton(" ", callback_data=data_ignore))
+            # else:
+                # row.append(
+                    # InlineKeyboardButton(
+                        # str(day),
+                        # callback_data=create_callback_data("DAY", year, month, day),
+                    # )
+                # )
+        # keyboard.append(row)
+    # # Last row - Buttons
+    # row = []
+    # row.append(
+        # InlineKeyboardButton(
+            # "<", callback_data=create_callback_data("PREV-MONTH", year, month, day)
+        # )
+    # )
+    # row.append(
+        # InlineKeyboardButton(
+            # "No deadline", callback_data=create_callback_data("STOP", year, month, day)
+        # )
+    # )
+    # row.append(
+        # InlineKeyboardButton(
+            # ">", callback_data=create_callback_data("NEXT-MONTH", year, month, day)
+        # )
+    # )
+    # keyboard.append(row)
+
+    # return InlineKeyboardMarkup(keyboard)
 
 def process_calendar_selection(bot, update):
     """
@@ -103,7 +152,8 @@ def process_calendar_selection(bot, update):
     if action == "IGNORE":
         bot.answer_callback_query(callback_query_id=query.id)
     elif action == "DAY":
-        bot.edit_message_text(
+        botManager.send_message(
+            update=update,
             text=query.message.text,
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
@@ -112,24 +162,27 @@ def process_calendar_selection(bot, update):
         ret_data = datetime.datetime(int(year), int(month), int(day))
     elif action == "PREV-MONTH":
         pre = curr - datetime.timedelta(days=1)
-        bot.edit_message_text(
+        botManager.send_message(
+            update=update,
             text=query.message.text,
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
-            reply_markup=create_calendar(int(pre.year), int(pre.month)),
+            reply_markup=create_calendar_content(int(pre.year), int(pre.month)),
         )
     elif action == "NEXT-MONTH":
         ne = curr + datetime.timedelta(days=31)
-        bot.edit_message_text(
+        botManager.send_message(
+            update=update,
             text=query.message.text,
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
-            reply_markup=create_calendar(int(ne.year), int(ne.month)),
+            reply_markup=create_calendar_content(int(ne.year), int(ne.month)),
         )
 
     # NEW
     elif action == "STOP":
-        bot.edit_message_text(
+        botManager.send_message(
+            update=update,
             text=query.message.text,
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
@@ -148,3 +201,4 @@ def process_calendar_selection(bot, update):
 
     else:
         return False  # Check if False, if does, return CommandHandler who has invoked this function
+

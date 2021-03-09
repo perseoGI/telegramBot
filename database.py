@@ -432,7 +432,7 @@ from datetime import datetime, timedelta, date
 from utils.botinteractions import BotManager
 import threading
 
-from commands.keyboards import binary_keyboard
+from commands.keyboards import binary_keyboard_content
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 

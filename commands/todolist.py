@@ -12,9 +12,7 @@ from telegram.ext import (
 from calendarBot import telegramcalendar
 from .keyboards import (
     todo_member_keyboard_content,
-    todo_category_keyboard,
     todo_category_keyboard_content,
-    binary_keyboard,
     binary_keyboard_content,
 
     todolist_item_keyboard_content,
@@ -44,9 +42,7 @@ def todolist_start(update, context):
         update=update,
         chat_id=chat_id,
         text=_("Filter tasks by category"),
-        #reply_markup=todo_category_keyboard(chat_id, todolist=True),
         reply_markup=todo_category_keyboard_content(chat_id, todolist=True),
-        #reply_markup=binary_keyboard_content()
     )
     return TODOLIST_CATEGORY
 
@@ -217,7 +213,7 @@ def todolist_edit(update, context):
                 chat_id=chat_id,
                 message_id=message_id,
                 text=pending_changes,
-                reply_markup=binary_keyboard(),
+                reply_markup=binary_keyboard_content(),
             )
             return TODOLIST_FINISH
         else:

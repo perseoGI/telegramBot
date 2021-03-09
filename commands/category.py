@@ -8,7 +8,7 @@ from telegram.ext import (
     Filters,
 )
 from calendarBot import telegramcalendar
-from .keyboards import binary_keyboard, todocategory_options_keyboard_content
+from .keyboards import todocategory_options_keyboard_content
 
 import time
 from .common import send_message

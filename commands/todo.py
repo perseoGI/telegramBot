@@ -9,7 +9,7 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 from calendarBot import telegramcalendar
-from .keyboards import todo_member_keyboard_content, todo_category_keyboard_content, binary_keyboard
+from .keyboards import todo_member_keyboard_content, todo_category_keyboard_content, binary_keyboard_content
 
 # from .common import send_message
 from i18n import _
@@ -115,7 +115,7 @@ def todo_category(update, context):
                 chat_id=chat_id,
                 message_id=message_id,
                 text=_("Assing a deadline to the task"),
-                reply_markup=telegramcalendar.create_calendar(),
+                reply_markup=telegramcalendar.create_calendar_content(),
             )
             return TODO_DEADLINE
 
@@ -141,7 +141,7 @@ def check_and_ask_assignation(
                 chat_id=chat_id,
                 message_id=message_id,
                 text=_("Do you want to assign the task to another member?"),
-                reply_markup=binary_keyboard(),
+                reply_markup=binary_keyboard_content(),
             )
             return ASSIGNMENT
 
@@ -151,7 +151,7 @@ def check_and_ask_assignation(
             chat_id=chat_id,
             message_id=message_id,
             text=_("Assign a deadline"),
-            reply_markup=telegramcalendar.create_calendar(),
+            reply_markup=telegramcalendar.create_calendar_content(),
         )
         return TODO_DEADLINE
 
@@ -192,7 +192,7 @@ def todo_assignment(update, context):
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
             text=_("Assign a deadline"),
-            reply_markup=telegramcalendar.create_calendar(),
+            reply_markup=telegramcalendar.create_calendar_content(),
         )
         return TODO_DEADLINE
 
@@ -213,7 +213,7 @@ def todo_deadline(update, context):
             message_id=update.callback_query.message.message_id,
             text=_("You have selected %s\nDo you want to save the task?")
             % (date.strftime("%d/%m/%Y")),
-            reply_markup=binary_keyboard(),
+            reply_markup=binary_keyboard_content(),
         )
 
     else:  # no deadline selected
@@ -222,7 +222,7 @@ def todo_deadline(update, context):
             chat_id=chat_id,
             message_id=update.callback_query.message.message_id,
             text=_("Do you want to save the task?"),
-            reply_markup=binary_keyboard(),
+            reply_markup=binary_keyboard_content(),
         )
 
     return TODO_END
@@ -299,7 +299,7 @@ def create_category(update, context):
             update=update,
             chat_id=chat_id,
             text=_("Assign a deadline"),
-            reply_markup=telegramcalendar.create_calendar(),
+            reply_markup=telegramcalendar.create_calendar_content(),
         )
         return TODO_DEADLINE
 
