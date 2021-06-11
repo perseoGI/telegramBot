@@ -6,7 +6,6 @@ from commands.misc import misc_handlers, misc_handler_low_priority
 from commands.background import background_response_handler
 from commands.category import todocategory_conv_handler
 from os import environ
-import secret  # Secret key for bot. Just set environ with BOT_KEY
 
 from telegram.ext import messagequeue as mq
 import telegram.bot
@@ -59,6 +58,9 @@ def main():
     setup_locales()
 
     print("Setting up bot...")
+    if not 'HEROKU' in environ:
+        import secret  # Secret key for bot. Just set environ with BOT_KEY
+
     token = environ.get("BOT_KEY")
 
     """ for test purposes limit global throughput to 3 messages per 3 seconds
