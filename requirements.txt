@@ -30,6 +30,6 @@ toml==0.10.2
 tornado==6.0.3
 typed-ast==1.4.2
 typing-extensions==3.7.4.3
-urllib3==1.25.7
+urllib3==1.26.5
 urlparser==0.1.2
 wrapt==1.12.1
