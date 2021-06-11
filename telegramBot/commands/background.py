@@ -33,9 +33,11 @@ def background_response_callback(update, context):
         set_pending_background_todo_id(chat_id, user_id, message_id, todo_id)
 
         botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
-            text=_("Assign a new deadline"),
+            # text=_("Assign a new deadline"),
+            text=("Assign a new deadline"), # TODO _ blocks message send
             reply_markup=telegramcalendar.create_calendar_content(),
         )
         return BACKGROUND_TODO_POSTPONE
@@ -43,8 +45,9 @@ def background_response_callback(update, context):
     elif action == "complete":
         todo_description_completed = mark_todo_as_completed(todo_id)
         botManager.send_message(
-            chat_id,
-            text=_("Task:\n\n``` {0} ```\n\nhas been completed successfully").format(
+            update=update,
+            chat_id=chat_id,
+            text=("Task:\n\n``` {0} ```\n\nhas been completed successfully").format(
                 todo_description_completed
             ),
             message_id=message_id,
@@ -67,9 +70,10 @@ def background_todo_postpone(update, context):
 
     if date != "0":  # Day selected
         botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
-            text=_("Task:\n\n``` {0} ```\n\nhas been postpone to day {1}").format(
+            text=("Task:\n\n``` {0} ```\n\nhas been postpone to day {1}").format(
                 todo_description, date.strftime("%d/%m/%Y")
             ),
         )
@@ -78,9 +82,10 @@ def background_todo_postpone(update, context):
 
     else:  # no deadline selected
         botManager.send_message(
+            update=update,
             chat_id=chat_id,
             message_id=message_id,
-            text=_("Task:\n\n``` {0} ```\n\nhas been stored without dadline"),
+            text=("Task:\n\n``` {0} ```\n\nhas been stored without dadline"),
         ).format(todo_description)
 
         deadline = None

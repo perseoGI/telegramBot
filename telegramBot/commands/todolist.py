@@ -196,7 +196,7 @@ def todolist_edit(update, context):
             chat_id=chat_id,
             message_id=message_id,
             text=_("Assign a new deadline"),
-            reply_markup=telegramcalendar.create_calendar(),
+            reply_markup=telegramcalendar.create_calendar_content(),
         )
 
         return TODOLIST_EDIT_DEADLINE

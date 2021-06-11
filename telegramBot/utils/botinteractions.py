@@ -22,10 +22,8 @@ class BotManager:
 
             translate = install_user_language(update)
 
-            #if "inline_keyboard" in reply_markup:
             if reply_markup:
                 reply_markup = create_locale_keyboard(translator=translate, keyboard_content=reply_markup)
-
 
             self.bot.send_chat_action(chat_id=chat_id, action=ChatAction.TYPING)
 

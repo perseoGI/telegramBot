@@ -2,10 +2,23 @@ from peewee import *
 from playhouse.shortcuts import model_to_dict, dict_to_model
 import json
 
-# Pragma to enable foreign keys on_delete and avoid bugs
-db = SqliteDatabase("prod.db", pragmas={"foreign_keys": 1}, autoconnect=False)
-# mysql_db = MySQLDatabase('telegramBot', user='bot', password='TODO', host='localhost', port=3316)
 
+# Import modules based on the environment.
+# The HEROKU value first needs to be set on Heroku
+# either through the web front-end or through the command
+# line (if you have Heroku Toolbelt installed, type the following:
+# heroku config:set HEROKU=1).
+# if 'HEROKU' in os.environ:
+if True:
+    from urllib.parse import urlparse
+    from os import environ
+    import psycopg2
+    url = urlparse(environ["DATABASE_URL"])
+    print('Connecting to ...', url.path[1:])
+    db = PostgresqlDatabase(database=url.path[1:], user=url.username, password=url.password, host=url.hostname, port=url.port)
+else:
+    # Pragma to enable foreign keys on_delete and avoid bugs
+    db = SqliteDatabase("prod.db", pragmas={"foreign_keys": 1}, autoconnect=False)
 
 def connectDB():
     db.connect()
@@ -34,11 +47,6 @@ class Chat(BaseModel):
     id = IntegerField(primary_key=True)  # chat_id
     # more data... eg. members count...
 
-
-# count = IntegerField(null=True)
-# members = ManyToManyField(User, backref='members')
-
-
 class ChatUser(BaseModel):
     __table_name__ = "ChatUser"
 
@@ -49,7 +57,7 @@ class ChatUser(BaseModel):
 class Category(BaseModel):
     __table_name__ = "category"
 
-    id = IntegerField(primary_key=True)
+    id = AutoField()
     name = CharField()
     chat_id = ForeignKeyField(Chat)
 
@@ -57,7 +65,7 @@ class Category(BaseModel):
 class Todo(BaseModel):
     __table_name__ = "todo"
 
-    id = IntegerField(primary_key=True)
+    id = AutoField()
     category_id = ForeignKeyField(Category, backref="categories")
     creator_id = ForeignKeyField(User)
     chat_belonging_id = ForeignKeyField(Chat)
@@ -72,12 +80,8 @@ UserTodo = (
     Todo.assignment_users.get_through_model()
 )  # Table to relates User with Todo.assignment_users
 
-# class AssingmentTodos(BaseModel):
-#
-#     user_id = ForeignKeyField(User)
-#     todo_id = ForeignKeyField(Todo)
 
-
+# Globals
 pending_todos = {}
 pending_assignment_users = {}
 pending_background_todo_ids = {}
@@ -168,20 +172,6 @@ def getCategories(chat_id):
     db.close()
     return categories
 
-
-# def printDB():
-#     users = User.select()
-#     print("Users: ", [user.id for user in users])
-#     userChat = ChatUser.select()
-#     for uC in userChat:
-#         print('User_id {} on chat_id {}'.format(uC.user_id, uC.chat_id))
-
-# def printTodos():
-#     todos = Todo.select()
-#     for todo in todos:
-#         print('User_id created {}, desc: {}\n Assinged to {}'.format(todo.creator_id, todo.description, todo.assignment_users))
-
-
 def checkDatabase(chat_id, user_id):
     # Check if user is register in database
     db.connect(reuse_if_open=True)
@@ -226,7 +216,9 @@ def getCategoriesIdFromChat(chat_id):
 
 def createCategory(chat_id, name):
     db.connect(reuse_if_open=True)
+    print("create", chat_id, name)
     category_id = Category.create(name=name, chat_id=chat_id)
+    print("after create", chat_id, name)
     db.close()
     return category_id._pk
 
@@ -248,7 +240,7 @@ def set_todolist_filter_assigned(chat_id, user_id, user_assigned):
 
 # def get_todo_list(chat_id, user_id):
 #     filters = pending_todoslist[(chat_id, user_id)]
-# #TODO: mejorar eficiencia ...
+# #TODO: improve efficiency
 #     if filters['assignment_users'] == '-1':
 #         todos = Todo.select().where((Todo.chat_belonging_id == chat_id) &
 #                                     (Todo.category_id == filters['category'] if filters['category'] != '-1' else True) &
@@ -267,8 +259,6 @@ todos_listed = {}
 
 def get_todo_list(chat_id, user_id):
     filters = pending_todoslist[(chat_id, user_id)]
-    # TODO: mejorar eficiencia ...
-
     if not "assignment_users" in filters or filters["assignment_users"] == "-1":
         todos = (
             Todo.select()
@@ -436,6 +426,7 @@ from commands.keyboards import binary_keyboard_content
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ParseMode
 
+from commands.keyboards import background_options_keyboard_postpone_complete
 botManager = BotManager()
 from i18n import _
 
@@ -464,30 +455,12 @@ def checkTodosDeadlines():
         text = _(
             "*Warning*:\nTask scheduled for day {0} is due today.\n\n``` {1} ```\n \nDo you want to postpone the task or mark it as completed?"
         ).format(expired_todo["deadline"], expired_todo["description"])
-        keyboard = [
-            [
-                InlineKeyboardButton(
-                    _("Postpone"),
-                    callback_data="todo_deadline_achieved-postpone-{}".format(
-                        expired_todo["id"]
-                    ),
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    _("Mark as completed"),
-                    callback_data="todo_deadline_achieved-complete-{}".format(
-                        expired_todo["id"]
-                    ),
-                )
-            ],
-        ]
 
         botManager.send_message(
             update=None,  # TODO: store last language for user and send it on the last message language
             chat_id=expired_todo["chat_belonging_id"],
             text=text,
-            reply_markup=InlineKeyboardMarkup(keyboard),
+            reply_markup=background_options_keyboard_postpone_complete(expired_todo["id"]),
         )
 
     for todo in pending_todos_to_expire_tomorrow:
@@ -523,6 +496,7 @@ def mark_todo_as_completed(todo_id):
 
 def set_pending_background_todo_id(chat_id, user_id, message_id, todo_id):
     pending_background_todo_ids[(chat_id, user_id, message_id)] = todo_id
+    print(pending_background_todo_ids)
 
 
 def get_pending_background_todo_id_and_description(chat_id, user_id, message_id):
@@ -541,15 +515,14 @@ def set_todo_deadline(todo_id, newDeadline):
 
 
 ##################################################################
+
 def init_db():
-    print("Creating database...")
+    print("Setting up database...")
     db.connect()
     db.create_tables(
         [User, Chat, ChatUser, Category, Todo, UserTodo]
     )  # UserTodo relation get_through_model has also to be created
-    print("Database created!!!")
     db.close()
-
 
 def test():
     set_todolist_filter_category(1, 10, 1)
@@ -578,85 +551,6 @@ def test():
     for user in users:
         print(user["user_id"])
         print(type(int(user["user_id"])))
-        # print(user['user_id'])
-        # a = user['user_id']
-        # print(a)
-        # print(vars(a))
-
-    # Chat.create(id=1)
-
-
-# ChatUser.create(user_id=1, chat_id=1)
-
-#  q = Chat.update(members).where(id=1)
-# q.execute()
-
-# chats = Chat.select()
-# print([chat.members for chat in chats])
-
-
-# t = Todo(description='Aasdf')
-#
-# u = User(chat_id=1, user_id=2)
-# u.name = "Pedro"
-# print(u.save(force_insert=True))
-#
-# User.create(chat_id=1, user_id= 1, name='Cesar')
-# #print(User.get(User.user_id == 2 ).name)
-#
-#
-
-
-# User.create(name='Cesar')
-# User.create(name='Daniel')
-# dis = Category.create(name='Diseño')
-# Category.create(name='Implementacion')
-#
-# User.insert(name='Perseo').execute()
-
-# print(User.get(User.user_id == 3).name)
-
-
-# categories = Category.select()
-# print([cat.name for cat in categories])
-#
-#
-# print(dis)
-# for cat in categories:
-#     print('{} on {}'.format(cat.name, cat.id))
-
-
-# Todo.create(description='Primer todo', id_category=Category.select().where(Category.name == 'Diseño'))
-
-
-# Get all usr todos
-# usr = User.get(User.name == 'Cesar')
-# for todo in usr.todos.order_by(Todo.id):
-#     print(todo.description)
-
-
-# # Get all students in "English 101":
-# engl_101 = Course.get(Course.name == 'English 101')
-# for student in engl_101.students:
-#     print(student.name)
-
-
-# # When adding objects to a many-to-many relationship, we can pass
-# # in either a single model instance, a list of models, or even a
-# # query of models:
-# huey.courses.add(Course.select().where(Course.name.contains('English')))
-#
-# engl_101.students.add(Student.get(Student.name == 'Mickey'))
-# engl_101.students.add([
-#     Student.get(Student.name == 'Charlie'),
-#     Student.get(Student.name == 'Zaizee')])
-#
-# # The same rules apply for removing items from a many-to-many:
-# huey.courses.remove(Course.select().where(Course.name.startswith('CS')))
-#
-# engl_101.students.remove(huey)
-
-# Calling .clear() will rem
 
 if __name__ == "__main__":
     init_db()

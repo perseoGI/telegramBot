@@ -6,7 +6,7 @@ from os import walk
 # Set the local directory
 localedir = "./locale"
 
-# Set up your magic function
+# Set up magic function
 en = gettext.translation("base", localedir, fallback=True)
 _ = en.gettext
 

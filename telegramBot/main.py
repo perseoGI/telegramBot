@@ -58,7 +58,7 @@ def main():
     # Setup and install languages
     setup_locales()
 
-    print("Setting up bot")
+    print("Setting up bot...")
     token = environ.get("BOT_KEY")
 
     """ for test purposes limit global throughput to 3 messages per 3 seconds
@@ -103,7 +103,7 @@ def main():
     dp.add_handler(todocategory_conv_handler)
 
     updater.start_polling()
-    print("Starting bot")
+    print("Starting bot...")
     updater.idle()
 
 

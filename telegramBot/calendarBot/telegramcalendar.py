@@ -145,6 +145,7 @@ def process_calendar_selection(bot, update):
     :return: Returns a tuple (Boolean,datetime.datetime), indicating if a date is selected
                 and returning the date if so.
     """
+    print('calendar')
     ret_data = False
     query = update.callback_query
     (action, year, month, day) = separate_callback_data(query.data)
@@ -152,12 +153,14 @@ def process_calendar_selection(bot, update):
     if action == "IGNORE":
         bot.answer_callback_query(callback_query_id=query.id)
     elif action == "DAY":
+        print('DAY', query.message.text)
         botManager.send_message(
             update=update,
             text=query.message.text,
             chat_id=query.message.chat_id,
             message_id=query.message.message_id,
         )
+        print('after day')
         #    ret_data = True,datetime.datetime(int(year),int(month),int(day))
         ret_data = datetime.datetime(int(year), int(month), int(day))
     elif action == "PREV-MONTH":
@@ -196,6 +199,7 @@ def process_calendar_selection(bot, update):
         )
         # UNKNOWN
 
+    print('ret_data', ret_data)
     if ret_data:
         return ret_data
 

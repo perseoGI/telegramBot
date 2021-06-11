@@ -14,7 +14,6 @@ def create_locale_keyboard(translator, keyboard_content):
                 InlineKeyboardButton(translator(button[0]), callback_data=button[1])
             )
         keyboard.append(button_row)
-
     return InlineKeyboardMarkup(keyboard)
 
 
@@ -91,4 +90,9 @@ def todocategory_options_keyboard_content():
     ]
     return keyboard
 
+def background_options_keyboard_postpone_complete(todo_id):
+    return [
+        [ (_("Postpone"), "todo_deadline_achieved-postpone-{}".format(todo_id)) ],
+        [ (_("Mark as completed"), "todo_deadline_achieved-complete-{}".format(todo_id))]
+    ]
 
