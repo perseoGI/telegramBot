@@ -36,7 +36,7 @@ class BaseModel(Model):
 class User(BaseModel):
     __table_name__ = "users"
 
-    id = IntegerField(primary_key=True)  # user_id
+    id = BigIntegerField(primary_key=True)  # user_id
     name = TextField(null=True)
     active = BooleanField(default=True)
 
@@ -44,7 +44,7 @@ class User(BaseModel):
 class Chat(BaseModel):
     __table_name__ = "chat"
 
-    id = IntegerField(primary_key=True)  # chat_id
+    id = BigIntegerField(primary_key=True)  # chat_id
     # more data... eg. members count...
 
 class ChatUser(BaseModel):
@@ -175,11 +175,14 @@ def getCategories(chat_id):
 def checkDatabase(chat_id, user_id):
     # Check if user is register in database
     db.connect(reuse_if_open=True)
+    print('conn before count',   chat_id, user_id)
     exist = User.select().where(User.id == user_id).count()
+    print('after before count')
 
     if not exist:  # Create the user
         user = User.create(id=user_id)
 
+    print('after before chat count')
     # Check if the chat exist
     exist = Chat.select().where(Chat.id == chat_id).count()
     if not exist:  # Create a chat
@@ -196,6 +199,7 @@ def checkDatabase(chat_id, user_id):
         if not exist:
             ChatUser.create(user_id=user_id, chat_id=chat_id)
 
+    print('after after chat count')
     db.close()
 
 

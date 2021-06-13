@@ -30,6 +30,7 @@ def todo_category_keyboard_content(chat_id, todolist):
     keyboard = []
     db.connectDB()
 
+    print('accessing categories', categories)
     for category in categories:
         keyboard.append((category["name"], category["id"]))
     if todolist:
@@ -41,6 +42,7 @@ def todo_category_keyboard_content(chat_id, todolist):
     keyboard_elements = [
         [element] for element in keyboard
     ]  # Create list of list (each button on different row)
+    print('keyboard_elements', keyboard_elements)
     return keyboard_elements
 
 

@@ -66,15 +66,18 @@ def todo_description(update, context):
         reply_markup=todo_category_keyboard_content(chat_id, todolist=False),
     )
 
+    print('after send')
     # Check if user or chat exist in database and if not, insert them
     db.checkDatabase(chat_id=chat_id, user_id=user.id)
 
+    print('after check')
     # Update model
     db.setPendingTodosDescription(
         chat_id=chat_id,
         user_id=update.message.from_user.id,
         description=update.message.text,
     )
+    print('after set')
 
     return CATEGORY
 
@@ -90,7 +93,7 @@ def todo_category(update, context):
         botManager.send_message(
             update=update,
             chat_id=chat_id,
-            message_id=update.callback_query.message.message_id,
+            message_id=message_id,
             text=_("Type the name for the new category"),
         )
         return CREATE_CATEGORY
