@@ -105,4 +105,5 @@ When sending a message with the bot on monospaced format, surround text with spa
     - [ ] Remove a category (if not empty, create a tour with uncompleted tasks in order to complete them)
 - [ ] Command to list completed tasks
 - [ ] Create an static getChatMember function instead of passing bot up and down on the architecture
+-[ ] Reassign tasks on todolist
 
