@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # asm4ever <perseo.gi98@gmail.com>, 2021
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -23,19 +23,19 @@ msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "January"
-msgstr "enero"
+msgstr "Enero"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "February"
-msgstr "febrero"
+msgstr "Febrero"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "March"
-msgstr "marzo"
+msgstr "Marzo"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "April"
-msgstr "abril"
+msgstr "Abril"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "May"
@@ -43,7 +43,7 @@ msgstr "Mayo"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "June"
-msgstr "junio"
+msgstr "Junio"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "July"
@@ -51,23 +51,23 @@ msgstr "julio"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "August"
-msgstr "agosto"
+msgstr "Agosto"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "September"
-msgstr "septiembre"
+msgstr "Septiembre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "October"
-msgstr "octubre"
+msgstr "Octubre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "November"
-msgstr "noviembre"
+msgstr "Noviembre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "December"
-msgstr "diciembre"
+msgstr "Diciembre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Monday"

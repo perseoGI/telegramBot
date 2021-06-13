@@ -47,10 +47,12 @@ def create_calendar_content(year=None, month=None):
     keyboard = []
 
     # First row - Month and Year
-    keyboard.append([(month_name[month] + " " + str(year), data_ignore)])
+    # keyboard.append([(month_name[month] + " " + str(year), data_ignore)])
+    keyboard.append([(month_name[month], data_ignore), (str(year), data_ignore)])
 
     # Second row - Week Days
-    keyboard.append([(day[:3], data_ignore) for day in week_days_name ])
+    # keyboard.append([(day[:3], data_ignore) for day in week_days_name ])
+    keyboard.append([(day, data_ignore) for day in week_days_name ])
 
     my_calendar = calendar.monthcalendar(year, month)
     for week in my_calendar:

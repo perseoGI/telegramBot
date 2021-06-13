@@ -2,10 +2,10 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 # Translators:
 # asm4ever <perseo.gi98@gmail.com>, 2021
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
@@ -23,19 +23,19 @@ msgstr ""
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "January"
-msgstr "janvier"
+msgstr "Janvier"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "February"
-msgstr "février"
+msgstr "Février"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "March"
-msgstr "mars"
+msgstr "Mars"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "April"
-msgstr "avril"
+msgstr "Avril"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "May"
@@ -43,31 +43,31 @@ msgstr "Peut"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "June"
-msgstr "juin"
+msgstr "Juin"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "July"
-msgstr "juillet"
+msgstr "Juillet"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "August"
-msgstr "août"
+msgstr "Août"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "September"
-msgstr "septembre"
+msgstr "Septembre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "October"
-msgstr "octobre"
+msgstr "Octobre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "November"
-msgstr "novembre"
+msgstr "Novembre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:20
 msgid "December"
-msgstr "décembre"
+msgstr "Décembre"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Monday"
@@ -75,7 +75,7 @@ msgstr "Lundi"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Tuesday"
-msgstr "mardi"
+msgstr "Mardi"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Wednesday"
@@ -83,19 +83,19 @@ msgstr "Mercredi"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Thursday"
-msgstr "jeudi"
+msgstr "Jeudi"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Friday"
-msgstr "vendredi"
+msgstr "Vendredi"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Saturday"
-msgstr "samedi"
+msgstr "Samedi"
 
 #: telegramBot/calendarBot/telegramcalendar.py:21
 msgid "Sunday"
-msgstr "dimanche"
+msgstr "Dimanche"
 
 #: telegramBot/calendarBot/telegramcalendar.py:69
 msgid "No deadline"
